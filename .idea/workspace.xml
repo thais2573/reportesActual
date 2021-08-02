@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4ba37fbe-7b88-46d6-80ff-b197c01ee5a6" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="reportesActual" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="config.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="135" column="20" selection-start-line="135" selection-start-column="20" selection-end-line="135" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dev.log" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/var/logs/dev.log">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="59">
+              <caret line="35542" column="449" lean-forward="true" selection-start-line="35542" selection-start-column="449" selection-end-line="35542" selection-end-column="449" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="twig" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>desvinc</find>
+    </findStrings>
+  </component>
+  <component name="FrameworkCommandLineHistory">
+    <commandsHistory>
+      <command text="s server:run " />
+      <command text="s doctrine:migrations:diff" />
+      <command text="s doctrine:migrations:execute 20191126195842" />
+      <command text="s doctrine:migrations:execute  20191126195842" />
+      <command text="s doctrine:migrations:diff" />
+      <command text="s doctrine:migrations:execute 20191126210401" />
+      <command text="s run" />
+      <command text="s server:run " />
+      <command text="s doctrine:migrations:diff" />
+      <command text="s server:run " />
+      <command text="yarn encore dev --watch" />
+      <command text=" ./node_modules/.bin/encore dev" />
+      <command text=" ./node_modules/.bin/encore.cmd dev" />
+      <command text="s assets:install " />
+      <command text=" ./node_modules/.bin/encore.cmd dev" />
+      <command text="s assets:install " />
+      <command text=" ./node_modules/.bin/encore.cmd dev" />
+      <command text="s server:run " />
+      <command text="s cache:clear" />
+      <command text=" ./node_modules/.bin/encore.cmd dev" />
+      <command text="s server:run " />
+      <command text="s config:dump-reference " />
+      <command text="s cache:clear" />
+      <command text="s doctrine:cache:clear-result" />
+      <command text="s server:run " />
+    </commandsHistory>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/app/config/parameters.yml" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+      <path value="$PROJECT_DIR$/vendor/harvesthq/chosen/package.json" />
+      <path value="$PROJECT_DIR$/vendor/ninsuo/symfony-collection/package.json" />
+      <path value="$PROJECT_DIR$/web/plugins/malihu-custom-scrollbar/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/chart.js/js" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-cache-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/vendor/fig/link-util" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/psr/link" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/alice" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/vendor/ninsuo/symfony-collection" />
+      <path value="$PROJECT_DIR$/vendor/harvesthq/chosen" />
+      <path value="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle" />
+      <path value="$PROJECT_DIR$/vendor/sensio/distribution-bundle" />
+      <path value="$PROJECT_DIR$/vendor/incenteev/composer-parameter-handler" />
+      <path value="$PROJECT_DIR$/vendor/sensio/generator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jonasarts/tcpdf-bundle" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-snappy-bundle" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-snappy" />
+      <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/pagerfanta/pagerfanta" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-apcu" />
+      <path value="$PROJECT_DIR$/vendor/symfony/swiftmailer-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-icu" />
+      <path value="$PROJECT_DIR$/vendor/sensiolabs/security-checker" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php56" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-util" />
+      <path value="$PROJECT_DIR$/vendor/tecnickcom/tcpdf" />
+      <path value="$PROJECT_DIR$/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/symfony" />
+      <path value="$PROJECT_DIR$/vendor/symfony/phpunit-bridge" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php70" />
+      <path value="$PROJECT_DIR$/vendor/damienharper/doctrine-audit-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/monolog-bundle" />
+      <path value="$PROJECT_DIR$/vendor/white-october/pagerfanta-bundle" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-code" />
+      <path value="$PROJECT_DIR$/vendor/tetranz/select2entity-bundle" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-eventmanager" />
+    </include_path>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1" />
+    <option name="y" value="1" />
+    <option name="width" value="1918" />
+    <option name="height" value="1080" />
+  </component>
+  <component name="ProjectId" id="1UCcadbFdwEkCioLcBcNwV8Gdve" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="AppBundle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="AppBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+              <item name="var" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="reportesActual" type="b2602c69:ProjectViewProjectNode" />
+              <item name="reportesActual" type="462c0819:PsiDirectoryNode" />
+              <item name="var" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="jsx.switch.disabled" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web/build/js" />
+      <recent name="$PROJECT_DIR$/web/plugins" />
+      <recent name="$PROJECT_DIR$/app/Resources/views/estacion_trabajo" />
+      <recent name="$PROJECT_DIR$/app/Resources/views/layout" />
+      <recent name="$PROJECT_DIR$/web/build/css" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="s doctrine:migrations:execute 20191127183744" />
+      <command value="s exe" />
+      <command value="s doctrine:migrations:execute 20191128204022" />
+      <command value="s doctrine:migrations:execute 20191129140521" />
+      <command value="s audit:schema:update" />
+      <command value="s doctrine:migrations:execute 20191129151912" />
+      <command value="s doctrine:migrations:execute 20191218155935" />
+      <command value="s dif" />
+      <command value="s doctrine:migrations:execute 20191218163405" />
+      <command value="s doctrine:migrations:execute 20191218190705" />
+      <command value="s doctrine:migrations:execute 20200106021003" />
+      <command value="s doctrine:migrations:execute 20201060021122" />
+      <command value="s execute 20200106021122" />
+      <command value="s doctrine:migrations:execute 20200106021122" />
+      <command value="s doctrine:migrations:execute 20200106081205" />
+      <command value="s doctrine:migrations:execute 20200109035430 " />
+      <command value="s doctrine:migrations:execute 20200111045612" />
+      <command value="s doctrine:migrations:execute 20200114023124" />
+      <command value="s doctrine:migrations:execute 20200114031507" />
+      <command value="s doctrine:migrations:execute 20200115141456" />
+      <command value="s doctrine:migrations:execute 20200116132550" />
+      <command value="s doctrine:migrations:execute 20200121145100" />
+      <command value="s doctrine:migrations:execute 20200124140028" />
+      <command value="s doctrine:migrations:execute 20200204152835" />
+      <command value="s doctrine:migrations:execute 20200206163714" />
+      <command value="s assets:install" />
+      <command value="s run" />
+      <command value="s cache clear" />
+      <command value="s doctrine make:controller equipoController" />
+      <command value="s doctrine:migrations:diff" />
+      <command value="s cache:clear --env=prod" />
+      <command value="s debug:router -e=prod" />
+      <command value="s debug:router -env=prod" />
+      <command value="s doctrine:cache:clear-result" />
+      <command value="s doctrine:cache:clear-query" />
+      <command value="s cache:clear" />
+      <command value="npm run dev" />
+      <command value="yarn encore dev" />
+      <command value="yarn build" />
+      <command value="yarn encore dev --watch" />
+      <command value="yarn encore watch" />
+      <command value="yarn encore dev -" />
+      <command value="yarn encore dev " />
+      <command value=" yarn run encore dev --watch" />
+      <command value=" yarn run encore dev [options]" />
+      <command value="s server run" />
+      <command value="s server:run" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev-server" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev-server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev-server" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4ba37fbe-7b88-46d6-80ff-b197c01ee5a6" name="Default" comment="" />
+      <created>1569955658041</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1569955658041</updated>
+      <workItem from="1569955725015" duration="838000" />
+      <workItem from="1570019655208" duration="9996000" />
+      <workItem from="1570039379273" duration="2915000" />
+      <workItem from="1570105649208" duration="16916000" />
+      <workItem from="1570188032657" duration="20504000" />
+      <workItem from="1570450942656" duration="13633000" />
+      <workItem from="1570472458281" duration="6568000" />
+      <workItem from="1570538921554" duration="13027000" />
+      <workItem from="1570625384360" duration="10676000" />
+      <workItem from="1570796777937" duration="17939000" />
+      <workItem from="1571055926199" duration="18928000" />
+      <workItem from="1571144072565" duration="15625000" />
+      <workItem from="1571230130432" duration="10460000" />
+      <workItem from="1571316630594" duration="2914000" />
+      <workItem from="1571320035972" duration="15792000" />
+      <workItem from="1571403064486" duration="11900000" />
+      <workItem from="1571662147493" duration="11540000" />
+      <workItem from="1571746419945" duration="17247000" />
+      <workItem from="1571833309590" duration="12190000" />
+      <workItem from="1571921751902" duration="16163000" />
+      <workItem from="1572008044381" duration="16191000" />
+      <workItem from="1572267305441" duration="17078000" />
+      <workItem from="1572353000303" duration="4000" />
+      <workItem from="1572353712683" duration="14678000" />
+      <workItem from="1572440067984" duration="5850000" />
+      <workItem from="1572455509805" duration="8420000" />
+      <workItem from="1572526613841" duration="4457000" />
+      <workItem from="1572614421286" duration="1170000" />
+      <workItem from="1572617451888" duration="13908000" />
+      <workItem from="1572876611290" duration="16426000" />
+      <workItem from="1572957759808" duration="22262000" />
+      <workItem from="1573047649895" duration="18117000" />
+      <workItem from="1573068667727" duration="859000" />
+      <workItem from="1573132663264" duration="800000" />
+      <workItem from="1573137377321" duration="11574000" />
+      <workItem from="1573219495312" duration="4741000" />
+      <workItem from="1573226555440" duration="16122000" />
+      <workItem from="1573479545909" duration="9415000" />
+      <workItem from="1573499673908" duration="583000" />
+      <workItem from="1573760925822" duration="1193000" />
+      <workItem from="1573823165671" duration="5757000" />
+      <workItem from="1574091140523" duration="8079000" />
+      <workItem from="1574174933133" duration="901000" />
+      <workItem from="1574257252283" duration="792000" />
+      <workItem from="1574258945777" duration="13173000" />
+      <workItem from="1574341670267" duration="7082000" />
+      <workItem from="1574431078963" duration="4518000" />
+      <workItem from="1574451076735" duration="5751000" />
+      <workItem from="1574693691912" duration="5991000" />
+      <workItem from="1574693427045" duration="1425000" />
+      <workItem from="1574697235056" duration="609000" />
+      <workItem from="1574775637120" duration="1274000" />
+      <workItem from="1574777308576" duration="3513000" />
+      <workItem from="1574790447780" duration="1662000" />
+      <workItem from="1574797549054" duration="4880000" />
+      <workItem from="1574864102184" duration="765000" />
+      <workItem from="1574867265862" duration="754000" />
+      <workItem from="1574868049216" duration="1205000" />
+      <workItem from="1574852078814" duration="483000" />
+      <workItem from="1574870561626" duration="68000" />
+      <workItem from="1574870736642" duration="1894000" />
+      <workItem from="1574879095349" duration="297000" />
+      <workItem from="1574879480436" duration="1707000" />
+      <workItem from="1574881659940" duration="1517000" />
+      <workItem from="1574883364522" duration="58000" />
+      <workItem from="1574883464661" duration="3600000" />
+      <workItem from="1574946227583" duration="11605000" />
+      <workItem from="1575033446166" duration="18678000" />
+      <workItem from="1575294386840" duration="18349000" />
+      <workItem from="1575383175681" duration="3253000" />
+      <workItem from="1575466102029" duration="10293000" />
+      <workItem from="1575550593950" duration="14324000" />
+      <workItem from="1575639410355" duration="7107000" />
+      <workItem from="1575897824452" duration="7471000" />
+      <workItem from="1575908347237" duration="598000" />
+      <workItem from="1576068419069" duration="1071000" />
+      <workItem from="1576070093512" duration="17914000" />
+      <workItem from="1576171380526" duration="11020000" />
+      <workItem from="1576256469234" duration="10823000" />
+      <workItem from="1576503462558" duration="15248000" />
+      <workItem from="1576588623765" duration="10571000" />
+      <workItem from="1576674708814" duration="19282000" />
+      <workItem from="1576762218175" duration="7622000" />
+      <workItem from="1576857014872" duration="3725000" />
+      <workItem from="1578273217081" duration="15213000" />
+      <workItem from="1578359641452" duration="10272000" />
+      <workItem from="1578446640151" duration="6506000" />
+      <workItem from="1578464576464" duration="6432000" />
+      <workItem from="1578534252403" duration="10446000" />
+      <workItem from="1578556480313" duration="4093000" />
+      <workItem from="1578617701983" duration="13436000" />
+      <workItem from="1578965636801" duration="12879000" />
+      <workItem from="1578944929977" duration="3000" />
+      <workItem from="1579008658788" duration="3000" />
+      <workItem from="1579010907074" duration="10243000" />
+      <workItem from="1579093614386" duration="7847000" />
+      <workItem from="1579177825935" duration="6752000" />
+      <workItem from="1579269726257" duration="6946000" />
+      <workItem from="1579522318856" duration="18063000" />
+      <workItem from="1579552959473" duration="38000" />
+      <workItem from="1579612404331" duration="11682000" />
+      <workItem from="1579700613936" duration="5531000" />
+      <workItem from="1579785434182" duration="11358000" />
+      <workItem from="1579871823121" duration="4478000" />
+      <workItem from="1579878780470" duration="224000" />
+      <workItem from="1579879555308" duration="1924000" />
+      <workItem from="1579882703340" duration="1327000" />
+      <workItem from="1579888041405" duration="3447000" />
+      <workItem from="1580133486774" duration="3942000" />
+      <workItem from="1580152856138" duration="4824000" />
+      <workItem from="1580483671969" duration="9564000" />
+      <workItem from="1580736441066" duration="15923000" />
+      <workItem from="1580823540818" duration="600000" />
+      <workItem from="1580825464188" duration="9509000" />
+      <workItem from="1580910686243" duration="2662000" />
+      <workItem from="1580996091349" duration="1765000" />
+      <workItem from="1581006936789" duration="954000" />
+      <workItem from="1581345998740" duration="2022000" />
+      <workItem from="1581434615266" duration="2242000" />
+      <workItem from="1581514472609" duration="1150000" />
+      <workItem from="1581516016168" duration="8018000" />
+      <workItem from="1581532035523" duration="2979000" />
+      <workItem from="1581609440406" duration="7115000" />
+      <workItem from="1581706250657" duration="1845000" />
+      <workItem from="1581946305522" duration="4714000" />
+      <workItem from="1582032884093" duration="5526000" />
+      <workItem from="1582051500315" duration="4841000" />
+      <workItem from="1582119248106" duration="11944000" />
+      <workItem from="1582204916628" duration="7632000" />
+      <workItem from="1582290229436" duration="5245000" />
+      <workItem from="1582301213132" duration="10713000" />
+      <workItem from="1582380059986" duration="5129000" />
+      <workItem from="1582548637530" duration="17260000" />
+      <workItem from="1582638636197" duration="6488000" />
+      <workItem from="1582725061901" duration="532000" />
+      <workItem from="1582850055888" duration="5000" />
+      <workItem from="1583146540944" duration="1959000" />
+      <workItem from="1583255974042" duration="37000" />
+      <workItem from="1583352647899" duration="2539000" />
+      <workItem from="1583419656448" duration="152000" />
+      <workItem from="1583421568121" duration="2296000" />
+      <workItem from="1583502694796" duration="605000" />
+      <workItem from="1583760675685" duration="27000" />
+      <workItem from="1586195147476" duration="38000" />
+      <workItem from="1596732405763" duration="1229000" />
+      <workItem from="1602683475595" duration="27000" />
+      <workItem from="1602696754291" duration="3470000" />
+      <workItem from="1603115310667" duration="660000" />
+      <workItem from="1603117004431" duration="7003000" />
+      <workItem from="1603204571163" duration="308000" />
+      <workItem from="1603293978245" duration="7364000" />
+      <workItem from="1603368879100" duration="6684000" />
+      <workItem from="1603376329480" duration="13280000" />
+      <workItem from="1603456463292" duration="2338000" />
+      <workItem from="1603720543475" duration="924000" />
+      <workItem from="1603724320033" duration="599000" />
+      <workItem from="1603806709135" duration="56000" />
+      <workItem from="1603897140001" duration="1474000" />
+      <workItem from="1604064951260" duration="8619000" />
+      <workItem from="1604335154422" duration="1429000" />
+      <workItem from="1604413832220" duration="4961000" />
+      <workItem from="1604421697193" duration="2090000" />
+      <workItem from="1604585335460" duration="8959000" />
+      <workItem from="1605102075752" duration="3416000" />
+      <workItem from="1605280492025" duration="298000" />
+      <workItem from="1605549533543" duration="2605000" />
+      <workItem from="1605559915772" duration="79409000" />
+      <workItem from="1605712421190" duration="195000" />
+      <workItem from="1605712643198" duration="21827000" />
+      <workItem from="1605788526694" duration="6950000" />
+      <workItem from="1605796695437" duration="1680000" />
+      <workItem from="1605800601902" duration="14907000" />
+      <workItem from="1606141439693" duration="14016000" />
+      <workItem from="1606164209115" duration="1678000" />
+      <workItem from="1606169539889" duration="169000" />
+      <workItem from="1606211120645" duration="14918000" />
+      <workItem from="1606311965214" duration="9142000" />
+      <workItem from="1606484245300" duration="7276000" />
+      <workItem from="1606499781438" duration="7898000" />
+      <workItem from="1606743884266" duration="10550000" />
+      <workItem from="1606759429125" duration="4859000" />
+      <workItem from="1608645120119" duration="10238000" />
+      <workItem from="1608729933421" duration="4049000" />
+      <workItem from="1608737119331" duration="8442000" />
+      <workItem from="1608819461893" duration="7131000" />
+      <workItem from="1609169051631" duration="11799000" />
+      <workItem from="1609253901669" duration="225000" />
+      <workItem from="1609254178784" duration="9002000" />
+      <workItem from="1609341320980" duration="6086000" />
+      <workItem from="1609778469641" duration="2268000" />
+      <workItem from="1609785199303" duration="496000" />
+      <workItem from="1609771859176" duration="1209000" />
+      <workItem from="1609853529352" duration="8077000" />
+      <workItem from="1609844921767" duration="1741000" />
+      <workItem from="1609859363490" duration="184000" />
+      <workItem from="1609859950387" duration="97000" />
+      <workItem from="1609860124764" duration="93000" />
+      <workItem from="1609860255563" duration="308000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2423000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="7" visible="true" weight="0.329582" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329582" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2647504" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Resources/views/layout/header.html.twig</url>
+          <line>37</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Resources/views/administracion/login/login2.html.twig</url>
+          <line>14</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Resources/views/reportes/equipos_en_taller.html.twig</url>
+          <line>31</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/perifericoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#40#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/perifericoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#40#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/perifericoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#40#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/perifericoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#40#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/perifericoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#40#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="135" column="20" selection-start-line="135" selection-start-column="20" selection-end-line="135" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/var/logs/dev.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59">
+          <caret line="35542" column="449" lean-forward="true" selection-start-line="35542" selection-start-column="449" selection-end-line="35542" selection-end-column="449" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -1,0 +1,291 @@
+<html >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <div class="header">
+    <div class="header__first">
+      <div class="row">
+        {#<img src="{{ 'http://pro.local/images/brand/logo2.png' }}" alt="logo de la clinica" />#}
+        <img src="{{ 'https://reportes.cicc.cu/img/iconos/logoreportes.png' }}" alt="logo de la clinica" />
+        {#<img src="{{ 'https://sigh.camilo.sld.cu/images/logo.png' }}" alt="logo de la clinica" />#}
+      </div>
+    </div>
+  </div>
+  <style>
+    body {font-family: sans-serif;
+      font-size:4pt;
+    }
+    p { margin: 0pt;
+    }
+    td { vertical-align: top; }
+    .items td {
+      border-left: 0.1mm solid #000000;
+      border-right: 0.1mm solid #000000;
+    }
+    table thead td { background-color: #EEEEEE;
+      text-align: center;
+      border: 0.1mm solid #000000;
+    }
+    .items td.blanktotal {
+      background-color: #FFFFFF;
+      border: 0mm none #000000;
+      border-top: 0.01mm solid #000000;
+    }
+    .items td.totals {
+      text-align: center;
+      border: 0.1mm solid #000000;
+    }
+    @media all {
+      .page-break { display:none; }
+    }
+    @media print {
+      .page-break { display:block; page-break-before:always; }
+    }
+  </style>
+</head>
+<body>
+<table border="1" style="width:880px" align="center" cellspacing="1" cellpadding="1" class="table table-condensed">
+  <thead><title>Detalles del Inventario {{ inventario.id }}</title></thead>
+  <tr>
+    <td colspan="2">
+      <h3 align="center">Detalles del Inventario - {% if chasis is not null %} {{ chasis.numInventario }}{% endif %}</h3>
+      <strong>Departamento:</strong> {{ inventario.centroCosto }} <br>
+      <strong> Usuario Responsable:</strong> {{ inventario.responsable }}<br>
+      <strong>Contraseña Setup:</strong> {{ inventario.passSetup }}<br>
+      <strong>IP:</strong> {{ inventario.ip }}<br>
+      <strong>Nombre de la PC en la red:</strong> {{ inventario.nombreRed }}<br>
+      <strong>Antivirus:</strong> {{ inventario.antivirus }}<br>
+      {% if chasis is defined %}
+        {% if chasis is not null %}
+          <strong>Fecha:</strong>{{"now"|date("Y-m-d")  }}{% endif %}{% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><strong>Detalles del Chasis</strong></p>
+      {% if chasis is defined %}
+        {% if chasis is not null %}
+            <strong>Modelo: </strong>{{ chasis.modelo }}<br>
+        <strong>Color: </strong>{{ chasis.color }}<br>
+        <strong>Numero de Inventario: </strong>{{ chasis.numInventario }}<br>
+        <strong>Sello de Seguridad: </strong>{{ chasis.sello }}<br>
+        <strong>Fecha de Mantenimiento: </strong>{{ chasis.fechaMantenimiento }}<br>
+      {% else %}
+      {% endif %} {% endif %}
+    </td>
+    <td>
+      <p align="center"><strong>Detalles de la Fuente</strong></p>
+      {% if fuente is defined %}
+        {% if fuente is not null %}
+          <strong>Marca:</strong>{{ fuente.marca }}<br>
+          <strong>Serie:</strong>{{ fuente.serie}}<br>
+          <strong>Watts:</strong>{{ fuente.watts}}<br>
+          <strong>Sata:</strong>{{ fuente.sata }}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><strong>Detalles de la Motherboard</strong></p>
+      {% if board is defined %}
+        {% if board is not null %}
+          <strong>Marca:</strong>{{ board.marca }}<br>
+          <strong>Modelo:</strong>{{ board.modelo }}<br>
+          <strong>Serie:</strong>{{ board.serie}}<br>
+          <strong>LGA:</strong>{{ board.lga }}<br>
+          <strong>RAM:</strong>{{ board.ram }}<br>
+          <strong>Ranura de video:</strong>{{ board.ranuraVideo }}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+      <p align="center"><strong>Detalles del Microprocesador</strong></p>
+      {% if micro is defined %}
+        {% if micro is not null %}
+            <strong>Marca:</strong>{{ micro.marca}}<br>
+            <strong>Modelo:</strong>{{ micro.modelo}}<br>
+          <strong>LGA:</strong>{{ micro.lga}}<br>
+          <strong>Velocidad:</strong>{{ micro.velocidad}}<br>
+          <strong>Serie:</strong>{{ micro.serie }}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><strong>Detalles de la RAM</strong></p>
+      {% if ram is defined %}
+        {% if ram is not null %}
+            {% for r in ram %}
+          <strong>Marca:</strong>{{ r.marca }}<br>
+          <strong>Capacidad:</strong>{{ r.capacidad }}<br>
+          <strong>Serie:</strong>{{ r.serie}}<br><br>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+      <p align="center"><strong>Detalles del HDD</strong></p>
+      {% if hdd is defined %}
+        {% if hdd is not null %}
+            {% for h in hdd %}
+          <strong>Marca:</strong>{{ h.marca}}<br>
+          <strong>Serie:</strong>{{ h.serie}}<br>
+          <strong>Capacidad:</strong>{{h.capacidad}}<br>
+          <strong>Sata:</strong>{{ h.sata }}<br><br>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><strong>Detalles del Lector</strong></p>
+      {% if lector is defined %}
+        {% if lector is not null %}
+            {% for l in lector %}
+          <strong>Tipo:</strong>{{ l.tipo }}<br>
+          <strong>Marca:</strong>{{ l.marca }}<br>
+          <strong>Serie:</strong>{{ l.serie}}<br>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+      <p align="center"><strong>Detalles del Mouse</strong></p>
+      {% if mouse is defined %}
+        {% if mouse is not null %}
+          <strong>Marca:</strong>{{ mouse.marca}}<br>
+          <strong>Serie:</strong>{{ mouse.serie}}<br>
+          <strong>Modelo:</strong>{{mouse.modelo}}<br>
+          <strong>Optico:</strong>{{ mouse.optico }}<br>
+          <strong>Conector:</strong>{{ mouse.conector }}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><strong>Detalles del Teclado</strong></p>
+      {% if teclado is defined %}
+        {% if teclado is not null %}
+          <strong>Marca:</strong>{{ teclado.marca }}<br>
+          <strong>Serie:</strong>{{ teclado.serie}}<br>
+          <strong>Modelo:</strong>{{ teclado.modelo }}<br>
+          <strong>Conector:</strong>{{ teclado.conector }}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+      <p align="center"><strong>Detalles de las Bocinas</strong></p>
+      {% if bocinas is defined %}
+        {% if bocinas is not null %}
+          <strong>Marca:</strong>{{ bocinas.marca}}<br>
+          <strong>Serie:</strong>{{ bocinas.serie}}<br>
+          <strong>Modelo:</strong>{{bocinas.modelo}}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    {% if monitores is defined %}
+      {% if monitores is not null %}
+        <td>
+          <p align="center"><strong>Detalles del Monitor</strong></p>
+          {% for monitor in monitores %}
+            {% if monitores|length>1 %}  <hr>{% endif %}
+            <strong>Marca:</strong>{{ monitor.marca}}<br>
+            <strong>Serie:</strong>{{ monitor.serie}}<br>
+            <strong>Modelo:</strong>{{monitor.modelo}}<br>
+            <strong>Número de Inventario:</strong>{{monitor.numInventario}}<br>
+            <strong>LCD:</strong>{{monitor.lcd}}<br>
+          {% endfor %}
+        </td>
+      {% else %}
+      {% endif %}
+    {% endif %}
+    {% if impresoras is defined %}
+      {% if impresoras is not null %}
+        <td>
+          <p align="center"><strong>Detalles de la Impresora</strong></p>
+          {% for impresora in impresoras %}
+            <hr>
+            <strong>Modelo:</strong>{{impresora.modelo}}<br>
+            <strong>Marca:</strong>{{ impresora.marca}}<br>
+            <strong>Serie:</strong>{{ impresora.serie}}<br>
+            <strong>Número de Inventario:</strong>{{impresora.numInventario}}<br>
+            <strong>Tipo:</strong>{{impresora.tipo}}<br>
+            <strong>Toner o Cartucho:</strong>{{impresora.tonerCartucho}}<br>
+            <strong>Tipo de Toner o Cartucho:</strong>{{impresora.tipoTonerCartucho}}<br>
+          {% endfor %}
+        </td>
+      {% else %}
+      {% endif %}
+    {% endif %}
+    <br> <br>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><strong>Detalles del Backup</strong></p>
+      {% if backup is defined %}
+        {% if backup is not null %}
+          <strong>Marca:</strong>{{ backup.marca}}<br>
+          <strong>Serie:</strong>{{ backup.serie}}<br>
+          <strong>Modelo:</strong>{{backup.modelo}}<br>
+          <strong>Número de Inventario:</strong>{{backup.numInventario}}<br>
+          <strong>Sello:</strong>{{backup.sello}}<br>
+          <strong>Capacidad:</strong>{{backup.capacidad}}<br>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+        <p align="center"><strong>Detalles del Estabilizador</strong></p>
+        {% if estabilizador is defined %}
+            {% if estabilizador is not null %}
+                <strong>Marca:</strong>{{ estabilizador.marca}}<br>
+                <strong>Serie:</strong>{{ estabilizador.serie}}<br>
+                <strong>Modelo:</strong>{{estabilizador.modelo}}<br>
+                <strong>Número de Inventario:</strong>{{estabilizador.numInventario}}<br>
+                <strong>Capacidad:</strong>{{estabilizador.capacidad}}<br>
+            {% else %}
+            {% endif %}
+        {% endif %}
+    </td>
+  </tr>
+    <tr >
+        <td colspan="2" style="height: 30px">
+            <p><strong>Detalles del Mantenimiento</strong></p><br>
+            <bold>Fecha de Mantenimiento: </bold>
+            {% if inventario.fechaMantenimiento is not null %}
+                <i class="fa fa-wrench"></i> Último Mantenimiento: {{ inventario.fechaMantenimiento|date('d/m/Y') }}
+            {% else %}
+
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<br><br><br>
+<table>
+  <tr width="600" class="d-print-table">
+    <td><ADDRESS>____________________________________</ADDRESS><br>
+      <strong>Usuario Responsable</strong><br>
+      {{ inventario.responsable }}</td>
+    <td> <ADDRESS>_______________________________________</ADDRESS><br>
+      <strong>Técnico Informático</strong><br>
+      {{app.user}}</td>
+    <td> <ADDRESS>_______________________________________</ADDRESS><br>
+      <strong >Aprobado</strong><br>
+      Rosa Alonso Contreras</td>
+  </tr>
+</table>
+</body>
+</html>

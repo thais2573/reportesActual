@@ -1,0 +1,112 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- CoreUI CSS -->
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+  <!-- Your custom styles (optional) -->
+  <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+  <script href="{{ asset('build/js/app.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="{{ asset('build/js/popper.min.js') }}"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/datatables/media/css/jquery.dataTables.css') }}">
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            Lista de Areas y Departamentos
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+
+                    <i class="fa fa-align-justify"></i> <strong>Departamentos </strong>
+                      <a class="btn btn-primary pull-right" href="{{ path('cargar_areas') }}"><i
+                                  class="nav-icon icon-note"
+                                  data-toggle="tooltip" data-placement="bottom"
+                                  title="Nueva Categoría"></i> Cargar Areas</a>
+                    <a class="btn btn-primary pull-right" href="{{ path('cargar_departamentos') }}"><i
+                        class="nav-icon icon-note"
+                        data-toggle="tooltip" data-placement="bottom"
+                        title="Nueva Categoría"></i> Cargar Departamentos</a>
+                    <strong> {{ dep|length }} </strong>
+                  {#  <a class="btn btn-primary pull-right" href="{{ path('cargar_areas') }}"><i
+                        class="nav-icon icon-note"
+                        data-toggle="tooltip" data-placement="bottom"
+                        title="Nueva Categoría"></i> Cargar Areas</a>#}
+
+                  </div>
+
+
+                  <div class="card-body">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm" id="tablaDep">
+
+                  <thead>
+                  <tr>
+                   <th>Id de Area</th>
+                    <th> Area</th>
+                    <th>Nombre</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for c in dep %}
+                    <tr>
+                        <td>{{ c.area.idArea}}</td>
+                      <td>{{ c.area.nombre}}</td>
+                      <td>{{ c.name }}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                  </div>
+                  <div class="card-footer">
+                  </div>
+              </div>
+                <!-- /.col-->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+        {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/jquery.dataTables.min.js')}}"></script>
+                <script>
+            $(document).ready( function () {
+                $('#tablaDep').DataTable();
+            });
+        </script>
+        {% endblock %}

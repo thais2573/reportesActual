@@ -1,0 +1,90 @@
+<div class="col-3" id="error" style="display: none">
+                          <span class="badge badge-danger">
+                          Ya existe un componente registrado con este numero de serie
+                          </span>
+</div><br><br>
+{#<div class="alert alert-danger" id="error" role="alert" style="display: none">#}
+{#    Ya existe un componente registrado con este numero de serie#}
+{#</div>#}
+    <div id="comp" class="tab-content componente" data-prototype="{{ form_widget(form.componente.vars.prototype)|e('html_attr') }}">
+        {% for ent in form.componente %}
+            {% set indice = loop.index-1 %}
+
+            <div class="well text-info form-horizontal ">
+
+                <div id="app_bundleinventario_form_componente_{{ indice }}" class="container-fluid">
+                    {{  form_label(ent.estacion2, { 'attr':{'display' : 'none'}}) }}
+                    {{ form_widget(ent.estacion2, { 'attr':{'display' : 'none'}}) }}
+
+                    <div class="form-group row">
+                        <div id="columna1_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}
+                            <input type="text" id="app_bundleinventario_form_componente_{{ indice }}_serie" name="app_bundleinventario_form[componente][+{{ indice }}+][serie]" required="required" class="form-control" ">
+{#                            {{ form_widget(ent.modelo) }}#}
+                        </div>
+                        <div id="columna2_{{ indice }}" class="col-md-3" style="padding-left: 5%;" onfocus="comprobarExistencia({{ indice }})">
+                            {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+                        </div>
+                        <div id="columna3_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.marca) }}{{ form_label(ent.marca) }}{{ form_widget(ent.marca) }}
+                        </div>
+                        <div id="columna4_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.watts) }}{{ form_label(ent.watts) }}{{ form_widget(ent.watts) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div id="columna5_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.sata) }}{{ form_label(ent.sata) }}{{ form_widget(ent.sata) }}
+                        </div>
+                        <div id="columna6_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.capacidad) }}{{ form_label(ent.capacidad) }}{{ form_widget(ent.capacidad) }}
+                        </div>
+                        <div id="columna7_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.velocidad) }}{{ form_label(ent.velocidad) }}{{ form_widget(ent.velocidad) }}
+                        </div>
+                        <div id="columna8_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.lga) }}{{ form_label(ent.lga) }}{{ form_widget(ent.lga) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div id="columna9_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.ram) }}{{ form_label(ent.ram) }}{{ form_widget(ent.ram) }}
+                        </div>
+
+                        <div id="columna11_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.optico) }}{{ form_label(ent.optico) }}{{ form_widget(ent.optico) }}
+                        </div>
+                        <div id="columna12_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.conector) }}{{ form_label(ent.conector) }}{{ form_widget(ent.conector) }}
+                        </div>
+                        <div id="columna13_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.tipo) }}{{ form_label(ent.tipo) }}{{ form_widget(ent.tipo) }}
+                        </div>
+                        <div id="columna15_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.tipoComponente) }}{{ form_label(ent.tipoComponente) }}{{ form_widget(ent.tipoComponente) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        function eliminarForm(posFrom) {
+            var div = document.getElementById("componente" + posFrom);
+            div.parentNode.removeChild(div);
+        }
+    </script>
+    <script type="text/javascript">
+        pos = $('.componente').length;
+        console.log("La posicion es"+pos);
+        var serie = document.getElementById('app_bundleinventario_form_componente_' + pos + '_serie');
+
+        select.addEventListener('click',function () {
+            console.log("Holaaa")
+        });
+    </script>
+{% endblock %}

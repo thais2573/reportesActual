@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Reportes</title>
+    <!-- Icons-->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+</head>
+<body class="app flex-row align-items-center" background="{{ asset('img/fondoLogin.png') }}">
+
+<div class="container" >
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card-group" >
+                <div class="card p-3" align="rigth">
+                  {{ form_start(loginForm) }}
+                    <div class="card-body" >
+                      {% if error %}
+                          <div class="alert alert-danger" role="alert">
+                            {{ error.messageKey | trans(error.messageData,'security') }}
+                          </div>
+                      {% endif %}
+                        <h1>Sistema de Reportes</h1>
+               <br>
+                        <div class="col-9"> {{ form_row(loginForm._username) }}</div>
+                        <div class="col-9">{{ form_row(loginForm._password ) }}</div>
+
+
+                            <div class="col-5">
+                                <button class="btn btn-primary px-4" type="submit">Acceder</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card text-white bg-facebook py-5 d-md-down-none" style="width:44%">
+                    <div class="card-body text-center">
+                        <div>
+                          <img src="{{ asset('img/brand/reportes.png') }}" style="width: 350px" class="float-right">
+                        </div>
+                    </div>
+                </div>
+              {{ form_end(loginForm) }}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CoreUI and necessary plugins-->
+<script src="{{ asset('build/js/app.js') }}"></script>
+<script>
+  history.pushState(null, null, null);
+  window.addEventListener('popstate', function () {
+    history.pushState(null, null, null);
+  });
+</script>
+</body>
+</html>

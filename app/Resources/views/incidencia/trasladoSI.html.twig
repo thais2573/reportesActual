@@ -1,0 +1,373 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- CoreUI CSS -->
+  {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+  <script src="{{ asset('build/js/pace.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+  {#<!-- CoreUI CSS -->#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  {#<!-- Bootstrap core CSS -->#}
+  {#<!-- Select2 -->#}
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{% block main %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+      <li class="breadcrumb-item active">
+          Movimiento Traslado Interno
+      </li>
+    <!-- Breadcrumb Menu-->
+
+  </ol>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <strong> Traslado de {{ nombre }}</strong>
+            </div>
+
+
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label"
+                       for="form-ci">Estación Trabajo:</label>
+                <div class="col-md-2">
+                  Sin estacion de trabajo asignada
+                </div>
+
+                <label class="col-md-2 col-form-label" for="form-reg">Modelo:</label>
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-reg"
+                         type="text"
+                         name="form-reg"
+                         value="{{ asesorio.modelo }}">
+                </div>
+
+
+              </div>
+
+              {% if asesorio.marca is defined %}
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label"
+                       for="form-ci">Marca:</label>
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value="{{ asesorio.marca }}">
+                </div>
+                {% endif %}
+                <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                      Serie:</label>
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-reg"
+                         type="text"
+                         name="form-reg"
+                         value="{{ asesorio.serie }}">
+                </div>
+              </div>
+            </div>
+          </div>
+          {{ form_start(movimientoForm) }}
+          <div class="card">
+
+            <div class="card-header">
+              <strong>Traslado </strong>Interno
+            </div>
+
+            <div class="card-body">
+
+              <div class="row">
+
+
+              </div>
+
+              <div class="row">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="app_bundletrasladoSIform_type[respEntrega]" class="control-label">Responsable de
+                                                                                                    entrega:</label>
+                      <div class="control">
+                        <select id="app_bundletrasladoSIform_type__respEntrega"
+                                name="app_bundletrasladoSIform_type[respEntrega]"
+                                required="required" style="width: 400px">
+                          {% for usuario in usuarios if usuario.username not in usuarios %}
+                            <option
+                              value="{{ usuario['first_name'] }}&nbsp;{{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                <div class="col-sm-4">
+                  <label class="col-5" for="tipo">Departamento de destino</label> &nbsp;
+                  <select id="areas" name="usuarios[]" class="custom-select" style="width: 400px">
+                    {% set cant=0 %}
+                    {% for area in areas %}
+                      {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                      <option id="{{ area.idArea }}"
+                              value="{{ area.nombre }}">{{ area.nombre }}</option>
+                      {% set cant=cant+1 %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <label for="app_bundletrasladoSIform_type[areaDestino]" class="control-label">Centro de Costo</label>
+                  <select id="app_bundletrasladoSIform_type_areaDestino" name="app_bundletrasladoSIform_type[areaDestino] " class="custom-select" style="width: 400px">
+                    {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4">
+                <div class="form-group">
+                  <label for="app_bundletrasladoSIform_type[areaEntrega]" class="control-label">Area de entrega</label>
+                  {{ form_widget(movimientoForm.areaEntrega) }}
+                  </div>
+
+                {#<div class="col-lg-4">#}
+                  {#<label for="app_bundletrasladoSIform_type_[areaEntrega]" class="col-8">Centro de Costo</label>#}
+                  {#<select id="app_bundletrasladoSIform_type_areaEntrega" name="app_bundletrasladoSIform_type_[areaEntrega]" class="custom-select" style="width: 400px">#}
+                    {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                  {#</select>#}
+                </div>
+
+                <div class="col-sm-4">
+
+                  <label class="col-3">Estacion</label> &nbsp;
+
+                  <select id="estaciones" name="estaciones[] " class="custom-select" style="width: 400px">
+
+
+                    {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+
+                  </select>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label for="app_bundletrasladoSIform_type[receptor]" class="control-label">Receptor:</label>
+                    <div class="control">
+
+                      <select id="app_bundletrasladoSIform_type_receptor"
+                              name="app_bundletrasladoSIform_type[receptor]"
+                              required="required" style="width: 400px">
+                        {% for usuario in usuarios if usuario.username not in usuarios %}
+                          <option
+                            value="{{ usuario['first_name'] }}&nbsp;{{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                        {% endfor %}
+                      </select>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+                {#<div class="col-md-4">#}
+                  {#{{ form_row(movimientoForm.areaDestino) }}#}
+                {#</div>#}
+              </div>
+            </div>
+            <div class="card-header">
+              <strong>Responsables </strong>Movimiento
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-4">
+                  {{ form_row(movimientoForm.aprobado) }}
+                </div>
+                <div class="col-lg-4">
+                  {{ form_row(movimientoForm.autorizado) }}
+                </div>
+                <div class="col-lg-4">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="app_bundletrasladoSIform_type[respAFT]" class="control-label">Responsable AFT:</label>
+
+                      <div class="control">
+                        <select id="app_bundletrasladoSIform_type_respAFT"
+                                name="app_bundletrasladoSIform_type[respAFT]"
+                                required="required" style="width: 400px">
+                          {% for usuario in usuarios %}
+                            <option
+                              value="{{ usuario['first_name'] }} {{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="card-footer">
+
+              <button class="btn btn-success" type="submit" formnovalidate>Salvar</button>
+            </div>
+            {{ form_widget(movimientoForm._token) }}
+            {{ form_end(movimientoForm,{'render_rest':false}) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block javascripts %}
+      {{ parent() }}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>#}
+    <script type="application/javascript">
+      $(document).ready(function () {
+        $('#app_bundletrasladoSIform_type_respAFT,#app_bundletrasladoSIform_type__respEntrega,#app_bundletrasladoSIform_type_receptor,#app_bundletrasladoSIform_type_areaEntrega,#app_bundletrasladoSIform_type_areaDestino').select2({
+          placeholder: "---Seleccione---"
+        });
+      });
+    </script>
+
+      <script type="application/javascript">
+          $(document).ready(function () {
+              $('#areas, #app_bundletrasladoSIform_type_areaDestino, #estaciones,#app_bundletrasladoSIform_type_areaEntrega').select2({
+                  placeholder: "---Seleccione---"
+              });
+          });
+      </script>
+      <script type="application/javascript">
+          $('#areas').on('select2:select', function (e) {
+              // var data = e.params.data;
+              var area = e.params.data.element.text;
+              var id_i = e.params.data.element.id;  // de tu elemento
+              $.ajax({
+                  url: "{{ path('list_departamentos') }}",
+                  type: "GET",
+                  dataType: "JSON",
+                  data: {
+                      area_nombre: area,
+                      id_ccosto: id_i
+                  },
+                  success: function (depart) {
+                      $("#estaciones").empty();
+                      $("#app_bundletrasladoSIform_type_areaDestino").empty();
+                      // console.log(depart);
+                      //  $('#departamentos').html(resp);
+                      // var neighborhoodSelect = $("#departamentos");
+                      var datos = [];
+                      $.each(depart, function (key, depart) {
+                        datos.push({id: parseInt(depart.id_dep), text: depart.dep,id2:parseInt(depart.id_area)});
+                      });
+                      if ($('#app_bundletrasladoSIform_type_areaDestino').find("option[value='" + datos.id + "']").length) {
+                          $('#app_bundletrasladoSIform_type_areaDestino').val(datos.id).trigger('change');
+                      } else {
+                          // Create a DOM Option and pre-select by default
+                          var newOption = new Option(datos.text, datos.id, true, true);
+                          // Append it to the select
+                          $('#app_bundletrasladoSIform_type_areaDestino').append(newOption).trigger('change');
+                      }
+                      $('#app_bundletrasladoSIform_type_areaDestino').val(null).trigger('change');
+                      $("#app_bundletrasladoSIform_type_areaDestino").select2({
+                          data: datos,
+                          placeholder:'Selecciona una opcion'
+                      });
+                      // Remove current options
+                      // neighborhoodSelect.html('');
+                      // Empty value ...
+                      // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+                      // $.each(depart, function (key, depart) {
+                      //
+                      //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+                      //
+                      // });
+                  },
+                  error: function (err) {
+                      alert("An error ocurred while loading data ...");
+                  }
+              });
+          });
+          $('#app_bundletrasladoSIform_type_areaDestino').on('select2:select', function (e) {
+                  // var data = e.params.data;
+                  var area = e.params.data.text;
+                  var id_ic = e.params.data.id;
+                  var area_id=e.params.data.id2;
+                  // console.log('text -->'+area);
+                  // console.log('id -->'+id_ic);
+                  // console.log(data);
+                  // var municipioSelector = $(this);
+                  // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+                  //alert(id_ic);
+                  // alert(municipioSelector.val());
+                  // Request the neighborhoods of the selected city.
+                  $.ajax({
+                      url: "{{ path('list_inventarios') }}",
+                      type: "GET",
+                      dataType: "JSON",
+                      data: {
+                          id_Costo2: id_ic,
+                          idArea: area_id
+                      },
+                      success: function (neighborhood) {
+                        $("#estaciones").empty();
+                          var datos = [];
+                          console.log(neighborhood);
+                          $.each(neighborhood, function (key, neighborhood) {
+                              datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+                          });
+                          $('#estaciones').val(null).trigger('change');
+                          $("#estaciones").select2({
+                              data: datos,
+                              placeholder:'Selecciona una opcion'
+                          });
+                          // var unidadSelect = $("#estaciones");
+                          // Remove current options
+                          // unidadSelect.html('');
+                          // Empty value ...
+                          // unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');
+                          // $.each(neighborhood, function (key, neighborhood) {
+                          //
+                          //   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');
+                          //
+                          //   unidadSelec = neighborhood.id_estacion;
+                          // });
+                      },
+                      error: function (err) {
+                          alert("An error ocurred while loading data ...");
+                      }
+                  });
+              }
+          );
+          $("#estaciones").empty();
+          $("#app_bundletrasladoSIform_type_areaDestino").empty();
+          // });
+      </script>
+  {% endblock %}
+
+{% endblock %}

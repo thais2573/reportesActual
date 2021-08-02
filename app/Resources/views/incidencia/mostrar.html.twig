@@ -1,0 +1,204 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Font Awesome -->
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    <!-- Bootstrap core CSS -->
+    <!-- Select2 -->
+    {#<link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/select2-bootstrap.min.css') }}">#}
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>#}
+    <!-- Material Design Bootstrap -->
+
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {#<script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"#}
+    {#integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+    {#crossorigin="anonymous"></script>#}
+    {#<script src="https://code.jquery.com/jquery-3.2.1.js"#}
+    {#integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>#}
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+    {#integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+    {#crossorigin="anonymous"></script>#}
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a >Mostrar Incidencia</a>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for message in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Mostar Incidencias</strong></div>
+
+
+                        <div class="card-body">
+
+                            <form class="form-horizontal" action="" method="post">
+
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label" for="form-ci">No. Incidencia</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-ci"
+                                               type="number"
+                                               name="form-ci"
+                                               value="{{ incidencia.id }}">
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="form-reg">Realizado por:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-reg"
+                                               type="text"
+                                               name="form-reg"
+                                               value="{{ incidencia.user }}">
+                                    </div>
+
+                                    <label class="col-md-2 col-form-label" for="form-sex">Departamento:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-sex"
+                                               type="text"
+                                               name="form-sex"
+                                               value="{{ incidencia.dpto }}">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label" for="form-prov">Categoría:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-prov"
+                                               type="text"
+                                               name="form-prov"
+                                               value="{{ incidencia.tipo }}">
+                                    </div>
+
+
+                                    <label class="col-md-2 col-form-label" for="form-unidad">Fecha:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-unidad"
+                                               type="text"
+                                               name="form-unidad"
+                                               value="{{ incidencia.fecha |date('d/m/Y H:i:s')}}">
+                                    </div>
+
+
+                                    <label class="col-md-2 col-form-label" for="form-esp1">Estado Actual:</label>
+
+                                    {% if incidencia.estado=='Solucionado' %}
+
+                                        <div class="col-md-2">
+                                            <input class="form-control"
+                                                   readonly
+                                                   id="form-esp1"
+                                                   type="text"
+                                                   name="form-esp1"
+                                                   style="background: #3ea662" ;
+                                                   value="{{ incidencia.estado }}">
+                                        </div>
+
+                                    {% endif %}
+
+                                    {% if incidencia.estado=='Reparación' %}
+                                        <div class="col-md-2">
+                                            <input class="form-control"
+                                                   readonly
+                                                   id="form-esp1"
+                                                   type="text"
+                                                   style="background: red"
+                                                   value="{{ incidencia.estado }}">
+                                        </div>
+                                    {% endif %}
+
+                                    {% if incidencia.estado=='En Espera' %}
+                                        <div class="col-md-2">
+                                            <input class="form-control"
+                                                   readonly
+                                                   id="form-esp1"
+                                                   type="text"
+                                                   name="form-esp1"
+                                                   style="background: yellow"
+                                                   value="{{ incidencia.estado }}">
+                                        </div>
+                                    {% endif %}
+
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label" for="form-esp2">Asunto:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-esp2"
+                                               type="text"
+                                               name="form-esp2"
+                                               value="{{ incidencia.asunto }}">
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="form-esp2">Resumen:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-esp2"
+                                               type="text"
+                                               name="form-esp2"
+                                               value="{{ incidencia.tipo }}">
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="form-esp2">Solucionado Por:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-esp2"
+                                               type="text"
+                                               name="form-esp2"
+                                               value="{{ 'Tecnico' }}">
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <center><img class="navbar-brand-full" src="{{ asset('img/brand/prueba.fw.png') }}" alt="Reportes"></center>
+
+
+{% endblock %}

@@ -1,0 +1,613 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+{#    <script href="{{ asset('build/js/app.js') }}"></script>#}
+
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Nueva estacion de trabajo</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="form-row">
+                <div class="col col-12 " style="alignment: center">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Nueva estación </strong></div>
+                        <div class="card-body">
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate',}}) }}
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="tipo">Departamento</label> &nbsp;
+                                    <select id="areas" name="usuarios[]" class="custom-select" style="width: 400px">
+                                        {% set cant=0 %}
+                                        {% for area in areas %}
+                                            {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                                            <option id="{{ area.idArea }}"
+                                                    value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                            {% set cant=cant+1 %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="col-md-3">
+                                    <label for="tipo">Centro de Costo</label> &nbsp;
+                                    <select id="departamentos" name="d[]" class="custom-select" style="width: 400px">
+                                        {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Responsable</label>
+                                    <div class="form-group">
+                                        <div class="control">
+                                            <select id="app_bundleinventario_form_responsable"
+                                                    name="app_bundleinventario_form[responsable]"
+                                                    required="required" style="width: 400px">
+                                                {% for usuario in usuarios if usuario.username not in usuarios %}
+                                                    <option
+                                                            value="{{ usuario['first_name'] }} {{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-3">
+                                    <label>Pass Setup</label>{{ form_widget(form.passSetup) }}
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Nombre de la Red</label>{{ form_widget(form.nombreRed) }}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>IP</label>{{ form_widget(form.ip,{ 'attr': {'class': '.col-sm-2','type':'number','placeholder':'192.168.7.1'} }) }}
+                                </div>
+                            </div>
+{#                            <div class="col-md-3 float-md-right"><img class="rounded float-right"#}
+{#                                                                      src="{{ asset('img/iconos/PC.jpg') }}"#}
+{#                                                                      alt="Reparaciones" align="left"></div>#}
+
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-success" type="submit" formnovalidate>
+                                <i class="fa fa-plus"></i> Adicionar perifericos
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="reset">
+                                <i class="fa fa-remove"></i> Limpiar datos
+                            </button>
+                        </div>
+                    </div>
+
+                <div class="card">
+                    {% set totalPerifericos=0 %}
+                    {% set totalComponentes=0 %}
+                    <div class="card-header">Perifericos <span class="badge badge-info">{{ totalPerifericos }}</span>
+                        <button type="button" id="ocultarEquipos" class="float-right btn btn-sm btn-info" ><i class="fa fa-eye-slash"></i></button>
+                    <button type="button" id="btEquipo" class="float-right btn btn-sm btn-info" ><i class="fa fa-plus"></i></button>
+
+                    </div>
+{#                    <div class="card-body" id="listaEq" >#}
+{#                        <div class="card">#}
+{#                            {{ include('estacion_trabajo/agregarEquipoEstacion.twig', { 'tipo_edicion':'inventario_nuevo'}) }}#}
+{#                        </div>#}
+
+{#                    </div>#}
+                </div>
+                    <div class="card">
+
+                    <div class="card-header">Componentes <span class="badge badge-info">{{ totalComponentes }}</span>
+                        <button type="button" id="ocultarComp" class="float-right btn btn-sm btn-info" ><i class="fa fa-eye-slash"></i></button>
+                        <button type="button" id="btComp" class="btn btn-sm btn-info float-right " ><i class="fa fa-plus"></i></button>
+                    </div>
+                        <div class="card-body" id="listaComp">
+                         {{ include('plantillas_edicion/crearComponentes.html.twig') }}
+
+                        </div>
+                </div>
+                <br><br><br>
+            </div>
+                {{ form_errors(form) }}
+            {{ form_end(form,{'render_rest':false}) }}
+        </div>
+    </div>
+    <div class="col-8">
+    </div>
+    </div>
+    {% block javascripts %}
+{{ parent() }}
+        <script src="{{ asset('build/js/select2.full.min.js') }}"></script>
+        <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#app_bundleinventario_form_responsable').select2({
+                    placeholder: "---Seleccione---"
+                });
+
+             //   $('#listaComp').hide();
+            });
+        </script>
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#areas, #departamentos, #estaciones').select2({
+                    placeholder: "---Seleccione---"
+                });
+
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#btEquipo").click(function () {
+                    $('#listaEq').show("swing");
+                });
+                $("#btComp").click(function () {
+                    $('#listaComp').show("swing");
+                });
+
+            });
+            $(document).ready(function(){
+                $("#ocultarEquipos").click(function () {
+                    $('#listaEq').hide("swing");
+                });
+                $("#ocultarComp").click(function () {
+                    $('#listaComp').hide("swing");
+                });
+
+            });
+        </script>
+        <script type="application/javascript">
+            $('#areas').on('select2:select', function (e) {
+                // var data = e.params.data;
+                var area = e.params.data.element.text;
+                var id_i = e.params.data.element.id;  // de tu elemento
+                $.ajax({
+                    url: "{{ path('list_departamentos') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        area_nombre: area,
+                        id_ccosto: id_i
+                    },
+                    success: function (depart) {
+                        $("#estaciones").empty();
+                        $("#departamentos").empty();
+                        // console.log(depart);
+                        //  $('#departamentos').html(resp);
+                        // var neighborhoodSelect = $("#departamentos");
+                        var datos = [];
+                        $.each(depart, function (key, depart) {
+                            datos.push({id: parseInt(depart.id_dep), text: depart.dep});
+                        });
+                        $('#departamentos').val(null).trigger('change');
+                        $("#departamentos").select2({
+                            data: datos
+                        });
+                        // Remove current options
+                        // neighborhoodSelect.html('');
+                        // Empty value ...
+                        // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+                        // $.each(depart, function (key, depart) {
+                        //
+                        //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+                        //
+                        // });
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+            });
+            $('#departamentos').on('select2:select', function (e) {
+                    // var data = e.params.data;
+                    var area = e.params.data.text;
+                    var id_ic = e.params.data.id;
+                    // console.log('text -->'+area);
+                    // console.log('id -->'+id_ic);
+                    // console.log(data);
+                    // var municipioSelector = $(this);
+                    // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+                    //alert(id_ic);
+                    // alert(municipioSelector.val());
+                    // Request the neighborhoods of the selected city.
+                }
+            );
+            $("#estaciones").empty();
+            $("#departamentos").empty();
+            // });
+        </script>
+        <script type="application/javascript">
+          //  var botonBuscar = $('#buscarEquipo1');
+            var botonBuscar = document.getElementById("buscarEquipo1");
+          //   document.getElementById("buscarEquipo1").addEventListener("click", function(){
+          //       document.getElementById("demo").innerHTML = "Hello World";
+          //   });
+             botonBuscar.addEventListener("click",function () {
+               // alert("Hola");
+            });
+          console.log(botonBuscar);
+        </script>
+        <script type="text/javascript">
+            var $addTagLink = $('<a href="#" class="add_tag_link btn btn-primary  btn-small pull-right" id="add" style="margin-bottom: 20px;"><i class="fa fa-plus"></i> Nuevo Componente</a>');
+            var $newLinkLi = $('<div class="container-fluid" style="margin-left: 4%; margin-right: 4%"></div>').append($addTagLink);
+            var pos = 0;
+            jQuery(document).ready(function () {
+                var collectionHolder = $('#comp');
+                pos = $('.componente').length;
+                collectionHolder.append($newLinkLi);
+                console.log(collectionHolder);
+                //alert(document.getElementById('#ent_div'))
+                //addTagForm(collectionHolder, $newLinkLi);
+
+               // $addTagLink.addEventListener('click',function(e){
+
+             $addTagLink.off().on('click', function (e) {
+                   // e.preventDefault();
+                 //   e.stopImmediatePropagation();
+                    addTagForm(collectionHolder, $newLinkLi);
+                });
+            });
+            function addTagFormDeleteLink($tagFormLi) {
+                var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+                $tagFormLi.append($removeFormA);
+                $removeFormA.on('click', function (e) {
+                    console.log(pos);
+                    if (pos == 1) {
+                        alert('Debe haber al menos un producto para añadir');
+                        return;
+                    }
+                    e.preventDefault();
+                    $tagFormLi.remove();
+                    pos--;
+                });
+            }
+
+            function addTagForm(collectionHolder, $newLinkLi) {
+                $(document).ready(function () {
+                    var prototype = collectionHolder.attr('data-prototype');
+                    var newForm = prototype.replace(/__name__/g, pos);
+                    var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(newForm);
+                    $newLinkLi.before($newFormLi);
+                    formulario = $('#app_bundleinventario_form_componente_' + pos);
+                    formulario.addClass('form-group row container-fluid');
+
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna15_' + pos + '" class="col-md-3"></div>');
+                    // $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna14_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna13_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna12_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna11_' + pos + '" class="col-md-3"></div>');
+                    // $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna10_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna9_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna8_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna7_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna6_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna5_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna4_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna3_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna2_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna1_' + pos + '" class="col-md-3"></div>');
+
+
+                    $('#columna1_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_modelo').parent());
+                    $('#columna2_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_serie').parent());
+                    $('#columna3_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_marca').parent());
+                    $('#columna4_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_watts').parent());
+                    $('#columna5_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_sata').parent());
+                    $('#columna6_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_capacidad').parent());
+                    $('#columna7_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_velocidad').parent());
+                    $('#columna8_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_lga').parent());
+                    $('#columna9_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_ram').parent());
+                    $('#columna11_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_optico').parent());
+                    $('#columna12_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_conector').parent());
+                    $('#columna13_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_tipo').parent());
+                    $('#columna14_' + pos).append($('#app_bundleinventario_form_componente_' + pos + 'estacion2').parent());
+                    $('#columna15_' + pos).append($('#app_bundleinventario_form_componente_' + pos + 'tipoComponente').parent());
+                    //
+                    $('#columna1_'+ pos).hide();
+                    $('#columna2_'+ pos).hide();
+                    $('#columna3_'+ pos).hide();
+                    $('#columna4_'+ pos).hide();
+                    $('#columna5_'+ pos).hide();
+                    $('#columna6_'+ pos).hide();
+                    $('#columna7_'+ pos).hide();
+                    $('#columna8_'+ pos).hide();
+                    $('#columna9_'+ pos).hide();
+                    $('#columna10_'+ pos).hide();
+                    $('#columna11_'+ pos).hide();
+                    $('#columna12_'+ pos).hide();
+                    $('#columna13_'+ pos).hide();
+                    $('#columna14_'+ pos).hide();
+                    $('#columna17_'+ pos).hide();
+                    //var micapa = document.getElementById('id_div_contenedor');
+                    // var o = document.createElement('input');
+                    // o.type = "text";
+                    // o.classList = "form-control existenciaP";
+                    // o.placeholder = "Existencia actual";
+                    // o.id = "exist_'" + pos + "'";
+                    // o.name = "exist";
+                    // o.disabled = true;
+                    // o.value = "";
+                    // document.getElementById('app_bundlecomponentes_form_type_' + pos + '').appendChild(o);
+                    // $('#columna1_' + pos).append($('#app_bundlemateriales_sform_material_' + pos + 'um').parent());
+                    // $('#columna2_' + pos).append($('app_bundlemateriales_sform_material_' + pos + 'cantidad').parent());
+                    // $('#columna3_' + pos).append($('app_bundlemateriales_sform_material_' + pos + 'idProducto').parent());
+
+                    // if(selectedItem == null)
+                    // {
+                    //console.log('null select');
+                    // $('#app_bundleinventario_form_componente_' + pos + '_tipoComponente').({
+                    //     language: 'es',
+                    //     placeholder: 'Seleccione el tipo de componente',
+                    //     minimumInputLength: 1
+                    // });
+
+                    var select = document.getElementById('app_bundleinventario_form_componente_' + pos + '_tipoComponente');
+                    // // selectAnterior=document.getElementById('app_bundleequipo_fom_type_componente_' + pos + '_tipoComponente');
+                    // //  console.log(selectAnterior);
+                    //  // selectAnterior.hidden=true;
+                    //   //select.append("<option disabled='disabled' SELECTED>Select Your product</option>");
+                    //  $('#app_bundleinventario_form_componente_' + pos + '_tipoComponente').append("<option disabled='disabled' SELECTED>Selecciona el componente</option>");
+                    //  console.log("Posicion anterior"+pos-1); console.log("Posicion actual "+pos);
+                    //
+                    // // var s= $('#app_bundleinventario_form_componente_' + pos + 'tipoComponente');
+                    select.addEventListener('change',
+                        function (e) {
+                            e.preventDefault();
+                            var selectedOption = this.options[select.selectedIndex];
+                            console.log(selectedOption.value + ': ' + selectedOption.text);
+
+                            if (selectedOption.text == 'Fuente') {
+                                console.log('entre');
+                                console.log('Posicion de ahora:' +pos);
+                                // $('#columna1_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_modelo').hide());
+                                // $('#columna6_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_capacidad').hide());
+                                // var modelo=document.getElementById("columna1_"+pos+"").hidden=true;
+                                // alert("columna1_"+(pos-1)+"");
+                                // console.log(document.getElementById('app_bundleequipo_fom_type_componente_'+pos+'_modelo'));
+                                //  $('#columna6_'+ (pos-1)).hide();
+                                $('#columna6_' + pos-1).hide();
+                                $('#columna1_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+
+                                //     $('#columna2_' + pos).show();
+                                // $('#columna3_' + pos-1).show();
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+
+                            }
+
+                            if (selectedOption.text == 'Motherboard') {
+                                $('#columna1_' + (pos-1)).show();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).show();
+                                $('#columna9_' + (pos-1)).show();
+                                $('#columna10_' + (pos-1)).show();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).hide();
+
+
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Microprocesador') {
+                                $('#columna1_' + (pos-1)).hide();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).show();
+                                $('#columna8_' + (pos-1)).show();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).show();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).show();
+                                $('#columna14_' + (pos-1)).hide();
+
+
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).hide();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Ram') {
+                                $('#columna1_' + (pos-1)).hide();
+                                $('#columna6_' + (pos-1)).show();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+
+
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Hdd') {
+                                console.log(selectedOption.text);
+                                $('#columna1_' + (pos-1)).hide();
+                                $('#columna6_' + (pos-1)).show();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+
+
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).show();
+                            }
+                            if (selectedOption.text == 'Lector') {
+                                $('#columna1_' + (pos-1)).show();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).show();
+                                $('#columna14_' + (pos-1)).hide();
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Mouse') {
+                                $('#columna1_' + (pos-1)).show();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).show();
+                                $('#columna12_' + (pos-1)).show();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Teclado') {
+                                $('#columna1_' + (pos-1)).show();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).show();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Bocina') {
+                                $('#columna1_' + (pos-1)).show();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).hide();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).hide();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                            if (selectedOption.text == 'Tarjeta de video') {
+                                $('#columna1_' + (pos-1)).show();
+                                $('#columna6_' + (pos-1)).hide();
+                                $('#columna7_' + (pos-1)).show();
+                                $('#columna8_' + (pos-1)).hide();
+                                $('#columna9_' + (pos-1)).hide();
+                                $('#columna10_' + (pos-1)).show();
+                                $('#columna11_' + (pos-1)).hide();
+                                $('#columna12_' + (pos-1)).hide();
+                                $('#columna13_' + (pos-1)).hide();
+                                $('#columna14_' + (pos-1)).hide();
+                                $('#columna2_' + (pos-1)).show();
+                                $('#columna3_' + (pos-1)).show();
+                                $('#columna4_' + (pos-1)).hide();
+                                $('#columna5_' + (pos-1)).hide();
+                            }
+                        });
+
+
+                    // $("#estaciones").empty();
+                    // $("#app_bundlemovimientoR_form_type_areaDestino").empty();
+                    // }
+                    // else
+                    // {
+                    //   console.log('select online');
+                    //   $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').select2({
+                    //     language: 'es',
+                    //     placeholder: 'Seleccione un producto'
+                    //   });
+                    // }
+
+                    // $('.select2-container').css("width","500px !important");
+                    //   $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+                    addTagFormDeleteLink($newFormLi);
+                    pos++;
+                });
+
+            }
+        </script>
+{#        <script type="application/javascript">#}
+{#           var pos=0;#}
+{#           //  var o = document.createElement('p');#}
+{#           //  o.type = "text";#}
+{#           //  o.classList="form-control existenciaP";#}
+{#           // // o.placeholder="Existencia ";#}
+{#           //  o.style="width:120px";#}
+{#           //  o.id="equipo'"+pos+"'";#}
+{#           //  //o.name = "exist";#}
+{#           // // o.disabled=true;#}
+{#           //  o.value = "";#}
+
+{#          #}{#nuevosEquipos=[];#}
+
+{#          #}{#nuevo={{ nuevo.numInventario }};#}
+{#          #}{#nuevosEquipos[pos]=nuevo;#}
+
+{#          #}{#console.log(nuevosEquipos);#}
+{#          #}{#  //   $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').append(o);#}
+
+{#          #}{#  $('#agregarEquipo').on('click' ,function (e) #}{#}#}
+{#          #}{#      e.preventDefault();#}
+{#          #}{#      document.getElementById('nuevosEq').append(nuevosEquipos);#}
+{#          #}{#      pos++;#}
+{#            });#}
+
+{#        </script>#}
+
+    {% endblock %}
+{% endblock %}

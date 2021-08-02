@@ -1,0 +1,62 @@
+{% block main %}
+  <div class="card">
+    <div class="card-body">
+      <select id="chasisNuevo" name="chasisNuevo" style="width: 150px;" class="form-control">
+          {%for c in listaChasis %}
+        <option value="{{ c.numInventario }}" selected="selected">{{ c.modelo }} {{ c.numInventario }}
+          {% endfor %}
+      </select>
+    </div>
+  </div>
+
+    {% block javascripts %}
+        <script type="application/javascript">
+            $('#chasisNuevo').on('select2:select', function (e) {
+                e.preventDefault();
+            // var data = e.params.data;
+            // var area = e.params.data.element.text;
+            // var id_i = e.params.data.element.value;  // de tu elemento
+            console.log( $('#chasisNuevo').val()) ; console.log(id_i);
+            $.ajax({
+            url: "{{ path('lista_chasis_sin_asignar') }}",
+            type: "GET",
+            dataType: "JSON",
+            // data: {
+            //     area_nombre: area,
+            //     id_departamento: id_i
+            // },
+            success: function (depart) {
+            $("#app_bundleequipo_fom_type_estacion").empty();
+            // $("#departamentos").empty();
+            console.log(depart);
+            //  $('#departamentos').html(resp);
+            // var neighborhoodSelect = $("#departamentos");
+            var datos = [];
+            $.each(depart, function (key, depart) {
+            datos.push({id: parseInt(depart.id_estacion), text: depart.nombreRed});
+            });
+            $('#app_bundleequipo_fom_type_estacion').val(null).trigger('change');
+            $("#app_bundleequipo_fom_type_estacion").select2({
+            data: datos
+            });
+            // Remove current options
+            // neighborhoodSelect.html('');
+            // Empty value ...
+            // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+            // $.each(depart, function (key, depart) {
+            //
+            //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+            //
+            // });
+            },
+            error: function (err) {
+            alert("An error ocurred while loading data ...");
+            }
+            });
+            });
+        </script>
+        {% endblock %}
+
+
+
+{% endblock %}

@@ -1,0 +1,501 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+  <!-- CoreUI CSS -->
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+  <!-- Material Design Bootstrap -->
+  <!-- Your custom styles (optional) -->
+  <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+  <script href="{{ asset('build/js/app.js') }}"></script>
+
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('build/js/jquery-3.4.1.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{% endblock %}
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a>Datos del periférico</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          <div class="card">
+            <div class="card-header">
+              <strong>Datos del componente : {{ tipo }}</strong>
+            </div>
+            {{ form_start(form) }}
+
+            <div class="card-body">
+              <div class="form-group row">
+{#                {% if form.estacion2 is defined %}#}
+                <div class="col-sm-3">
+                  {%if componente.estacion2==null  %}
+                    <label>Seleccione la estacion</label>
+                    {% else %}
+                      <label>Estacion</label><br>
+                  {% endif %}
+                  {{ form_widget(form.estacion2) }}
+                </div>
+                {% if form.marca is defined %}
+                <div class="col-sm-3">
+                  <label>Marca</label>
+                  {{ form_widget(form.marca) }}
+                  {% endif %}
+                </div>
+{#                {% if form.modelo is defined %}#}
+{#                <div class="col-sm-3">#}
+{#                  <label>Modelo</label>#}
+{#                  {{ form_widget(form.modelo) }}#}
+{#                  {% endif %}#}
+                {% if form.serie is defined %}
+                <div class="col-sm-3">
+                  <label>Serie</label>
+                  {{ form_widget(form.serie) }}
+                  {% endif %}
+                </div>
+                </div>
+
+                {% if form.numInventario is defined %}
+                <div class="col-sm-2">
+                  <label>Numero de inventario</label>
+                  {{ form_widget(form.numInventario,  { 'attr':{'readonly' : true}}) }}
+                  {% endif %}
+                </div>
+                {% if tipo=='impresora' %}
+                  {% if form.tonerCartucho is defined %}
+                    <div class="col-md-3">
+                    <label>Toner Cartucho</label>
+                    {{ form_widget(form.tonerCartucho) }}
+                  {% endif %}
+                  </div>
+                  {% if form.tipoTonerCartucho is defined %}
+                    <div class="col-md-3">
+                    <label>Tipo de toner cartucho</label>
+                    {{ form_widget(form.tipoTonerCartucho) }}
+                  {% endif %}
+                  </div>
+                  {% if form.sello is defined %}
+                    <div class="col-md-2">
+                      <label>Sello</label>
+                      {{ form_widget(form.sello) }}
+                    </div>
+                  {% endif %}
+                  {% if form.fechaMantenimiento is defined %}
+                    <div class="col-md-3">
+                      <label>Fecha de mantenimiento</label>
+                      {{ form_widget(form.fechaMantenimiento) }}
+                    </div>
+                  {% endif %}
+                  {% if form.tipo is defined %}
+                    <div class="col-md-3">
+                      <label>Tipo</label>
+                      {{ form_widget(form.tipo) }}
+                    </div>
+                  {% endif %}
+              {% elseif tipo=='ram' %}
+                {% if form.capacidad is defined %}
+                  <div class="col-md-2">
+                    <label>Capacidad</label>
+                    {{ form_widget(form.capacidad) }}
+                  </div>
+                {% endif %}
+
+
+              {% elseif tipo=='teclado' %}
+              <div class="form-group row">
+                {% if form.modelo is defined %}
+                  <div class="col-md-2">
+                    <label>Modelo</label>
+                    {{ form_widget(form.modelo) }}
+                  </div>
+                {% endif %}
+                {% if form.conector is defined %}
+                  <div class="col-md-2">
+                    <label>Tipo de conector</label>
+                    {{ form_widget(form.conector) }}
+                  </div>
+                </div>
+                {% endif %}
+
+              {% elseif tipo=='fuente' %}
+              <div class="row">
+              {% if form.modelo is defined %}
+                <div class="col-md-2">
+                  <label>Modelo</label>
+                  {{ form_widget(form.modelo) }}
+                </div>
+              {% endif %}
+              {% if form.watts is defined %}
+                <div class="col-md-2">
+                  <label>Wattaje</label>
+                  {{ form_widget(form.watts) }}
+                </div>
+              {% endif %}
+                {% if form.sata is defined %}
+
+                  <div class="col-md-2">
+                    <label>Sata</label>
+                    {{ form_widget(form.sata) }}
+                  </div>
+                {% endif %}
+              </div>
+              {% elseif tipo=='hdd' %}
+                <div class="row">
+              {% if form.capacidad is defined %}
+              <div class="col-md-2">
+                <label>Capacidad</label>
+                {{ form_widget(form.capacidad) }}
+              </div>
+                {% endif %}
+                  {% if form.sata is defined %}
+
+                      <div class="col-md-2">
+                          <label>Sata</label>
+                          {{ form_widget(form.sata) }}
+                      </div>
+                  {% endif %}
+                </div>
+              {% elseif tipo=='lector' %}
+              <div class="row">
+                {% if form.modelo is defined %}
+                  <div class="col-md-2">
+                    <label>Modelo</label>
+                    {{ form_widget(form.modelo) }}
+                  </div>
+                {% endif %}
+                {% if form.tipo is defined %}
+                  <div class="col-md-2">
+                    <label>Tipo</label>
+                    {{ form_widget(form.tipo) }}
+                  </div>
+                {% endif %}
+              </div>
+              {% elseif tipo=='mouse' %}
+              <div class="form-group row">
+                {% if form.modelo is defined %}
+                  <div class="col-3">
+                    <label>Modelo</label>
+                    {{ form_widget(form.modelo) }}
+                  </div>
+                {% endif %}
+                {% if form.optico is defined %}
+                  <div class="col-3">
+                    <label>Optico</label>
+                    {{ form_widget(form.optico) }}
+                  </div>
+                {% endif %}
+                {% if form.tipo is defined %}
+                  <div class="col-3">
+                    <label>Tipo de conector</label>
+                    {{ form_widget(form.conector) }}
+                  </div>
+                {% endif %}
+                {% elseif tipo=='microprocesador' %}
+                <div class="form-group row">
+                    {% if form.modelo is defined %}
+                        <div class="col-3">
+                            <label>Modelo</label>
+                            {{ form_widget(form.modelo) }}
+                        </div>
+                    {% endif %}
+                  {% if form.lga is defined %}
+                    <div class="col-3">
+                      <label>LGA</label>
+                      {{ form_widget(form.lga) }}
+                    </div>
+                  {% endif %}
+                  {% if form.velocidad is defined %}
+                    <div class="col-3">
+                      <label>Velocidad</label>
+                      {{ form_widget(form.velocidad) }}
+                    </div>
+                  {% endif %}
+                {% elseif tipo=='estabilizador' %}
+                  {% if form.capacidad is defined %}
+                    <div class="col-md-3">
+                      <label>Capacidad</label>
+                      {{ form_widget(form.capacidad) }}
+                    </div>
+                  {% endif %}
+                {% elseif tipo=='backup' %}
+                  {% if form.sello is defined %}
+                    <div class="col-md-3">
+                      <label>Sello</label>
+                      {{ form_widget(form.sello) }}
+                    </div>
+                  {% endif %}
+                  {% if form.capacidad is defined %}
+                    <div class="col-md-3">
+                      <label>Capacidad</label>
+                      {{ form_widget(form.capacidad) }}
+                    </div>
+                  {% endif %}
+                {% elseif tipo=='motherboard' %}
+                  <div class="form-group row">
+                {% if form.lga is defined %}
+                  <div class="col-3">
+                    <label>LGA</label>
+                    {{ form_widget(form.lga) }}
+                  </div>
+                {% endif %}
+                    {% if form.modelo is defined %}
+                      <div class="col-md-2">
+                        <label>Modelo</label>
+                        {{ form_widget(form.modelo) }}
+                      </div>
+                    {% endif %}
+                  {% if form.ram is defined %}
+                    <div class="col-md-3">
+                      <label>Tipo de ram</label>
+                      {{ form_widget(form.ram) }}
+                    </div>
+                  {% endif %}
+                  </div>
+                {% elseif tipo=='bocina' %}
+                  {% if form.modelo is defined %}
+                    <div class="col-md-3">
+                      <label>Modelo</label>
+                      {{ form_widget(form.modelo) }}
+                    </div>
+                    <br>
+                  {% endif %}
+                {% elseif tipo=='monitor' %}
+                  {% if form.lcd is defined %}
+                    <div class="col-md-3">
+                      <label>LCD</label>
+                      {{ form_widget(form.lcd) }}
+                    </div>
+
+
+                  {% elseif form.tipoEquipo=='scanner' %}
+                    {% if form.tipo is defined %}
+                      <div class="col-md-3">
+                        <label>Tipo</label>
+                        {{ form_widget(form.tipo) }}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+
+                {% if tipo=='cpuchasis' %}
+                  {% if form.color is defined %}
+                    <div class="col-md-3">
+                    <label>Color</label>
+                    {{ form_widget(form.color) }}
+                  {% endif %}
+                  </div>
+                  {% if form.sello is defined %}
+                    <div class="col-md-2">
+                      <label>Sello</label>
+                      {{ form_widget(form.sello) }}
+                    </div>
+                  {% endif %}
+                {% endif %}
+
+                {% if tipo=='bocina' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/boci.png') }}"></div>
+                {% elseif tipo=='backup' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/backup.jpg') }}"></div>
+                {% elseif tipo=='cpuchasis' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+                {% elseif tipo=='impresora' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/impresora2.png') }}"></div>
+                {% elseif tipo=='monitor' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/monitor.jpg') }}"></div>
+                {% elseif tipo=='mouse' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/mouse2.png') }}"></div>
+                {% elseif tipo=='estabilizador' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/estabilizador.png') }}"></div>
+                {% elseif tipo=='fuente' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/fuente.png') }}"></div>
+                {% elseif tipo=='hdd' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/hdd.png') }}"></div>
+                {% elseif tipo=='lector' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/lector.png') }}"></div>
+                {% elseif tipo=='motherboard' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/board.png') }}"></div>
+                {% elseif tipo=='microprocesador' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/micro.png') }}"></div>
+                {% elseif tipo=='ram' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/memoria-RAM.png') }}"></div>
+                {% elseif tipo=='teclado' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/teclado2.png') }}"></div>
+                {% endif %}
+              {% if tipo=='cpuchasis' %}
+              <div class="form-group row">
+                <div class="control-group">
+                  {{ include('perifericos/componente.html.twig', { 'editar': 'si' ,'lista_componentes':lista_componentes}) }}
+                </div>
+              </div>
+              {% endif %}
+              {{ form_widget(form.tipoComponente, { 'attr':{'hidden' : 'true'}}) }}
+            </div>
+
+
+            <div class="card-footer">
+              {{ form_widget(form.Guardar) }}
+              <a href="{{ path('lista_componentes') }}" class="btn btn-sm btn-primary" type="reset" methods="POST"
+                 onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                <i class="fa fa-arrow-circle-left"></i> Atras
+              </a>
+              {{ form_end(form, {'render_rest': false}) }}
+            </div>
+          </div>
+
+        <!-- /.col-->
+
+    </div>
+  </div>
+
+  {% block javascripts %}
+
+    <script src="{{ asset('build/js/select2.js') }}"></script>
+
+    <script type="text/javascript">
+      console.log(  $('#app_bundlecomponentes_form_type_estacion2').value);
+      $('#app_bundlecomponentes_form_type_estacion2').select2({
+        placeholder: "---Seleccione---",
+
+      });
+    </script>
+    <script type="text/javascript">
+      var $addTagLink = $('<a href="#" class="add_tag_link btn btn-info pull-right" id="add" style="margin-bottom: 20px;"><i class="glyphicon glyphicon-plus"></i> Nuevo Componente</a>');
+      var $newLinkLi = $('<div class="container-fluid" style="margin-left: 4%; margin-right: 4%"></div>').append($addTagLink);
+      var pos = 0;
+      jQuery(document).ready(function () {
+        var collectionHolder = $('#ent_div');
+        pos = $('.componente').length;
+        collectionHolder.append($newLinkLi);
+        //alert(document.getElementById('#ent_div'))
+       //addTagForm(collectionHolder, $newLinkLi);
+        $addTagLink.on('click', function (e) {
+          e.preventDefault();
+          addTagForm(collectionHolder, $newLinkLi);
+
+        });
+      });
+
+      function addTagFormDeleteLink($tagFormLi) {
+        var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+        $tagFormLi.append($removeFormA);
+        $removeFormA.on('click', function (e) {
+          console.log(pos);
+          if(pos == 1) {
+            alert('Debe haber al menos un componente para añadir');
+            return;
+          }
+          e.preventDefault();
+          $tagFormLi.remove();
+          pos--;
+        });
+      }
+
+      function addTagForm(collectionHolder, $newLinkLi)
+      {
+        $(document).ready(function() {
+          var prototype = collectionHolder.attr('data-prototype');
+          var newForm = prototype.replace(/__name__/g, pos);
+
+          var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(newForm);
+          $newLinkLi.before($newFormLi);
+
+          formulario = $('#app_bundleequipo_fom_type_componente_'+ pos);
+          formulario.addClass('form-group row container-fluid');
+
+
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna13_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna12_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna11_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna10_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna9_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna8_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna7_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna6_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna5_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna4_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna3_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna2_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna1_'+pos+'" class="col-md-3"></div>');
+
+
+          $('#columna1_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_modelo').parent());
+          $('#columna2_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_serie').parent());
+          $('#columna3_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_marca').parent());
+          $('#columna4_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_watts').parent());
+          $('#columna5_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_sata').parent());
+          $('#columna6_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_capacidad').parent());
+          $('#columna7_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_velocidad').parent());
+          $('#columna8_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_lga').parent());
+          $('#columna9_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_ram').parent());
+          $('#columna10_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_ranuravideo').parent());
+          $('#columna11_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_optico').parent());
+          $('#columna12_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_conector').parent());
+          $('#columna13_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_tipo').parent());
+
+
+
+          var select = document.getElementById('app_bundleequipo_fom_type_componente_3_tipoComponente');
+          jQuery(document).ready(function () {
+
+            pos = $('.componente').length;
+
+            select.onchange(
+              function(){
+                alert(holaa)
+                var selectedOption = this.options[select.selectedIndex];
+                console.log(selectedOption.value + ': ' + selectedOption.text);
+              });
+          });
+
+
+
+
+          // $('.select2-container').css("width","500px !important");
+          // $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+
+          addTagFormDeleteLink($newFormLi);
+          pos++;
+        });
+      }
+
+    </script>
+
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,339 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- CoreUI CSS -->
+  {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+  <script src="{{ asset('build/js/pace.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+  {#<!-- CoreUI CSS -->#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  {#<!-- Bootstrap core CSS -->#}
+  {#<!-- Select2 -->#}
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{% block main %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Home</li>
+    <li class="breadcrumb-item active">
+      <a>Dashboard</a>
+    </li>
+  </ol>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+
+      <div class="row">
+        {% if inventario is not null %}
+        <div class="col-md-6">
+
+          <div class="card">
+
+            <div class="card-header"><strong>Estación de Trabajo</strong></div>
+            <center>
+              <div class="form-group row"></div>
+              <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="form-ci">Nombre Equipo:</label>
+                <div class="col-md-6">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value="{{ inventario.nombreRed }}">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="form-reg">Departamento:</label>
+                <div class="col-md-6">
+                  <input class="form-control"
+                         readonly
+                         id="form-reg"
+                         type="text"
+                         name="form-reg"
+                         value="{{ inventario.centroCosto }}">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="form-sex">Ip:</label>
+                <div class="col-md-6">
+                  <input class="form-control"
+                         readonly
+                         id="form-sex"
+                         type="text"
+                         name="form-sex"
+                         value="{{ inventario.ip }}">
+                </div>
+              </div>
+            </center>
+
+          </div>
+{% endif %}
+
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header"><strong>Datos del {{ nombre }} reportado</strong></div>
+            <center>
+              {% if nombre=='CPU-Chasis' %}
+
+                <div class="form-group row"></div>
+                <div class="form-group row">
+                  <label class="col-md-4 col-form-label" for="form-ci">Modelo:</label>
+
+                  <div class="col-md-6">
+                    <input class="form-control"
+                           readonly
+                           id="form-ci"
+                           type="text"
+                           name="form-ci"
+                           value="{{ equipo.modelo }}">
+
+                  </div>
+
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-4 col-form-label" for="form-reg">Num Inventario:</label>
+                  <div class="col-md-6">
+                    <input class="form-control"
+                           readonly
+                           id="form-reg"
+                           type="text"
+                           name="form-reg"
+                           value="{{ equipo.numInventario }}">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-4 col-form-label" for="form-sex">Color:</label>
+                  <div class="col-md-6">
+                    <input class="form-control"
+                           readonly
+                           id="form-sex"
+                           type="text"
+                           name="form-sex"
+                           value="{{ equipo.color }}">
+                  </div>
+                </div>
+
+              {% else %}
+
+                <div class="form-group row"></div>
+                <div class="form-group row">
+                  <label class="col-md-4 col-form-label" for="form-ci">Marca:</label>
+                  <div class="col-md-6">
+
+                    {% if equipo.marca is defined %}
+                      {% if equipo.marca is not null %}
+                        <input class="form-control"
+                               readonly
+                               id="form-ci"
+                               type="text"
+                               name="form-ci"
+                               value="{{ equipo.marca }}">
+                      {% else %}
+                        <input class="form-control"
+                               readonly
+                               id="form-ci"
+                               type="text"
+                               name="form-ci"
+                               value="">
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-4 col-form-label" for="form-reg">Serie:</label>
+                  <div class="col-md-6">
+                    {% if equipo.serie is defined %}
+                      {% if equipo.serie is not null %}
+                        <input class="form-control"
+                               readonly
+                               id="form-reg"
+                               type="text"
+                               name="form-reg"
+                               value="{{ equipo.serie }}">
+                      {% else %}
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-4 col-form-label" for="form-sex">Modelo:</label>
+
+                  <div class="col-md-6">
+                    {% if equipo.modelo is defined %}
+                      {% if equipo.modelo is not null %}
+                        <input class="form-control"
+                               readonly
+                               id="form-sex"
+                               type="text"
+                               name="form-sex"
+
+                               value="{{ equipo.modelo }}">
+                      {% else %}
+                      {% endif %}
+                    {% endif %}
+                  </div>
+
+                </div>
+              {% endif %}
+
+            </center>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        {% if (equipo.estado=='En taller') %}
+        <div class="col-6 col-lg-4">
+          <div class="card">
+            <div class="card-body p-3 d-flex align-items-center">
+              {% if inventario is not null %}
+              <a
+                href="{{ path('incidencia_reparaciones',{'id_inve':inventario.id,'id_equi':equipo.id,'id_inci':incidencia.id,'equipo':nombre}) }}">
+                <i class="fa fa-cogs bg-danger p-3 font-2xl mr-3"></i>
+
+                <div>
+                  <div class="text-value-sm text-primary">Reparado</div>
+              </a>
+
+              <div class="text-muted text-uppercase font-weight-bold small">Equipo regresa de taller
+                                                                            reparado.
+              </div>
+            </div>
+          </div>
+          {% else %}
+
+            <div class="card-body p-3 d-flex align-items-center">
+              <a
+                href="{{ path('incidencia_reparaciones_SI',{'id_equi':equipo.id,'id_inci':incidencia.id,'equipo':nombre}) }}">
+                <i class="fa fa-cogs bg-danger p-3 font-2xl mr-3"></i>
+
+                <div>
+                  <div class="text-value-sm text-primary">Reparado</div>
+              </a>
+
+              <div class="text-muted text-uppercase font-weight-bold small">Equipo regresa de taller
+                                                                            reparado.
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-4">
+        <div class="card">
+          {% if (equipo.estado=='En taller') %}
+          <div class="card-body p-3 d-flex align-items-center">
+            {% if inventario is not null %}
+            <a
+              href="{{ path('incidencia_reposicion',{'id_inve':inventario.id,'id_equi':equipo.id,'id_inci':incidencia.id,'name':incidencia.asesorio}) }}">
+              <i class="fa fa-laptop bg-primary p-3 font-2xl mr-3"></i>
+              <div>
+                <div class="text-value-sm text-primary">Nuevo Reposición</div>
+            </a>
+
+            <div class="text-muted text-uppercase font-weight-bold small">Equipo roto que se repone por uno
+                                                                          nuevo.
+            </div>
+          </div>
+
+      </div>
+        {% else %}
+          <div class="card-body p-3 d-flex align-items-center">
+            <a
+              href="{{ path('incidencia_reposicionSI',{'id_equi':equipo.id,'id_inci':incidencia.id,'name':incidencia.asesorio}) }}">
+              <i class="fa fa-laptop bg-primary p-3 font-2xl mr-3"></i>
+              <div>
+                <div class="text-value-sm text-primary">Nuevo Reposición</div>
+            </a>
+            <div class="text-muted text-uppercase font-weight-bold small">Equipo roto que se repone por uno
+                                                                          nuevo.
+            </div>
+            </div>
+
+            </div>
+        {% endif %}
+        {% endif %}
+      </div>
+
+  <div class="col-6 col-lg-4">
+  <div class="card">
+  {% if equipo.estado!='En taller' %}
+    {% if inventario!= null %}
+          <div class="card-body p-3 d-flex align-items-center">
+            <a
+              href="{{ path('equipo_traslado',{'id_inve':inventario.id,'id_equi':equipo.id,'name':nombre,'equipo':nombre,'dpto':inventario.centroCosto}) }}">
+              <i class="fa fa-refresh bg-success p-3 font-2xl mr-3"></i>
+            </a>
+            <div>
+              <div class="text-value-sm text-primary">Traslado Interno</div>
+              <div class="text-muted text-uppercase font-weight-bold small">Traslado de un equipo de un departamento
+                                                                            hacia otro
+              </div>
+            </div>
+
+
+      </div>
+
+
+    {% else %}
+      </div>
+      </div>
+      <div class="card">
+          <div class="card-body p-9 d-flex align-items-center">
+            <a
+              href="{{ path('equipo_trasladoSI',{'id_equi':equipo.id,'name':nombre,'equipo':nombre}) }}">
+              <i class="fa fa-refresh bg-success p-3 font-2xl mr-3"></i>
+            </a>
+            <div>
+              <div class="text-value-sm text-primary">Traslado Interno</div>
+              <div class="text-muted text-uppercase font-weight-bold small">Traslado de un equipo de un departamento
+                                                                            hacia otro
+              </div>
+            </div>
+            {% endif %}
+            {% endif %}
+
+
+    </div>
+  </div>
+
+
+  </div>
+
+
+
+  </div>
+  <hr class="my-4">
+  <center><img class="navbar-brand-full" src="{{ asset('img/brand/prueba.fw.png') }}" alt="Reportes"></center>
+
+
+{% endblock %}

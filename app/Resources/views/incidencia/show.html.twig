@@ -1,0 +1,602 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- CoreUI CSS -->
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  <!-- Bootstrap core CSS -->
+  <!-- Select2 -->
+  {#<link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/select2-bootstrap.min.css') }}">#}
+  {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>#}
+  <!-- Material Design Bootstrap -->
+
+  <!-- Your custom styles (optional) -->
+  <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+  <script href="{{ asset('build/js/app.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  {#<script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"#}
+  {#integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+  {#crossorigin="anonymous"></script>#}
+  {#<script src="https://code.jquery.com/jquery-3.2.1.js"#}
+  {#integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>#}
+  <script src="{{ asset('build/js/popper.min.js') }}"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+  {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+  {#integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+  {#crossorigin="anonymous"></script>#}
+{% endblock %}
+{% block main %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a >Vista de incidencia</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i> </a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  </a>
+      </div>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-header">
+              <strong> Incidencia #{{ incidencia.id }}</strong>
+
+              <div class="form-group-row">
+                {% if incidencia.tipo=='Movimiento Activo Fijo' %}
+                  <a class="btn btn-ghost-success pull-right"
+                     href="{{ path('incidencia_movimiento_reporte3', {'id': incidencia.id}) }}"><i
+                            class="nav-icon icon-info"
+                            data-toggle="tooltip"
+                            title="Nueva Incidencia"></i> Modelo AFT</a>
+                {% elseif incidencia.tipo=='Problemas de Red' or incidencia.tipo=='Instalacion de toner' or incidencia.tipo=='Instalación Antivirus' or incidencia.tipo=='Instalación de software'or incidencia.tipo=='Problemas Red' or incidencia.tipo=='Pc defectuosa' or incidencia.tipo=='Mantenimiento PC' or incidencia.tipo=='Entrega de partes y piezas' or incidencia.tipo=='Instalacion de nuevo equipamiento informatico' or incidencia.tipo=='Edicion'or incidencia.tipo=='Baja Tecnica'%}
+                  <a class="btn btn-ghost-success pull-right"
+                     href="{{ path('incidencia_reporte', {'id': incidencia.id}) }}"><i
+                            class="nav-icon icon-info"
+                            data-toggle="tooltip"
+                            title="Nueva Incidencia"></i> Imprimir</a>
+                {% else %}
+                  <a class="btn btn-ghost-success pull-right"
+                     href="{{ path('incidencia_reporte', {'id': incidencia.id}) }}"><i
+                            class="nav-icon icon-info"
+                            data-toggle="tooltip"
+                            title="Nueva Incidencia"></i> Imprimir</a>
+                  <a class="btn btn-ghost-success pull-right"
+                     href="{{ path('incidencia_reporte3', {'id': incidencia.id}) }}"><i
+                            class="nav-icon icon-info"
+                            data-toggle="tooltip"
+                            title="Nueva Incidencia"></i> Modelo AFT</a>
+                    <a class="btn btn-ghost-success pull-right"
+                    href="{{ path('incidencia_reporte2', {'id': incidencia.id}) }}"><i
+                    class="nav-icon icon-info"
+                    data-toggle="tooltip"
+                    title="Nueva Incidencia"></i> Modelo Seg.Protec </a>
+                {% endif %}
+                {#{% if incidencia.estado=='Traslado' or incidencia.estado=='Reposicion' or incidencia.estado=='Solucionado'%}#}
+                  {#{% elseif incidencia.estado=='Activa'or  incidencia.estado=='Mantenimiento PC' %}#}
+                {#{% else %}#}
+                  {#<a class="btn btn-ghost-success pull-right"#}
+                     {#href="{{ path('incidencia_reporte2', {'id': incidencia.id}) }}"><i#}
+                      {#class="nav-icon icon-info"#}
+                      {#data-toggle="tooltip"#}
+                      {#title="Nueva Incidencia"></i> Modelo Seg.Protec </a>#}
+                  {#<a class="btn btn-ghost-success pull-right"#}
+                     {#href="{{ path('incidencia_reporte', {'id': incidencia.id}) }}"><i#}
+                            {#class="nav-icon icon-info"#}
+                            {#data-toggle="tooltip"#}
+                            {#title="Nueva Incidencia"></i> Reporte básico</a>#}
+                {#{% endif %}#}
+
+              </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+              <form class="form-horizontal" action="" method="post">
+
+                <div class="form-group row">
+
+                  <label class="col-md-2 col-form-label" for="form-reg">Realizado por:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-reg"
+                           type="text"
+                           name="form-reg"
+                           value="{{ incidencia.user }}">
+                  </div>
+
+                  <label class="col-md-2 col-form-label" for="form-sex">Departamento:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-sex"
+                           type="text"
+                           name="form-sex"
+                           value="{{ incidencia.dpto }}">
+                  </div>
+                  {% if inventario is not empty %}
+                    <label class="col-md-2 col-form-label" for="form-sex">Estacion:</label>
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-sex"
+                             type="text"
+                             name="form-sex"
+                             value="{{ inventario[0].nombreRed }}">
+                    </div>
+                  {% endif %}
+
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 col-form-label" for="form-sex">Periferico:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-sex"
+                           type="text"
+                           name="form-sex"
+                           value="{{ incidencia.asesorio|capitalize }}">
+                  </div>
+
+                  <label class="col-md-2 col-form-label" for="form-prov">Categoría:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-prov"
+                           type="text"
+                           name="form-prov"
+                           value="{{ incidencia.tipo }}">
+                  </div>
+
+                  {% if incidencia.tipo=='Mantenimiento PC' %}
+                    <label class="col-md-2 col-form-label" for="form-unidad">Fecha de Mantenimiento:</label>
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-unidad"
+                             type="text"
+                             name="form-unidad"
+                             value="{{ inventario[0].fechaMantenimiento |date("Y-m-d ") }}">
+                    </div>
+                  {% else %}
+                  <label class="col-md-2 col-form-label" for="form-unidad">Fecha:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-unidad"
+                           type="text"
+                           name="form-unidad"
+                           value="{{ incidencia.fecha |date("Y-m-d H:i:s") }}">
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 col-form-label" for="form-esp1">Estado Actual:</label>
+                  {% if incidencia.estado=='Solucionado' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: #3ea662" ;
+                             value="{{ incidencia.estado }}">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Reparación' or incidencia.estado=='Reparacion' or incidencia.estado=='Pendiente a taller' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             style="background: red;color:#FFFF"
+                             value="{{ incidencia.estado }}">
+                    </div>
+                  {% endif %}
+
+                  {% if incidencia.estado=='En Espera' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: yellow"
+                             value="{{ incidencia.estado }}">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Reparado' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: white"
+                             value="{{ incidencia.estado }}">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Reposicion' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: deepskyblue"
+                             value="{{ incidencia.estado }}">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Traslado' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: palevioletred"
+                             value="Traslado Interno">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Activa' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: lavenderblush"
+                             value="Cambio de Piezas">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Mantenimiento PC' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: lavenderblush"
+                             value="Mantenimiento PC">
+                    </div>
+                  {% endif %}
+                  {% if incidencia.estado=='Edicion realizada' %}
+                    <div class="col-md-2">
+                      <input class="form-control"
+                             readonly
+                             id="form-esp1"
+                             type="text"
+                             name="form-esp1"
+                             style="background: lavenderblush"
+                             value="Editado">
+                    </div>
+                  {% endif %}
+                  <label class="col-md-2 col-form-label" for="form-esp2">Asunto:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-esp2"
+                           type="text"
+                           name="form-esp2"
+                           value="{{ incidencia.asunto }}">
+                  </div>
+
+                  <label class="col-md-2 col-form-label" for="form-esp2">Solucionado Por:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-esp2"
+                           type="text"
+                           name="form-esp2"
+                           value="{{ incidencia.tecAsignado }}">
+                  </div>
+
+
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 col-form-label" for="form-esp2">Resumen:</label>
+                  <div class="col-md-12">
+                    <input class="form-control"
+                           readonly
+                           id="form-esp2"
+                           type="text"
+                           name="form-esp2"
+                           value="{{ incidencia.resumen }}">
+                  </div>
+
+
+                </div>
+                {% if incidencia.estado=='Edicion realizada' %}
+                <div class="form-group row">
+                  <label class="col-md-2 col-form-label" for="form-esp2">Datos modificados:</label>
+                  <div class="col-md-12">
+                    <textarea class="form-control"
+                           readonly
+                           id="form-esp2"
+                           type="text"
+                           name="form-esp2"
+                             >{{ incidencia.respuesta }}</textarea>
+                  </div>
+
+
+                </div>{% endif %}
+              </form>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary" href="{{ path('lista_inci') }}">Atrás</a>
+
+            </div>
+
+
+          </div>
+          {% if mov is not empty %}
+            <div class="card">
+              <div class="card-header"><strong>Datos del movimiento</strong></div>
+              <div class="card-body">
+
+                {% if incidencia.tipoMov!='Traslado Interno' %}
+                  <form class="form-horizontal" action="" method="post">
+
+                    <div class="form-group row">
+
+                      <label class="col-md-2 col-form-label" for="form-reg">Responsable de entrega:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-reg"
+                               type="text"
+                               name="form-reg"
+                               value="{{ mov.respEntrega }}">
+                      </div>
+
+                      <label class="col-md-2 col-form-label" for="form-sex">Area que entrega:</label>
+                      <div class="col-md-3">
+                        <input class="form-control"
+                               readonly
+                               id="form-sex"
+                               type="text"
+                               name="form-sex"
+                               value="{{ mov.areaEntrega }}">
+                      </div>
+
+                      <label class="col-sm col-form-label" for="form-unidad">Fecha:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-unidad"
+                               type="text"
+                               name="form-unidad"
+                               value="{{ mov.fechaEntrega |date('d/m/Y H:i:s') }}">
+                      </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-md-2 col-form-label" for="form-sex">Receptor:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-sex"
+                               type="text"
+                               name="form-sex"
+                               value="{{ mov.receptor }}">
+                      </div>
+
+                      <label class="col-md-2 col-form-label" for="form-prov">Area de destino:</label>
+                      <div class="col-md-3">
+                        <input class="form-control"
+                               readonly
+                               id="form-prov"
+                               type="text"
+                               name="form-prov"
+                               value="{{ mov.areaDestino }}">
+                      </div>
+
+                      <label class="col-sm col-form-label" for="form-unidad">Tecnico:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-unidad"
+                               type="text"
+                               name="form-unidad"
+                               value="{{ mov.tecnico }}">
+                      </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
+
+                      <label class="col-md-2 col-form-label" for="form-esp1">Autorizado:</label>
+
+
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-esp1"
+                               type="text"
+                               name="form-esp1"
+
+                               value="{{ mov.autorizado }}">
+                      </div>
+
+
+                      <label class="col-md-2 col-form-label" for="form-esp2">Aprobado:</label>
+                      <div class="col-md-3">
+                        <input class="form-control"
+                               readonly
+                               id="form-esp2"
+                               type="text"
+                               name="form-esp2"
+                               value="{{ mov.aprobado }}">
+                      </div>
+
+                      <label class="col-sm col-form-label" for="form-esp2">Responsable AFT:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-esp2"
+                               type="text"
+                               name="form-esp2"
+                               value="{{ mov.respAFT }}">
+                      </div>
+
+
+                    </div>
+
+                  </form>
+                {% else %}
+
+                  <form class="form-horizontal" action="" method="post">
+
+                    <div class="form-group row">
+
+                      <label class="col-md-2 col-form-label" for="form-reg">Responsable de entrega:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-reg"
+                               type="text"
+                               name="form-reg"
+                               value="{{ mov.respEntrega }}">
+                      </div>
+
+                      <label class="col-md-2 col-form-label" for="form-sex">Area que entrega:</label>
+                      <div class="col-md-3">
+                        <input class="form-control"
+                               readonly
+                               id="form-sex"
+                               type="text"
+                               name="form-sex"
+                               value="{{ mov.areaEntrega }}">
+                      </div>
+
+                      <label class="col-sm col-form-label" for="form-unidad">Fecha:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-unidad"
+                               type="text"
+                               name="form-unidad"
+                               value="{{ mov.fecha |date("d/m/Y") }}">
+                      </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-md-2 col-form-label" for="form-sex">Receptor:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-sex"
+                               type="text"
+                               name="form-sex"
+                               value="{{ mov.receptor }}">
+                      </div>
+
+                      <label class="col-md-2 col-form-label" for="form-prov">Area de destino:</label>
+                      <div class="col-md-3">
+                        <input class="form-control"
+                               readonly
+                               id="form-prov"
+                               type="text"
+                               name="form-prov"
+                               value="{{ mov.areaDestino }}">
+                      </div>
+
+                      <label class="col-sm col-form-label" for="form-unidad">Tecnico:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-unidad"
+                               type="text"
+                               name="form-unidad"
+                               value="{{ mov.tecnico }}">
+                      </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
+
+                      <label class="col-md-2 col-form-label" for="form-esp1">Autorizado:</label>
+
+
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-esp1"
+                               type="text"
+                               name="form-esp1"
+
+                               value="{{ mov.autorizado }}">
+                      </div>
+
+
+                      <label class="col-md-2 col-form-label" for="form-esp2">Aprobado:</label>
+                      <div class="col-md-3">
+                        <input class="form-control"
+                               readonly
+                               id="form-esp2"
+                               type="text"
+                               name="form-esp2"
+                               value="{{ mov.aprobado }}">
+                      </div>
+
+                      <label class="col-sm col-form-label" for="form-esp2">Responsable AFT:</label>
+                      <div class="col-md-2">
+                        <input class="form-control"
+                               readonly
+                               id="form-esp2"
+                               type="text"
+                               name="form-esp2"
+                               value="{{ mov.respAFT }}">
+                      </div>
+
+
+                    </div>
+
+                  </form>
+                {% endif %}
+
+
+              </div>
+
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+{% endblock %}
+

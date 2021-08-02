@@ -1,0 +1,162 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Lisandra
+ * Date: 05/02/2019
+ * Time: 11:04
+ */
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="hdd")
+ */
+class hdd
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $marca;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $serie;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $capacidad;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $sata;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\inventario")
+     */
+    private $inventario;
+  /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\cpuchasis")
+   */
+  private $chasis;
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $estado;
+
+  /**
+   * @return mixed
+   */
+  public function getEstado()
+  {
+    return $this->estado;
+  }
+
+  /**
+   * @param mixed $estado
+   */
+  public function setEstado($estado)
+  {
+    $this->estado = $estado;
+  }
+
+    /**
+     * @return mixed
+     */
+    public function getMarca()
+    {
+        return $this->marca;
+    }
+
+    /**
+     * @param mixed $marca
+     */
+    public function setMarca($marca)
+    {
+        $this->marca = $marca;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSerie()
+    {
+        return $this->serie;
+    }
+
+    /**
+     * @param mixed $serie
+     */
+    public function setSerie($serie)
+    {
+        $this->serie = $serie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCapacidad()
+    {
+        return $this->capacidad;
+    }
+
+    /**
+     * @param mixed $capacidad
+     */
+    public function setCapacidad($capacidad)
+    {
+        $this->capacidad = $capacidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSata()
+    {
+        return $this->sata;
+    }
+
+    /**
+     * @param mixed $sata
+     */
+    public function setSata($sata)
+    {
+        $this->sata = $sata;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInventario()
+    {
+        return $this->inventario;
+    }
+
+    /**
+     * @param mixed $inventario
+     */
+    public function setInventario($inventario)
+    {
+        $this->inventario = $inventario;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+
+}

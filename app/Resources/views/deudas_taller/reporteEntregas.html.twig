@@ -1,0 +1,254 @@
+{#{% extends 'layout/layout.html.twig' %}#}
+
+{#{% block stylesheets %}#}
+    {#{{ parent() }}#}
+    {#<!-- CoreUI CSS -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    {#<meta charset="utf-8">#}
+    {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+    {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+    {#<!-- Font Awesome -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">#}
+    {#<!-- Your custom styles (optional) -->#}
+    {#<link href="{{ asset('build/css/app.css') }}" rel="stylesheet">#}
+    {#<script href="{{ asset('build/js/app.js') }}"></script>#}
+    {#<script src="{{ asset('build/js/bootstrap.min.js') }}"></script>#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"#}
+          {#integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+    {#<script src="{{ asset('build/js/popper.min.js') }}"#}
+            {#integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"#}
+            {#crossorigin="anonymous"></script>#}
+
+{#{% endblock %}#}
+
+{% block main %}
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <br>
+            {% set totalFuentes=0 %}
+            {% set totalBoard=0 %}
+            {% set totalMicro=0 %}
+            {% set totalRam=0 %}
+            {% set totalHdd=0 %}
+            {% set totalLector=0 %}
+            {% set totalMouse=0 %}
+            {% set totalTeclado=0 %}
+            {% set totalBocina=0 %}
+            {% if tipoInforme is defined %}
+                <h3 align="center">{{ tipoInforme }} ({{ fechaI }} - {{ fechaF }})</h3>
+<br>
+            <div class="row">
+                <table border="1" style="font-size: 20px;width: 100%" class="col-lg-12" align="center">
+                    <tr>
+                        <th>No.</th>
+                        {% if tipoInforme=='Mantenimiento PC' %}
+                            <th>Estacion</th>
+                        {% else %}
+                            <th>Numero de inventario</th>
+                        <th>Entregas</th>
+                        {% endif %}
+                        <th>Fecha</th>
+                    </tr>
+                    {% for l in lista %}
+                        <tr align="center">
+                            <td>
+                                {{ loop.index }}
+                            </td>
+                            {% if tipoInforme!='Mantenimiento PC' %}
+                            <td>{{ l.numInventario }}</td>
+                            {% endif %}
+                            <td>
+                                {% if tipoInforme=='Mantenimiento PC' %}
+                                    {{ l.inventario }}
+                                {% else %}
+                                    {% set resumen = l.resumen|slice('38') %}
+                                    {% set piezaas = resumen|split(' ') %}
+                                    {% for t in piezaas %}
+                                        {% if t=='fuente' %}
+                                            {% set totalFuentes=totalFuentes+1 %}
+                                        {% elseif t=='microprocesador' %}
+                                            {% set totalMicro=totalMicro+1 %}
+                                        {% elseif t=='ram' %}
+                                            {% set totalRam=totalRam+1 %}
+                                        {% elseif t=='hdd' %}
+                                            {% set totalHdd=totalHdd+1 %}
+                                        {% elseif t=='lector' %}
+                                            {% set totalLector=totalLector+1 %}
+                                        {% elseif t=='mouse' %}
+                                            {% set totalMouse=totalMouse+1 %}
+                                        {% elseif t=='teclado' %}
+                                            {% set totalTeclado=totalTeclado+1 %}
+                                        {% elseif t=='bocinas' %}
+                                            {% set totalBocina=totalBocina+1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {{ resumen}}
+                                {% endif %}</td>
+                            <td>{{ l.fecha|date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+                <br><br><br>
+                <table border="1" class="col-lg-12" style="font-size: 20px;align-content: center">
+                    <tr align="center">
+                        <th>Pieza</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr align="center">
+                        <td>Fuente</td>
+                        <td>{{ totalFuentes }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Motherboard</td>
+                        <td>{{ totalBoard }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Microprocesador</td>
+                        <td>{{ totalMicro }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>RAM</td>
+                        <td>{{ totalRam }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>HDD</td>
+                        <td>{{ totalHdd }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Lector</td>
+                        <td>{{ totalLector }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Mouse</td>
+                        <td>{{ totalMouse }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Teclado</td>
+                        <td>{{ totalTeclado }}</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Bocinas</td>
+                        <td>{{ totalBocina }}</td>
+                    </tr>
+                </table>
+
+                <br>  <br>  <br>  <br> <br>  <br>  <br>  <br> <br>  <br>  <br>  <br>
+
+
+
+                <table>
+                    <tbody><tr>
+                        <td style="border: 0px solid #000000"><table width="643" cellspacing="0" cellpadding="4">
+                                <tbody><tr valign="top">
+                                    <td style=" border-bottom: 1px solid #000000;" width="373">
+                                        <p align="center"><br>
+                                        </p>
+                                    </td>
+                                    <td style=" border-bottom: 0px solid #000000;" width="37">
+                                        <p align="center"><br>
+
+                                        </p>
+                                    </td>
+                                    <td style="border-bottom: 1px solid #000000;" width="207">
+                                        <p align="center"><br>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <td style=" border-bottom: 0px solid #000000;" width="373">
+                                        <p align="center">Nombre y Apellidos</p>
+                                    </td>
+                                    <td style=" border-bottom: 0px solid #000000; " width="37">
+                                        <p align="center"><br>
+                                        </p>
+                                    </td>
+                                    <td style=" border-bottom: 0px solid #000000;" width="207">
+                                        <p align="center">Firma</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top: none; border-bottom: 0px solid #000000; border-left: 0px solid #000000; border-right: 0px solid #000000;" width="633" valign="top">
+                                        <p align="center">Proveedor</p>
+                                    </td>
+                                </tr>
+                                </tbody></table></td>
+                        <td style="border: 0px solid #000000" width="207">&nbsp;&nbsp;&nbsp;</td>
+                        <td style="border: 0px solid #000000" width="207">&nbsp;&nbsp;&nbsp;</td>
+                        <td style="border: 0px solid #000000">
+                            <table width="643" cellspacing="0" cellpadding="4">
+                                <tbody><tr valign="top">
+                                    <td style=" border-bottom: 1px solid #000000;" width="373">
+                                        <p align="center"><br>
+                                        </p>
+                                    </td>
+                                    <td style=" border-bottom: 0px solid #000000; border-left: 0px solid #000000; border-right: none;" width="37">
+                                        <p align="center"><br>
+
+                                        </p>
+                                    </td>
+                                    <td style="border-bottom: 1px solid #000000;" width="207">
+                                        <p align="center"><br>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <td style=" border-bottom: 0px solid #000000;" width="373">
+                                        <p align="center">Nombre y Apellidos</p>
+                                    </td>
+                                    <td style="border-bottom: 0px solid #000000; " width="37">
+                                        <p align="center"><br>
+                                        </p>
+                                    </td>
+                                    <td style=" border-bottom: 0px solid #000000; " width="207">
+                                        <p align="center">Firma</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-bottom: 0px solid #000000; " width="633" valign="top">
+                                        <p align="center">Cliente</p>
+                                    </td>
+                                </tr>
+                                </tbody></table></td>
+                    </tr>
+                    </tbody></table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{#{% block javascripts %}#}
+    {#{{ parent() }}#}
+    {#<script type="application/javascript">#}
+        {#$( function() {#}
+            {#var from = $( "#fromDate" )#}
+                    {#.datepicker({#}
+                        {#dateFormat: "yy-mm-dd",#}
+                        {#changeMonth: true#}
+                    {#})#}
+                    {#.on( "change", function() {#}
+                        {#to.datepicker( "option", "minDate", getDate( this ) );#}
+                    {#}),#}
+                {#to = $( "#toDate" ).datepicker({#}
+                    {#dateFormat: "yy-mm-dd",#}
+                    {#changeMonth: true#}
+                {#})#}
+                    {#.on( "change", function() {#}
+                        {#from.datepicker( "option", "maxDate", getDate( this ) );#}
+                    {#});#}
+
+            {#function getDate( element ) {#}
+                {#var date;#}
+                {#var dateFormat = "yy-mm-dd";#}
+                {#try {#}
+                    {#date = $.datepicker.parseDate( dateFormat, element.value );#}
+                {#} catch( error ) {#}
+                    {#date = null;#}
+                {#}#}
+
+                {#return date;#}
+            {#}#}
+        {#});#}
+    {#</script>#}
+{#{% endblock %}#}

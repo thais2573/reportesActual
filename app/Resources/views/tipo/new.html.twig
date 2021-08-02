@@ -1,0 +1,115 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">
+            <a href="#">Dashboard</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ form_start(tipoForm) }}
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <strong>Adicionar </strong>Categoría
+
+                            <label class="col-md-1 col-form-label-sm float-right"  id="label1" for="form-reg"></label>
+
+                        </div>
+
+                        <div class="card-body">
+
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ form_row(tipoForm.name) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ form_row(tipoForm.prioridad, { 'attr': {'id':'prioridad','name':'prioridad'} }) }}
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ form_row(tipoForm.permiso) }}
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="card-footer">
+                            <a class="btn btn-primary" href="{{ path('tipo_list') }}">Atras</a>
+                            <button class="btn btn-success" type="submit" formnovalidate>Adicionar</button>
+                        </div>
+                        {{ form_widget(tipoForm._token) }}
+                        {{ form_end(tipoForm,{'render_rest':false}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="application/javascript">
+        $('#app_bundletipo_form_type_prioridad').on('change', function () {
+            var valor = $(this).val();
+            if (valor === 'Alta') {
+                document.querySelector('#label1').innerText = '24h';
+                $("#label1").css({'color': 'black', 'font-size': '1.3em', 'background': 'red'});
+            }
+            if (valor === 'Media') {
+                document.querySelector('#label1').innerText = '48h';
+                $("#label1").css({'color': 'black', 'font-size': '1.3em', 'background': 'yellow'});
+            }
+            if (valor === 'Baja') {
+                document.querySelector('#label1').innerText = '72h';
+                $("#label1").css({'color': 'black', 'font-size': '1.3em', 'background': 'orange'});
+            }
+        });
+    </script>
+
+{% endblock %}

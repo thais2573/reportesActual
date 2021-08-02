@@ -1,0 +1,394 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <br><br>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-sm-6" style="alignment: center">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Equipos actuales
+                        <small>en {{ nombre_estacion }}</small>
+                        <div class="float-right">
+                            <a href="#activar_estacion{{ idestacion }}" data-toggle="modal"
+                               data-whatever="{{ idestacion }}">
+                                <i class="fa fa-plus-square"
+                                   data-toggle="tooltip" data-placement="bottom"
+                                   title="Añadir equipos"></i></a>
+                        </div>
+                        <div class="modal fade" id="activar_estacion{{ idestacion }}" tabindex="-1"
+                             role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Añadir equipos a estacion</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <i class="fa fa-align-justify"></i> <strong>
+                                                    Listado de nuevos periféricos
+                                                </strong>
+                                                <div class="float-right">
+                                                    {#<form class="form-inline float-right" action="" method="post">#}
+                                                    {#<div class="input-group ">#}
+                                                    {##}
+                                                    {#<span class="input-group-prepend">#}
+                                                    {#<button class="btn btn-primary" type="submit">#}
+                                                    {#<i class="fa fa-search"></i> </button>#}
+                                                    {#</span>#}
+                                                    {#</div>#}
+                                                    {#</form>#}
+                                                    <input class="form-control" id="numI" name="numI"
+                                                           placeholder="Numero de inventario" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <form>
+                                                    <div id="resultado" name="equipos"></div>
+                                                    {#{% if incidencias is defined %}#}
+                                                    {#{% if incidencias is not null %}#}
+                                                    {#<br>#}
+                                                    {#<table class="table table-responsive-sm table-bordered table-striped table-sm">#}
+
+                                                    {#<thead>#}
+                                                    {#<tr>#}
+                                                    {#{% if incidencias.tipoEquipo =='cpuchasis' %}#}
+                                                    {#<th>Tipo de componente</th>#}
+                                                    {#<th>No.Inventario</th>#}
+                                                    {#<th>Modelo</th>#}
+                                                    {#<th>Color</th>#}
+                                                    {#<th>Sello de seguridad</th>#}
+                                                    {#<th>Acciones</th>#}
+                                                    {#{% else %}#}
+                                                    {#<th>Tipo de componente</th>#}
+                                                    {#<th>No.Inventario / Serie</th>#}
+                                                    {#<th>Marca</th>#}
+                                                    {#<th>Modelo</th>#}
+                                                    {#<th>Acciones</th>#}
+                                                    {#{% endif %}#}
+
+                                                    {#</tr>#}
+                                                    {#</thead>#}
+                                                    {#<tbody>#}
+                                                    {#{% if incidencias is iterable %}#}
+                                                    {#{% for datos in incidencias %}#}
+                                                    {#<tr>#}
+
+                                                    {#<td>#}
+
+                                                    {#{% if incidencias.tipoEquipo =='backup' %}#}
+                                                    {#Backup#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='estabilizador' %}#}
+                                                    {#Estabilizador#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='cpuchasis' %}#}
+                                                    {#Cpu Chasis#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='impresora' %}#}
+                                                    {#Impresora#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='monitor' %}#}
+                                                    {#Monitor#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='scanner' %}#}
+                                                    {#Scaner#}
+                                                    {#{% endif %}#}
+
+
+                                                    {#</td>#}
+                                                    {#{% if incidencias.tipoEquipo=='cpuchasis' or incidencias.tipoEquipo=='Cpu-Chasis' %}#}
+                                                    {#<td>#}
+                                                    {#{{ datos.numInventario }}#}
+                                                    {#</td>#}
+                                                    {#<td>#}
+                                                    {#{{ datos.modelo }}#}
+                                                    {#</td>#}
+
+                                                    {#<td>{{ datos.color }}</td>#}
+                                                    {#<td>{{ datos.selloSeguridad }}</td>#}
+                                                    {#{% else %}#}
+                                                    {#<td>#}
+
+                                                    {#{% if datos.modelo is defined %}#}
+                                                    {#{{ datos.modelo }}#}
+                                                    {#{% endif %}#}
+                                                    {#{{ datos.serie }}</td>#}
+                                                    {#<td>{{ datos.marca }}</td>#}
+                                                    {#<td>{{ datos.modelo }}</td>#}
+                                                    {#{% endif %}#}
+                                                    {#<td>#}
+                                                    {# <a href="{{ path('ver_datos_periferico', {'id': datos.id,'tipo': componente}) }}">#}
+                                                    {#<i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"#}
+                                                    {#title="Consultar Datos"></i>#}
+                                                    {#</a> #}
+                                                    {#<a#}
+                                                    {#href="{{ path('adicionar_a_inventarioNInc',{'tipo':componente,'idperiferico': datos.id}) }}">#}
+                                                    {#<i class="nav-icon icon-plus" data-toggle="tooltip" data-placement="bottom"#}
+                                                    {#title="Adicionar a inventario"></i></a>#}
+
+                                                    {#</td>#}
+
+
+                                                    {#</tr>#}
+                                                    {#{% endfor %}#}
+                                                    {#{% else %}#}
+                                                    {#<tr>#}
+
+                                                    {#<td>#}
+
+                                                    {#{% if incidencias.tipoEquipo =='backup' %}#}
+                                                    {#Backup#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='estabilizador' %}#}
+                                                    {#Estabilizador#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='cpuchasis' %}#}
+                                                    {#Cpu Chasis#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='impresora' %}#}
+                                                    {#Impresora#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.tipoEquipo =='monitor' %}#}
+                                                    {#Monitor#}
+                                                    {#{% endif %}#}
+
+
+                                                    {#</td>#}
+                                                    {#{% if incidencias.tipoEquipo=='cpuchasis' %}#}
+                                                    {#<td>#}
+                                                    {#{{ incidencias.numInventario }}#}
+                                                    {#</td>#}
+                                                    {#<td>#}
+                                                    {#{{ incidencias.modelo }}#}
+                                                    {#</td>#}
+
+                                                    {#<td>{{ incidencias.color }}</td>#}
+                                                    {#<td>{{ incidencias.sello }}</td>#}
+                                                    {#{% else %}#}
+                                                    {#<td>#}
+
+                                                    {#{% if datos.modelo is defined %}#}
+                                                    {#{{ datos.modelo }}#}
+                                                    {#{% endif %}#}
+                                                    {#{% if datos.serie is defined %}#}
+                                                    {#{{ datos.serie }}#}
+                                                    {#{% endif %}#}
+                                                    {#</td>#}
+                                                    {#{% if incidencias.marca is defined %}#}
+                                                    {#<td>{{ incidencias.marca }}</td>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if incidencias.modelo is defined %}#}
+                                                    {#<td>{{ incidencias.modelo }}</td>#}
+                                                    {#{% endif %}#}
+                                                    {#{% endif %}#}
+                                                    {#<td>#}
+                                                    {#  <a href="{{ path('ver_datos_periferico', {'id': incidencias.id,'tipo': componente}) }}">#}
+                                                    {#<i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"#}
+                                                    {#title="Consultar Datos"></i>#}
+                                                    {#</a>#}
+                                                    {#<a#}
+                                                    {#href="{{ path('adicionar_a_inventarioNInc',{'tipo':incidencias.tipoEquipo,'idperiferico': incidencias.id,'idestacion':idestacion,'incidencia_id':incidencia.id}) }}">#}
+                                                    {#<i class="nav-icon icon-plus" data-toggle="tooltip" data-placement="bottom"#}
+                                                    {#title="Adicionar a inventario"></i></a> #}
+                                                    {#<a#}
+                                                    {#href="{{ path('annadirAInv',{'tipo':incidencias.tipoEquipo,'idperiferico': incidencias.id,'idestacion':idestacion,'incidencia_id':incidencia.id}) }}">#}
+                                                    {#<i class="nav-icon icon-plus" data-toggle="tooltip" data-placement="bottom"#}
+                                                    {#title="Adicionar a inventario"></i></a>#}
+
+                                                    {#</td>#}
+
+
+                                                    {#</tr>#}
+                                                    {#{% endif %}#}
+                                                    {#</tbody>#}
+
+                                                    {#</table>#}
+                                                    {#{% else %}#}
+                                                    {#No existen componentes nuevos de este tipo#}
+                                                    {#{% endif %}#}
+
+                                                    {#{% endif %}#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancelar
+                                        </button>
+                                        <button type="button" id="guardar" class="btn btn-success"
+                                                data-dismiss="modal">Guardar equipos
+                                        </button>
+                                        {#<a href="{{ path('nuevosEquiposEstacion') }}" type="submit"#}
+                                        {#class="btn btn-primary">Guardar equipos</a>#}
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                        <ul class="list-group">
+                            <div class="table">
+                                {% for e in lista_equipos %}
+                                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
+                                    <span class="badge badge-primary badge-pill">{{ e.tipoEquipo }}</span>{{ e.modelo }}
+                                    <div class="float-right">
+                                        <a href="{{ path('ver_datos_periferico', {'id': e.id,'tipo': e.tipoEquipo }) }}">
+                                            <i class="nav-icon icon-magnifier" data-toggle="tooltip"
+                                               data-placement="bottom"
+                                               title="Ver Datos"></i>
+                                            {#<a href="{{ path('editar_equipo',{'id':  e.id,'tipo':e.tipoEquipo}) }}">#}
+                                            {#<i class="icon-pencil" data-toggle="tooltip" data-placement="bottom"#}
+                                            {#title="Editar equipo"></i></a>#}
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                </li>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+
+        {#<div class="row">#}
+
+            {#<div class="col-sm-12">#}
+                {#<div class="card">#}
+                    {#<div class="card-header">Adicionar componente a chasis#}
+                        {#<div class="float-right">#}
+                            {#{{ (form_start(form)) }}#}
+                            {#<button class="btn btn-primary" type="submit">Guardar</button>#}
+                        {#</div>#}
+
+                    {#</div>#}
+                    {#<div class="card-body">#}
+                        {#{{ include('perifericos/componenteNuevoAdd.html.twig', { 'editar': 'si' ,'lista_componentes':lista_componentes}) }}#}
+                        {#<div id="espacio" style="margin-right: 4%"></div>#}
+                    {#</div>#}
+
+            {#{{ form_end(form, {'render_rest': false}) }}#}
+
+        {#</div>#}
+
+    {#</div>#}
+    {#</div>#}
+    </div>
+    </div>
+
+
+{% endblock %}
+ {% block javascripts %}
+     {{ parent() }}
+     <script src="{{ asset('build/js/componenteChasisNuevo.js') }}" type="text/javascript"></script>
+     <script type="application/javascript">
+         var numero = $("#numI").val();
+         var nuevosEquipos=[];
+         var posEquipos=0;
+         var nuevosComponentes=[];
+         var posComponentes=0;
+         var idEst = '{{ idestacion }}';
+         var cont = 0;
+         console.log(numero);
+         $("#numI").focus();
+         $("#numI").blur(function (e) {
+             // alert( "Handler for .blur() called."+$("#numI").val() );
+             $.ajax({
+                 url: "{{ path('filtra_equiposxAdicionarF') }}",
+                 type: "GET",
+                 dataType: "JSON",
+                 data: {
+                     idEst: idEst, numI: $("#numI").val(),
+                 },
+                 success: function (equipo) {
+                     //  $resultados=JSON.parse(equipo.response);
+                     // $("#resultado").empty();
+                     nuevosEquipos.push(equipo);
+                     console.log(equipo);
+                     console.log(nuevosEquipos);
+                     //  $('#deartamentos').html(resp);
+                     // var neighborhoodSelect = $("#departamentos");
+
+                     var x = document.createElement("INPUT");
+                     x.setAttribute("type", "checkbox");
+                     x.setAttribute("value", equipo['numI']);
+                     x.setAttribute("checked", true);
+                     x.setAttribute("name", equipo['tipoEquipo'] + cont);
+                     var label = document.createElement('label');
+                     label.appendChild(document.createTextNode(equipo['tipoEquipo'] + "  " + equipo['modelo'] + "  " + equipo['numI']));
+
+                     $("#resultado").append(x);
+                     $("#resultado").append(label);
+                     $('#resultado').append('<br/>');
+                     cont = cont + 1;
+
+                     console.log($("#resultado"));
+                 },
+                 error: function (err) {
+                     //console.log(err);
+                     alert("Este numero de inventario no existe o esta asignado actualmente a una estacion");
+                 }
+             });
+         });
+         $("#guardar").click(function () {
+             // alert("hola");
+             $.ajax({
+                 url: "{{ path('nuevosEquiposEstacion') }}",
+                 type: "GET",
+                 //  dataType: "JSON",
+                 data: {
+                     idEst: idEst, numI: $("#numI").val(),
+                 },
+                 success:
+                   console.log('lll')
+                     //location.reload()
+                 ,
+                 error: function (err) {
+                     //console.log(err);
+                     alert("Este numero de inventario no existe o esta asignado actualmente a una estacion");
+                 }
+             });
+
+
+         });
+         numero = '';
+         console.log(nuevosEquipos);
+
+     </script>
+ {% endblock %}
+
+

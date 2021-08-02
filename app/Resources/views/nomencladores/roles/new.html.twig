@@ -1,0 +1,62 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block javascripts %}
+  {{parent()}}
+    <script src="{{ asset('bundles/sigh/js/nomencladores/nomencladores.js') }}" type="text/javascript"></script>
+{% endblock %}
+{% block main %}
+    <fieldset style="margin-left: 5px; margin-right: 5px;">
+        <legend style="text-align: center; font-size: 16px; font-weight: bold;">Adicionar Rol</legend>
+    </fieldset>
+
+    <div class="container-fluid">
+        {{ form_start(form, {'attr':{ 'class': 'validate', 'novalidate' : 'novalidate'}}) }}
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="error text-exception">{{ form_errors(form.rol) }}</div>
+                    <label for="usuario[username]" class="control-label">Rol*</label>
+                    <div class="control" style="width: 200px">
+                        {{ form_widget(form.rol) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="error text-exception">{{ form_errors(form.detalles) }}</div>
+                    <label for="usuario[password]" class="control-label">Detalle(s)</label>
+                    <div class="control" style="width: 500px">
+                        {{ form_widget(form.detalles) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="error text-exception">{{ form_errors(form.grupos) }}</div>
+                    <label for="usuario[password]" class="control-label">Grupo(s)</label>
+                    <div class="control" style="width: 200px">
+                        {{ form_widget(form.grupos) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input id="insert" class="btn btn-info" type="submit" value="Adicionar" />
+            <a id="back" class="btn btn-info" type="button" href="{{ path('nomencladores_roles_index') }}">Regresar</a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

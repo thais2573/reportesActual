@@ -1,0 +1,634 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Editar inventario</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Graficos</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Herramientas</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        {% for message in app.session.flashBag.get('success') %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        <div class="card">
+                            <div class="card-header">
+                                <img class="rounded float-right" src="{{ asset('img/brand/ico.fw.png') }}"
+                                     alt="Reparaciones" align="left">
+                                <h5><strong> Detalles del Equipo - {{ chasis.numInventario }}</h5>
+                                <em>Nombre de la red:</em> {{ inventario.nombreRed }}<br>
+                                <em>Centro Costo:</em> {{ inventario.centroCosto }}<br>
+                                {#<em>Departamento:</em> {{ inventario[0].centroCosto. }}<br>#}
+                                <em>Estado del equipo: {{ inventario.estado }}</em><br>
+                                <em><i class="fa fa-user"></i> Técnico: {{ inventario.tecnico }}
+                                    <br>
+                                    {% if chasis|length>0 %}
+                                        <i class="fa fa-wrench"></i> Último Mantenimiento: {{ chasis.fechaMantenimiento }}
+                                    {% endif %}
+                                </em></strong>
+                            </div>
+                            <div class="card-body">
+                                {{ form_start(form) }}
+                                <input type="hidden" value="{{ inventario.id }}" id="idEstacion">
+                                <input name="mySelect2" value="{{ inventario.responsable }}" type="hidden"
+                                       id="mySelect2">
+                                <div class="form-group row">
+                                    <label for="app_bundleinventario_form_responsable"
+                                           class="col-md-2 col-form-label">Responsable:</label>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="control">
+                                                <select id="app_bundleinventario_form_responsable"
+                                                        name="app_bundleinventario_form[responsable]"
+                                                        required="required" style="width: 400px">
+                                                    <option
+                                                            value="{{ inventario.responsable }}"
+                                                            selected>{{ inventario.responsable }}</option>
+                                                    {% for u in usuarios %}
+                                                        <option
+                                                                value="{{ u['first_name'] }} {{ u['last_name'] }}">{{ u['first_name'] }} {{ u['last_name'] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 col-form-label">Area:</label>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="control">
+                                                <select id="areas" name="usuarios[]" class="custom-select"
+                                                        style="width: 400px">
+                                                    {% set cant=0 %}
+                                                    <option id="{{ areaSeleccionada.idArea }}"
+                                                            value="{{ areaSeleccionada.nombre }}"
+                                                            selected="true">{{ areaSeleccionada.nombre }}</option>
+                                                    {% for area in areas %}
+                                                        <option id="{{ area.idArea }}"
+                                                                value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                                        {% set cant=cant+1 %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label for="app_bundleinventario_form[centroCosto]"
+                                           class="col-md-2 col-form-label">Centro de Costo:</label>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="control">
+                                                {{ form_widget(form.centroCosto) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label" for="form-esp2">Ip:</label>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form.ip) }}
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="form-esp2">Nombre Pc:</label>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form.nombreRed) }}
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="form-esp2">Contraseña Setup:</label>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form.passSetup) }}
+                                    </div>
+                                </div>
+                                <div> {% for message in app.session.flashBag.get('error') %}
+                                        <div class="alert alert-danger" role="alert"><i
+                                                    class="fa fa-warning"> </i> {{ message }}    </div>
+                                    {% endfor %}</div>
+                                {#                                <div class="card">#}
+                                {#                                    {{ include('estacion_trabajo/agregarEquipoEstacion.twig', { 'inventario':inventario,'tipo_edicion':tipo_edicion}) }}#}
+                                {#                                </div>#}
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Periféricos de la Estación de Trabajo</strong>
+                                        <div class="float-right">
+                                            <button class="btn btn-success" type="submit" formnovalidate>
+                                                <i class="fa fa-pencil"></i> Editar inventario
+                                            </button>
+                                            {#                                            {{ form_widget(form.Guardar) }}#}
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                         role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Reemplazo de Chasis
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Chasis Actual:<br>
+                                                    Modelo: {{ chasis.modelo }}<br>
+                                                    Numero de Inventario : {{ chasis.numInventario }}
+                                                    <hr>
+                                                    Reemplazar por:
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cancelar
+                                                    </button>
+                                                    <a href=""
+                                                       class="btn btn-primary">Aceptar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        {#                                            <div class="col-md-12 mb-4 container-fluid">#}
+
+                                        {{ include('plantillas_edicion/equiposEstacion.html.twig', {'editar':'si'}) }}
+                                        {#                                                        </div>#}
+                                        {#                                                </div>#}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {#                                        <div class="card">#}
+                                    {{ include('plantillas_edicion/componentesEstacion.twig', {'editar':'si'}) }}
+                                    {#                                {{ include('plantillas_edicion/componentesEstacion.twig', {'editar':'si'}) }}#}
+                                    {#                                        </div>#}
+                                </div>
+                            </div>
+                            {{ form_errors(form) }}
+
+                            {{ form_end(form, {'render_rest': false}) }}
+                        </div>
+                    </div>
+
+                    <div>
+                    </div>
+                </div>
+
+                {#<div class="row">#}
+                {#<h5>Equipos</h5>#}
+                {#{{ include('plantillas_edicion/equiposEstacion.html.twig', {'editar':'si'}) }}#}
+                {#</div>#}
+                {#<div class="row">#}
+                {#<h5>Componentes del Chasis</h5>#}
+                {#{{ include('plantillas_edicion/componentesEstacion.twig', {'editar':'si'}) }}#}
+                {#</div>#}
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}
+  {% block javascripts %}
+      {{ parent() }}
+      <script src="{{ asset('build/js/select2.full.min.js') }}"></script>
+      <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+      {#      <script src="{{ asset('build/js/componenteEquipoEstacion.js') }}"></script>#}
+      <script type="application/javascript">
+          $(document).ready(function () {
+              $('#app_bundleinventario_form_centroCosto, #areas,#app_bundleinventario_form_responsable').select2({
+                  placeholder: "---Seleccione---"
+              });
+          });
+      </script>
+      <script type="application/javascript">
+          $('#areas').on('select2:select', function (e) {
+              // var data = e.params.data;
+              var area = e.params.data.element.text;
+              var id_i = e.params.data.element.id;  // de tu elemento
+              console.log(id_i);
+              $.ajax({
+                  url: "{{ path('list_departamentos') }}",
+                  type: "GET",
+                  dataType: "JSON",
+                  data: {
+                      area_nombre: area,
+                      id_ccosto: id_i
+                  },
+                  success: function (depart) {
+                      $("#app_bundleinventario_form_centroCosto").empty();
+                      // console.log(depart);
+                      //  $('#departamentos').html(resp);
+                      // var neighborhoodSelect = $("#departamentos");
+                      var datos = [];
+                      $.each(depart, function (key, depart) {
+                          datos.push({id: parseInt(depart.id), text: depart.dep, id_ccosto: depart.id_dep});
+                      });
+                      $('#app_bundleinventario_form_centroCosto').val(null).trigger('change');
+                      $("#app_bundleinventario_form_centroCosto").select2({
+                          data: datos
+                      });
+                      // Remove current options
+                      // neighborhoodSelect.html('');
+                      // Empty value ...
+                      // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+                      // $.each(depart, function (key, depart) {
+                      //
+                      //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+                      //
+                      // });
+                  },
+                  error: function (err) {
+                      alert("An error ocurred while loading data ...");
+                  }
+              });
+          });
+          $('#app_bundleinventario_form_centroCosto').on('select2:select', function (e) {
+                  // var data = e.params.data;
+                  var area = e.params.data.text;
+                  var id_ic = e.params.data.id;
+                  console.log('text -->' + area);
+                  console.log('id -->' + id_ic);
+                  // console.log(data);
+                  // var municipioSelector = $(this);
+                  // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+                  //alert(id_ic);
+                  // alert(municipioSelector.val());
+                  // Request the neighborhoods of the selected city.
+              }
+          );
+          $("#estaciones").empty();
+          $("#departamentos").empty();
+          // });
+      </script>
+      <script type="text/javascript">
+          var $addTagLink = $('<a href="#" class="add_tag_link btn btn-primary  btn-small pull-right" id="add" style="margin-bottom: 20px;"><i class="fa fa-plus"></i> Nuevo componente</a>');
+          var $newLinkLi = $('<div class="container-fluid" style="margin-left: 4%; margin-right: 4%"></div>').append($addTagLink);
+          var pos = 0;
+          jQuery(document).ready(function () {
+              var collectionHolder = $('#comp');
+              pos = $('.componente').length;
+              console.log(collectionHolder);
+              collectionHolder.append($newLinkLi);
+              //alert(document.getElementById('#ent_div'))
+              //  addTagForm(collectionHolder, $newLinkLi);
+              $addTagLink.on('click', function (e) {
+                  e.preventDefault();
+                  //  console.log(selectAnterior);
+                  addTagForm(collectionHolder, $newLinkLi);
+              });
+          });
+
+          function addTagFormDeleteLink($tagFormLi) {
+              var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+              $tagFormLi.append($removeFormA);
+              $removeFormA.on('click', function (e) {
+                  console.log(pos);
+                  if (pos == 1) {
+                      alert('Debe haber al menos un producto para añadir');
+                      return;
+                  }
+                  e.preventDefault();
+                  $tagFormLi.remove();
+                  pos--;
+              });
+          }
+
+          function addTagForm(collectionHolder, $newLinkLi) {
+              $(document).ready(function () {
+                  var prototype = collectionHolder.attr('data-prototype');
+                  var newForm = prototype.replace(/__name__/g, pos);
+                  var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(newForm);
+                  $newLinkLi.before($newFormLi);
+                  formulario = $('#app_bundleinventario_form_componente_' + pos);
+                  formulario.addClass('form-group row container-fluid');
+
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna15_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna14_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna13_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna12_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna11_' + pos + '" class="col-md-3"></div>');
+                  // $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna10_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna9_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna8_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna7_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna6_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna5_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna4_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna3_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna2_' + pos + '" class="col-md-3"></div>');
+                  $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna1_' + pos + '" class="col-md-3"></div>');
+
+
+                  $('#columna1_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_modelo').parent());
+                  $('#columna2_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_serie').parent());
+                  $('#columna3_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_marca').parent());
+                  $('#columna4_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_watts').parent());
+                  $('#columna5_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_sata').parent());
+                  $('#columna6_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_capacidad').parent());
+                  $('#columna7_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_velocidad').parent());
+                  $('#columna8_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_lga').parent());
+                  $('#columna9_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_ram').parent());
+                  $('#columna11_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_optico').parent());
+                  $('#columna12_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_conector').parent());
+                  $('#columna13_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_tipo').parent());
+                  $('#columna14_' + pos).append($('#app_bundleinventario_form_componente_' + pos + 'estacion2').parent());
+                  $('#columna15_' + pos).append($('#app_bundleinventario_form_componente_' + pos + 'tipoComponente').parent());
+                  $('#app_bundleinventario_form_componente_' + pos + '_estacion2').hide();
+                  $('label[for=app_bundleinventario_form_componente_' + pos + '_estacion2], input#app_bundleinventario_form_componente_' + pos + '_estacion2').hide();
+                  // $('#columna_14_'+pos).hide();
+                  $('#columna1_'+ pos).hide();
+                  $('#columna2_'+ pos).hide();
+                  $('#columna3_'+ pos).hide();
+                  $('#columna4_'+ pos).hide();
+                  $('#columna5_'+ pos).hide();
+                  $('#columna6_'+ pos).hide();
+                  $('#columna7_'+ pos).hide();
+                  $('#columna8_'+ pos).hide();
+                  $('#columna9_'+ pos).hide();
+                  $('#columna10_'+ pos).hide();
+                  $('#columna11_'+ pos).hide();
+                  $('#columna12_'+ pos).hide();
+                  $('#columna13_'+ pos).hide();
+                  $('#columna14_'+ pos).hide();
+                  $('#columna17_'+ pos).hide();
+                  //var micapa = document.getElementById('id_div_contenedor');
+                  // var o = document.createElement('input');
+                  // o.type = "text";
+                  // o.classList = "form-control existenciaP";
+                  // o.placeholder = "Existencia actual";
+                  // o.id = "exist_'" + pos + "'";
+                  // o.name = "exist";
+                  // o.disabled = true;
+                  // o.value = "";
+                  // document.getElementById('app_bundlecomponentes_form_type_' + pos + '').appendChild(o);
+                  // $('#columna1_' + pos).append($('#app_bundlemateriales_sform_material_' + pos + 'um').parent());
+                  // $('#columna2_' + pos).append($('app_bundlemateriales_sform_material_' + pos + 'cantidad').parent());
+                  // $('#columna3_' + pos).append($('app_bundlemateriales_sform_material_' + pos + 'idProducto').parent());
+
+                  // if(selectedItem == null)
+                  // {
+                  //console.log('null select');
+                  // $('#app_bundleinventario_form_componente_' + pos + '_tipoComponente').({
+                  //     language: 'es',
+                  //     placeholder: 'Seleccione el tipo de componente',
+                  //     minimumInputLength: 1
+                  // });
+
+                  var select = document.getElementById('app_bundleinventario_form_componente_' + pos + '_tipoComponente');
+                  // // selectAnterior=document.getElementById('app_bundleequipo_fom_type_componente_' + pos + '_tipoComponente');
+                  // //  console.log(selectAnterior);
+                  //  // selectAnterior.hidden=true;
+                  //   //select.append("<option disabled='disabled' SELECTED>Select Your product</option>");
+                  //  $('#app_bundleinventario_form_componente_' + pos + '_tipoComponente').append("<option disabled='disabled' SELECTED>Selecciona el componente</option>");
+                  //  console.log("Posicion anterior"+pos-1); console.log("Posicion actual "+pos);
+                  //
+                  // // var s= $('#app_bundleinventario_form_componente_' + pos + 'tipoComponente');
+                  select.addEventListener('change',
+                      function (e) {
+                          e.preventDefault();
+                          var selectedOption = this.options[select.selectedIndex];
+                          console.log(selectedOption.value + ': ' + selectedOption.text);
+
+                          if (selectedOption.text == 'Fuente') {
+                              console.log('entre');
+                              console.log('Posicion de ahora:' +pos);
+                              // $('#columna1_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_modelo').hide());
+                              // $('#columna6_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_capacidad').hide());
+                              // var modelo=document.getElementById("columna1_"+pos+"").hidden=true;
+                              // alert("columna1_"+(pos-1)+"");
+                              // console.log(document.getElementById('app_bundleequipo_fom_type_componente_'+pos+'_modelo'));
+                              //  $('#columna6_'+ (pos-1)).hide();
+                              $('#columna6_' + pos-1).hide();
+                              $('#columna1_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+
+                              //     $('#columna2_' + pos).show();
+                              // $('#columna3_' + pos-1).show();
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+
+                          }
+
+                          if (selectedOption.text == 'Motherboard') {
+                              $('#columna1_' + (pos-1)).show();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).show();
+                              $('#columna9_' + (pos-1)).show();
+                              $('#columna10_' + (pos-1)).show();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).hide();
+
+
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Microprocesador') {
+                              $('#columna1_' + (pos-1)).hide();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).show();
+                              $('#columna8_' + (pos-1)).show();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).show();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).show();
+                              $('#columna14_' + (pos-1)).hide();
+
+
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).hide();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Ram') {
+                              $('#columna1_' + (pos-1)).hide();
+                              $('#columna6_' + (pos-1)).show();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+
+
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Hdd') {
+                              console.log(selectedOption.text);
+                              $('#columna1_' + (pos-1)).hide();
+                              $('#columna6_' + (pos-1)).show();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+
+
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).show();
+                          }
+                          if (selectedOption.text == 'Lector') {
+                              $('#columna1_' + (pos-1)).hide();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).show();
+                              $('#columna14_' + (pos-1)).hide();
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Mouse') {
+                              $('#columna1_' + (pos-1)).show();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).show();
+                              $('#columna12_' + (pos-1)).show();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Teclado') {
+                              $('#columna1_' + (pos-1)).show();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).show();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Bocina') {
+                              $('#columna1_' + (pos-1)).show();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).hide();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).hide();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                          if (selectedOption.text == 'Tarjeta de video') {
+                              $('#columna1_' + (pos-1)).show();
+                              $('#columna6_' + (pos-1)).hide();
+                              $('#columna7_' + (pos-1)).show();
+                              $('#columna8_' + (pos-1)).hide();
+                              $('#columna9_' + (pos-1)).hide();
+                              $('#columna10_' + (pos-1)).show();
+                              $('#columna11_' + (pos-1)).hide();
+                              $('#columna12_' + (pos-1)).hide();
+                              $('#columna13_' + (pos-1)).hide();
+                              $('#columna14_' + (pos-1)).hide();
+                              $('#columna2_' + (pos-1)).show();
+                              $('#columna3_' + (pos-1)).show();
+                              $('#columna4_' + (pos-1)).hide();
+                              $('#columna5_' + (pos-1)).hide();
+                          }
+                      });
+
+
+                  // $("#estaciones").empty();
+                  // $("#app_bundlemovimientoR_form_type_areaDestino").empty();
+                  // }
+                  // else
+                  // {
+                  //   console.log('select online');
+                  //   $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').select2({
+                  //     language: 'es',
+                  //     placeholder: 'Seleccione un producto'
+                  //   });
+                  // }
+
+                  // $('.select2-container').css("width","500px !important");
+                  //   $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+                  addTagFormDeleteLink($newFormLi);
+                  pos++;
+              });
+
+          }
+
+      </script>
+
+
+  {% endblock %}

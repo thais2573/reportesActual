@@ -1,0 +1,208 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+    <script src="{{ asset('build/js/pace.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Reportes</li>
+        <li class="breadcrumb-item active">
+            Deudas en Taller
+        </li>
+        <!-- Breadcrumb Menu-->
+    </ol>
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-align-justify"></i> <strong>Total : </strong>
+            {% if pagination is defined %}
+                {{ pagination.getTotalItemCount }}
+            {% endif %}
+            <div class="dropdown float-sm-right">
+                <a href="{{ path('imprimir_deudas_taller') }}" class="btn btn-success ">
+                    Imprimir
+                </a>
+            </div>
+            <br>
+            <div class="float-left">
+                <label>Cantidad de resultados por pagina</label> <select name="maxItemPerPage" id="maxItemPerPage"
+                                                                         class="custom-select col-3">
+                    <option id="Seleccione" value="1">Seleccione</option>
+                    <option id="5">5</option>
+                    <option id="10">10</option>
+                    <option id="20">20</option>
+                    <option id="30">30</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                {% for message in app.session.flashBag.get('nohay') %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.session.flashBag.get('mensaje') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <form class="form-inline float-right" action="{{ path('filtra_equipos_deudataller') }}" method="post">
+                    <div class="input-group ">
+                        <input class="form-control" id="numI" type="text" name="numI"
+                               placeholder="Numero de inventario">
+                        <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                    </div>
+                </form>
+            </div>
+            <br> <br>
+            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>Dpto.</th>
+                    <th>Inventario</th>
+                    <th>No.Inventario</th>
+                    <th>Deudas</th>
+                </tr>
+                </thead>
+                {% if pagination is defined %}
+                    {% for datos in pagination %}
+                        <tr {% if loop.index is odd %}class="color"{% endif %}>
+                            <td>{{ datos.dpto }}</td>
+                            <td>{{ datos.inventario }}</td>
+                            <td>
+                                {{ datos.numInventario }}
+                            </td>
+                            <td>
+                                {#{{ dump(deudas)}}#}
+                                {% set piez=datos.resumen|split(':') %}
+                                {#{{ dump(datos.resumen|split(':') ) }}#}
+                                {#{{ dump(datos.resumen) }}#}
+                                {{ piez[2] }}
+                                {#{{ deudas[loop.index] }}#}
+                             {#{% for d in deudas %}#}
+                                 {#{% if d is iterable %}#}
+                                     {#{% for item in d  %}#}
+                                         {#{{ dump(item.cpu.numInventario) }}#}
+                                         {#{% if item.cpu.numInventario==datos.numInventario %}#}
+                                         {#{{ dump(item) }}#}
+                                         {#{% endif %}#}
+                                     {#{% endfor %}#}
+                                 {#{% else %}#}
+
+                                 {#{% endif %}#}
+                                 {#{{ dump(d) }}#}
+                                   {#{{ dump(d.cpu.numInventario) }}#}
+                                 {#{% if d.cpu is defined %}#}
+                                     {#{{ d.tipoComponente }}#}
+                                 {#{% else %}#}
+                                 {#{% if d[0].cpu.numInventario == datos.numInventario %}#}
+                                     {#{{ dump(d[0].cpu.numInventario) }}#}
+                                     {#{% for tipo in d %}#}
+                                     {#{{ tipo.tipoComponente}}#}
+                                     {#{% endfor %}#}
+
+                                 {#{% endif %}#}
+                                 {#{% endif %}#}
+                                 {#{% endfor %}#}
+                            </td>
+                            <td>
+                                {#{{ dump(datos) }}#}
+                                <a href="{{ path('saldo_deudas_taller',{'idIncidencia':datos.id,'idChasis':datos.idE,'numI':datos.numInventario}) }}">
+                                    <i class="nav-icon icon-wrench"
+                                       data-toggle="tooltip" data-placement="bottom"
+                                       title="Solucionar problemas"></i></a>
+                                <a href="{{ path('eliminarDeuda',{'idChasis':datos.idE}) }}"
+                                   title="Eliminar deuda">
+                                    <i class="fa fa-trash-o fa-lg mt-4"></i>
+                                </a>
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>{{ lista.dpto }}</td>
+                        <td>{{ lista.modelo }}</td>
+                        <td>
+                            Cpu Chasis
+
+                        </td>
+                        <td>
+                            {{ lista.numInventario }}
+                        </td>
+
+
+                        <td>
+
+                            {% if lista.dpto == null %}
+                                <a
+                                        href="{{ path('solucionar_sin_incidenciaSI',{'id':lista.idPeriferico,'equipo':lista.tipoPeriferico}) }}">
+                                    <i class="nav-icon icon-wrench"
+                                       data-toggle="tooltip" data-placement="bottom"
+                                       title="Solucionar problemas"></i></a>
+                            {% else %}
+                                <a
+                                        href="{{ path('solucionar_sin_incidencia',{'id':lista.idPeriferico,'equipo':lista.tipoPeriferico}) }}">
+                                    <i class="nav-icon icon-wrench"
+                                       data-toggle="tooltip" data-placement="bottom"
+                                       title="Solucionar problemas"></i></a>
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+                {% endif %}
+
+
+            </table>
+        </div>
+        {% if pagination is defined %}
+            <div class="card-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+            //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+            $('#maxItemPerPage').change(function () {
+                var url = '{{ path('lista_deudas_taller',{'maxItemPerPage':'_itemNum'}) }}';
+                var item = $('#maxItemPerPage').find(":selected").text();
+                window.location.href = url.replace('_itemNum', item);
+            })
+        </script>
+        <script>
+            $(document).ready(function () {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    format: 'dd/MM/yyyy'
+                });
+            });
+        </script>{% endblock %}
+
+{% endblock %}

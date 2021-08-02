@@ -1,0 +1,568 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+  <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+  <script src="{{ asset('build/js/pace.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+    {#<!-- CoreUI CSS -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    {#<meta charset="utf-8">#}
+    {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+    {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+    {#<!-- Font Awesome -->#}
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    {#<!-- Bootstrap core CSS -->#}
+    {#<!-- Select2 -->#}
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{#{% block stylesheets %}#}
+  {#<!-- CoreUI CSS -->#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<!-- Bootstrap core CSS -->#}
+
+  {#<!-- Material Design Bootstrap -->#}
+
+  {#<!-- Your custom styles (optional) -->#}
+  {#<link href="{{ asset('build/css/app.css') }}" rel="stylesheet">#}
+  {#<script href="{{ asset('build/js/app.js') }}"></script>#}
+  {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+  {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>#}
+  {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"#}
+        {#integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+  {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"#}
+          {#integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+          {#crossorigin="anonymous"></script>#}
+  {#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"#}
+          {#integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"#}
+          {#crossorigin="anonymous"></script>#}
+  {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+          {#integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+          {#crossorigin="anonymous"></script>#}
+{#{% endblock %}#}
+
+{% block main %}
+
+
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a >Adicionar periféricos</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+
+      <div class="row">
+        <div class="col-md-6">
+
+
+          {#  #}
+          <div> {% for message in app.session.flashBag.get('success') %}
+              <div class="alert alert-warning" role="alert"><i class="fa fa-warning"> </i> {{ message }}    </div>
+            {% endfor %}</div>
+          {#  #}
+          <div> {% for message in app.session.flashBag.get('advertencia') %}
+
+              <div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> {{ message }}
+                <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            {% endfor %}</div>
+          <div class="card ">
+
+            <div class="card-header">
+              <strong>Buscar periféricos en estacion :
+                {{ nombre_estacion }}
+              </strong></div>
+
+
+            <div class="card-body">
+              <div class="input-group ">
+
+                <form class="form-inline float-right" action="{{ path('filtra_equiposxAdicionar',{'ideEst':idestacion}) }}" method="post">
+
+
+                  <div class="input-group ">
+
+                    <input class="form-control" id="numI" type="text" name="numI" placeholder="Numero de inventario">
+                    <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+
+                  </div>
+
+
+                </form>
+              </div>
+            </div>
+
+            <div class="card-footer">
+
+
+            </div>
+
+
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+
+              <i class="fa fa-align-justify"></i> <strong>
+
+                Listado de nuevos periféricos
+
+              </strong>
+
+
+            </div>
+
+
+            <div class="card-body">
+              {% if incidencias is defined %}
+                {% if incidencias is not null %}
+                  <br>
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+
+                    <thead>
+                    <tr>
+                      {% if incidencias.tipoEquipo =='cpuchasis' %}
+                        <th>Tipo de componente</th>
+                        <th>No.Inventario</th>
+                        <th>Modelo</th>
+                        <th>Color</th>
+                        <th>Sello de seguridad</th>
+                        <th>Acciones</th>
+                      {% else %}
+                        <th>Tipo de componente</th>
+                        <th>No.Inventario / Serie</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Acciones</th>
+                      {% endif %}
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if incidencias is iterable %}
+                      {% for datos in incidencias %}
+                        <tr>
+
+                          <td>
+
+                            {% if incidencias.tipoEquipo =='backup' %}
+                              Backup
+                            {% endif %}
+                            {% if incidencias.tipoEquipo =='estabilizador' %}
+                              Estabilizador
+                            {% endif %}
+                            {% if incidencias.tipoEquipo =='cpuchasis' %}
+                              Cpu Chasis
+                            {% endif %}
+                            {% if incidencias.tipoEquipo =='impresora' %}
+                              Impresora
+                            {% endif %}
+                            {% if incidencias.tipoEquipo =='monitor' %}
+                              Monitor
+                            {% endif %}
+                            {% if incidencias.tipoEquipo =='scanner' %}
+                              Scaner
+                            {% endif %}
+
+
+                          </td>
+                          {% if incidencias.tipoEquipo=='cpuchasis' or incidencias.tipoEquipo=='Cpu-Chasis' %}
+                            <td>
+                              {{ datos.numInventario }}
+                            </td>
+                            <td>
+                              {{ datos.modelo }}
+                            </td>
+
+                            <td>{{ datos.color }}</td>
+                            <td>{{ datos.selloSeguridad }}</td>
+                          {% else %}
+                            <td>
+
+                              {% if datos.modelo is defined %}
+                              {{ datos.modelo }}
+                                {% endif %}
+                              {{ datos.serie }}</td>
+                            <td>{{ datos.marca }}</td>
+                            <td>{{ datos.modelo }}</td>
+                          {% endif %}
+                          <td>
+                            {# <a href="{{ path('ver_datos_periferico', {'id': datos.id,'tipo': componente}) }}">
+                               <i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"
+                                  title="Consultar Datos"></i>
+                             </a> #}
+                             <a
+                               href="{{ path('adicionar_a_inventario',{'tipo':componente,'idperiferico': datos.id,'idestacion':idestacion}) }}">
+                               <i class="nav-icon icon-plus" data-toggle="tooltip" data-placement="bottom"
+                                  title="Adicionar a inventario"></i></a>
+
+                          </td>
+
+
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      <tr>
+
+                        <td>
+
+                          {% if incidencias.tipoEquipo =='backup' %}
+                            Backup
+                          {% endif %}
+                          {% if incidencias.tipoEquipo =='estabilizador' %}
+                            Estabilizador
+                          {% endif %}
+                          {% if incidencias.tipoEquipo =='cpuchasis' %}
+                            Cpu Chasis
+                          {% endif %}
+                          {% if incidencias.tipoEquipo =='impresora' %}
+                            Impresora
+                          {% endif %}
+                          {% if incidencias.tipoEquipo =='monitor' %}
+                            Monitor
+                          {% endif %}
+
+
+                        </td>
+                        {% if incidencias.tipoEquipo=='cpuchasis' %}
+                          <td>
+                            {{ incidencias.numInventario }}
+                          </td>
+                          <td>
+                            {{ incidencias.modelo }}
+                          </td>
+
+                          <td>{{ incidencias.color }}</td>
+                          <td>{{ incidencias.sello }}</td>
+                        {% else %}
+                          <td>
+
+                            {% if datos.modelo is defined %}
+                              {{ datos.modelo }}
+                            {% endif %}
+                            {% if datos.serie is defined %}
+                              {{ datos.serie }}
+                            {% endif %}
+                           </td>
+                          {% if incidencias.marca is defined %}
+                          <td>{{ incidencias.marca }}</td>
+                            {% endif %}
+                          {% if incidencias.modelo is defined %}
+                          <td>{{ incidencias.modelo }}</td>
+                          {% endif %}
+                        {% endif %}
+                        <td>
+                        {#  <a href="{{ path('ver_datos_periferico', {'id': incidencias.id,'tipo': componente}) }}">
+                            <i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"
+                               title="Consultar Datos"></i>
+                          </a>#}
+                          <a
+                            href="{{ path('adicionar_a_inventario',{'tipo':incidencias.tipoEquipo,'idperiferico': incidencias.id,'idestacion':idestacion}) }}">
+                            <i class="nav-icon icon-plus" data-toggle="tooltip" data-placement="bottom"
+                               title="Adicionar a inventario"></i></a>
+
+                        </td>
+
+
+                      </tr>
+                    {% endif %}
+                    </tbody>
+
+                  </table>
+                {% else %}
+                  No existen componentes nuevos de este tipo
+                {% endif %}
+
+              {% endif %}
+
+
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+
+
+          <div class="card">
+            <div class="card-header">
+              <strong>Periféricos adicionados en estación: {{ nombre_estacion }}</strong>
+
+              <a href="#ConfirmarSalva" class="btn btn-sm btn-success float-sm-right"
+                 data-toggle="modal" data-whatever="{{ nombre_estacion }}">
+
+                <i class="fa fa-save"></i> Guardar estacion
+              </a>
+
+
+              <!-- Button trigger modal -->
+
+
+              <!-- Modal -->
+              <div class="modal fade bd-example-modal-lg" id="ConfirmarSalva" tabindex="-1"
+                   role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Guardar inventario {{ nombre_estacion }}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Usted va a guardar este inventario con los siguientes componentes:
+
+                      {% if lista is defined %}
+                      {% if lista |length >0 %}
+                      {% for lista1 in lista %}
+
+                      <table class="table table-responsive-sm float-lg-none" id="tabla_componentes">
+                        <thead>
+                        <tr>
+                          <th>Periférico</th>
+
+
+                          <th align="center">Marca</th>
+                          <th align="center">Numero de inventario</th>
+
+
+                        </tr>
+                        <tr {% if loop.index is odd %}class="color"{% endif %}>
+
+                          <td>{{ lista1.tipo }}</td>
+
+                          <td>{{ lista1.marca }}</td>
+                          <td>{{ lista1.inventario }}</td>
+
+                          <br>
+                          {% endfor %}
+
+
+
+                          {% endif %}
+                          {% endif %}
+
+                        </tr>
+                        </thead>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <a href="{{ path('inventario_final',{'idestacion':idestacion}) }}" type="button"
+                         class="btn btn-primary">Guardar estación</a>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="card-body">
+              <table class="table table-responsive-sm float-lg-none" id="tabla_componentes">
+                <thead>
+                <tr>
+                  <th>Periférico</th>
+
+
+                  <th align="center">Cantidad</th>
+                  <th align="center">Marca</th>
+                  <th align="center">No.Serie/Inventario</th>
+                  <th align="center">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if lista is defined %}
+                  {% if lista |length >0 %}
+                    {% for lista1 in lista %}
+
+                      <tr {% if loop.index is odd %}class="color"{% endif %}>
+
+                        <td>{{ lista1.tipo }}</td>
+                        <td>{{ lista1.cantidad }}</td>
+                        <td>{{ lista1.marca }}</td>
+                        <td>{{ lista1.inventario }}</td>
+                        <td><a href="{{ path('ver_datos_periferico', {'id': lista1.idperiferico,'tipo': lista1.tipo }) }}">
+                            <i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"
+                               title="Ver Datos"></i>
+                          </a>
+                          <a href="{{ path('editar_equipo',{'id': lista1.idperiferico,'tipo': lista1.tipo}) }}">
+                            <i class="icon-pencil" data-toggle="tooltip" data-placement="bottom"
+                               title="Editar equipo"></i></a>
+                          <a
+                            href="{{ path('eliminar_de_lista',{'idperiferico': lista1.id,'nombre_estacion':nombre_estacion,'tipoAccion':'nuevo','incidencia_id':0}) }}">
+                            <i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"
+                               title="Eliminar de inventario"></i></a></td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    La estación aun no contiene  perifericos
+                  {% endif %}
+
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card-footer">
+
+              <a href="{{ path('limpiar_estacion',{'nombre_estacion':nombre_estacion}) }}"
+                 class="btn btn-sm btn-danger disabled" type="submit" di
+              >
+                <i class="fa fa-ban"></i> Limpiar perifericos de estación
+              </a>
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
+  {% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('build/js/select2.full.js') }}"></script>
+    {#<script src="{{ asset('build/js/es.js') }}"></script>#}
+<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+    <script type="application/javascript">
+      $(document).ready(function () {
+        $('#areas, #departamentos, #estaciones').select2({
+          placeholder: "---Seleccione---"
+        });
+      });
+    </script>
+    <script type="application/javascript">
+      $('#areas').on('select2:select', function (e) {
+        // var data = e.params.data;
+        var area = e.params.data.element.text;
+        var id_i = e.params.data.element.id;  // de tu elemento
+        $.ajax({
+          url: "{{ path('list_departamentos') }}",
+          type: "GET",
+          dataType: "JSON",
+          data: {
+            area_nombre: area,
+            id_ccosto: id_i
+          },
+          success: function (depart) {
+            $("#estaciones").empty();
+            $("#departamentos").empty();
+            // console.log(depart);
+            //  $('#departamentos').html(resp);
+            // var neighborhoodSelect = $("#departamentos");
+            var datos = [];
+            $.each(depart, function (key, depart) {
+              datos.push({id: parseInt(depart.id_dep), text: depart.dep});
+            });
+            $('#departamentos').val(null).trigger('change');
+            $("#departamentos").select2({
+              data: datos
+            });
+            // Remove current options
+            // neighborhoodSelect.html('');
+            // Empty value ...
+            // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+            // $.each(depart, function (key, depart) {
+            //
+            //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+            //
+            // });
+          },
+          error: function (err) {
+            alert("An error ocurred while loading data ...");
+          }
+        });
+      });
+      $('#departamentos').on('select2:select', function (e) {
+          // var data = e.params.data;
+          var area = e.params.data.text;
+          var id_ic = e.params.data.id;
+          // console.log('text -->'+area);
+          // console.log('id -->'+id_ic);
+          // console.log(data);
+          // var municipioSelector = $(this);
+          // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+          //alert(id_ic);
+          // alert(municipioSelector.val());
+          // Request the neighborhoods of the selected city.
+          $.ajax({
+            url: "{{ path('list_inventarios') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+              id_Costo2: id_ic
+            },
+            success: function (neighborhood) {
+              var datos = [];
+              console.log(neighborhood);
+              $.each(neighborhood, function (key, neighborhood) {
+                datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+              });
+              $('#estaciones').val(null).trigger('change');
+              $("#estaciones").select2({
+                data: datos
+              });
+              // var unidadSelect = $("#estaciones");
+              // Remove current options
+              // unidadSelect.html('');
+              // Empty value ...
+              // unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');
+              // $.each(neighborhood, function (key, neighborhood) {
+              //
+              //   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');
+              //
+              //   unidadSelec = neighborhood.id_estacion;
+              // });
+            },
+            error: function (err) {
+              alert("An error ocurred while loading data ...");
+            }
+          });
+        }
+      );
+      $("#estaciones").empty();
+      $("#departamentos").empty();
+      // });
+    </script>
+
+  {% endblock %}
+

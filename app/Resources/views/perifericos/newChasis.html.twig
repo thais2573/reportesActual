@@ -1,0 +1,291 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+  <!-- CoreUI CSS -->
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+  <!-- Your custom styles (optional) -->
+  <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+  <script href="{{ asset('build/js/app.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="{{ asset('build/js/popper.min.js') }}"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <br><br><br>
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <div class="card" >
+            <div class="card-header">
+
+
+            </div>
+            <div class="card-body" id="solicitud">
+              {{ form_start(equipoForm) }}
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group row">
+                    <label for="app_bundlemateriales_sform[centroCosto]" class="col-md-3 col-form-label">Centro de Costo</label>
+                    <div class="col-md-9">
+                      {{ form_widget(solicitudForm.centroCosto) }}
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              {#<div class="row">#}
+                {#<div class="col-sm-12">#}
+                  {#<div class="form-group row">#}
+                    {#<label for="ccnumber" class="col-md-3 col-form-label">Producto</label>#}
+                    {#<div class="col-md-9">#}
+                    {#<select id="productos" name="productos[]" class="custom-select col-8">#}
+                      {#{% for p in productos.content|json_decode %}#}
+                        {#<option id="{{ p.id }}"#}
+                                {#value="{{ p.descripcion }}">{{ p.descripcion }}</option>#}
+                      {#{% endfor %}#}
+                    {#</select>#}
+                    {#</div>#}
+                  {#</div>#}
+                {#</div>#}
+              {#</div>#}
+                {#<div class="row">#}
+                {#<div class="col-sm-12" id="datos">#}
+                  {#<div class="form-group row">#}
+                  {#<label for="ccnumber" class="col-md-3 col-form-label">Existencia</label><br>#}
+                  {#<div class="col-sm-2" style="height: 8px">#}
+                    {#<input class="form-control" id="existencia" type="text" disabled>#}
+                  {#</div>#}
+                    {#<label for="cvv" class="col-form-label">Cantidad</label>#}
+                    {#<div class="col-sm-2" style="height: 8px">#}
+                      {#{{ form_widget(solicitudForm.cantidad)  }}#}
+                    {#</div>#}
+                    {#<label for="ccyear" class="col-form-label">UM</label>#}
+                    {#<div class="col-sm-2" style="height: 8px">#}
+                      {#{{ form_widget(solicitudForm.um)  }}#}
+                    {#</div>#}
+                {#</div>#}
+                {#</div>#}
+            {#</div>#}
+              <div class="row">
+                {{ include('materiales/nuevoProducto.twig', {'editar':'si'}) }}
+              </div>
+            </div>
+<br>
+              <div class="float-right">
+              <button class="btn btn-md btn-success" type="submit"
+                      onclick="document.getElementById('reset').value = 0; forms[0].submit()">
+                <i class="fa fa-save"></i> Guardar
+              </button>
+              <button class="btn btn-md btn-danger" type="reset"
+                      onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                <i class="fa fa-ban"></i> Borrar
+              </button>
+              </div>
+           {{ form_end(solicitudForm,{'render_rest':false}) }}
+            </div>
+
+
+
+        </div>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+  </div>
+  </div>
+{% endblock %}
+  {% block javascripts %}
+      {{ parent() }}
+    <script src="{{ asset('build/js/select2.full.min.js') }}"></script>
+    <script type="application/javascript">
+      $(document).ready(function () {
+        $('#app_bundlemateriales_sform_centroCosto,#productos').select2({
+          placeholder: "---Seleccione---"
+        });
+      });
+    </script>
+    <script type="text/javascript">
+      var $addTagLink = $('<a href="#" class="add_tag_link btn btn-primary  btn-small pull-right" id="add" style="margin-bottom: 20px;"><i class="fa fa-plus"></i> Nuevo Producto</a>');
+      var $newLinkLi = $('<div class="container-fluid" style="margin-left: 4%; margin-right: 4%"></div>').append($addTagLink);
+      var pos = 0;
+      jQuery(document).ready(function () {
+        var collectionHolder = $('#c');
+        pos = $('.material').length;
+        collectionHolder.append($newLinkLi);
+        //alert(document.getElementById('#ent_div'))
+        //addTagForm(collectionHolder, $newLinkLi);
+        $addTagLink.on('click', function (e) {
+          e.preventDefault();
+         addTagForm(collectionHolder, $newLinkLi);
+        });
+      });
+      function addTagFormDeleteLink($tagFormLi) {
+        var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+        $tagFormLi.append($removeFormA);
+        $removeFormA.on('click', function (e) {
+          console.log(pos);
+          if(pos == 1) {
+            alert('Debe haber al menos un producto para añadir');
+            return;
+          }
+          e.preventDefault();
+          $tagFormLi.remove();
+          pos--;
+        });
+      }
+      function addTagForm(collectionHolder, $newLinkLi,selectedItem) {
+        $(document).ready(function () {
+          var prototype = collectionHolder.attr('data-prototype');
+          var newForm = prototype.replace(/__name__/g, pos);
+          var $newFormLi = $('<div class="well text-info form-horizontal material container-fluid" ></div>').append(newForm);
+          $newLinkLi.before($newFormLi);
+          formulario = $('#app_bundlemateriales_sform_material_' + pos);
+          formulario.addClass('form-group row container-fluid');
+
+          $('#app_bundlemateriales_sform_material_'+pos+' div').first().before('<div id = "columna4_'+pos+'" class="col-md-5"></div>');
+          $('#app_bundlemateriales_sform_material_'+pos+' div').first().before('<div id = "columna3_'+pos+'" class="col-md-5"></div>');
+          $('#app_bundlemateriales_sform_material_'+pos+' div').first().before('<div id = "columna2_'+pos+'" class="col-sm-2"></div>');
+          $('#app_bundlemateriales_sform_material_'+pos+' div').first().before('<div id = "columna1_'+pos+'" class="col-md-3"></div>');
+          //var micapa = document.getElementById('id_div_contenedor');
+          var o = document.createElement('input');
+          o.type = "text";
+          o.classList="form-control existenciaP";
+          o.placeholder="Existencia actual";
+          o.id="exist_'"+pos+"'";
+          o.name = "exist";
+          o.disabled=true;
+          o.value = "";
+          document.getElementById('app_bundlemateriales_sform_material_'+pos+'').appendChild(o);
+          // $('#columna1_' + pos).append($('#app_bundlemateriales_sform_material_' + pos + 'um').parent());
+          // $('#columna2_' + pos).append($('app_bundlemateriales_sform_material_' + pos + 'cantidad').parent());
+          // $('#columna3_' + pos).append($('app_bundlemateriales_sform_material_' + pos + 'idProducto').parent());
+
+          // if(selectedItem == null)
+          // {
+            //console.log('null select');
+            $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').select2({
+              language: 'es',
+              placeholder: 'Seleccione un producto',
+              minimumInputLength: 1
+          });
+          $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').on('select2:select', function (e) {
+            // var data = e.params.data;
+            var valor = e.params.data.element.text;
+            var id = e.params.data.id;  // de tu elemento
+            var existencia;
+            pos = $('.material').length;
+            console.log(e.params.data);console.log(valor);console.log(id)
+            $.ajax({
+              url: "{{ path('existencia_productos_assets') }}",
+              type: "GET",
+              dataType: "JSON",
+              data: {
+                id_producto: id,
+                descripcion: valor
+              },
+              success: function (depart) {
+                $("#estaciones").empty();
+                $("#existencia").empty();
+                // console.log(depart);
+                //  $('#departamentos').html(resp);
+                // var neighborhoodSelect = $("#departamentos");
+                var datos = [];
+                $.each(depart, function (key, depart) {
+                  datos.push({id: parseInt(depart.id), text: depart.total});
+                });
+                console.log(pos);
+               // var elemento = $('existencia');
+                $('#columna4_' + pos).append("<textarea id='answertext' name='answertext' placeholder='Type answer here' rows='2' cols='40' tabindex='6' onBlur='exchangeLabelsanswertxt(this);'>Hola</textarea>");
+               var existencia=document.getElementById('exist_'+pos+'');
+                var items = document.querySelectorAll(".existenciaP");
+                var lastchild = items[items.length-1];
+               console.log(lastchild) ;
+               // $(".existenciaP").val(parseInt(datos[0]['text']));
+               // $("lastchild").value=(parseInt(datos[0]['text']));
+                lastchild.value=parseInt(datos[0]['text']);
+              //  $('.existencia1').attr('id','app_bundlemateriales_sform_material_'+pos+'_existencia');
+                // if(existencia===NaN){
+                //   existencia=datos[0]['text'];
+                // }else{existencia=parseInt(datos[0]['text']);}
+              //  existencia.value=parseInt(datos[0]['text']);
+               // $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').val(parseInt(datos[0]['text']));
+              //  $('.existencia1').attr('placeholder',parseInt(datos[0]['text']));
+               //  $('#columna4_' + pos).append($('#app_bundlemateriales_sform_material_' + pos + 'um').attr('value',parseInt(datos[0]['text'])));
+              //  $(".existencia1").val(parseInt(datos[0]['text']));
+               // console.log(existencia.value);
+              //  console.log(existencia);
+              },
+              error: function (err) {
+                alert("An error ocurred while loading data ...");
+              }
+            });
+          });
+          $("#estaciones").empty();
+          $("#app_bundlemovimientoR_form_type_areaDestino").empty();
+          // }
+          // else
+          // {
+          //   console.log('select online');
+          //   $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').select2({
+          //     language: 'es',
+          //     placeholder: 'Seleccione un producto'
+          //   });
+          // }
+
+          // $('.select2-container').css("width","500px !important");
+          // $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+          addTagFormDeleteLink($newFormLi);
+          pos++;
+        });
+      }
+
+    </script>
+    {#<script type="application/javascript">#}
+      {#var currentDiv = document.getElementById("datos");#}
+      {#function nuevaSolicitud() {#}
+        {#//alert("Hola Thais");#}
+        {#var nuevaSolicitud=document.createElement('div');#}
+        {#var centroCosto=document.createElement('select');#}
+        {#centroCosto.setAttribute("id","app_bundlemateriales_sform_centroCosto")#}
+        {#var prod=document.createElement('select');#}
+        {#var e=document.createElement('input');#}
+        {#var cant=document.createElement('input');#}
+        {#var um=document.createElement('input');#}
+        {#nuevaSolicitud.appendChild(centroCosto);#}
+        {#nuevaSolicitud.appendChild(prod);#}
+        {#nuevaSolicitud.appendChild(e);#}
+        {#nuevaSolicitud.appendChild(cant);#}
+        {#nuevaSolicitud.appendChild(um);#}
+
+        {#$('#datos').append(nuevaSolicitud);#}
+        {#// var newDiv = document.createElement("div");#}
+        {#// var newContent = document.createTextNode("Hola!¿Qué tal?");#}
+        {#// newDiv.appendChild(newContent); //añade texto al div creado.#}
+        {#//#}
+        {#// document.body.parentNode.insertBefore(newDiv, currentDiv);#}
+       {#// console.log(currentDiv);#}
+       {#// insertAfter()#}
+        {#// document.body.bef(newDiv, currentDiv);#}
+      {#}#}
+      {#function insertAfter(e,i){#}
+        {#if(e.nextSibling){#}
+          {#e.parentNode.insertBefore(i,e.nextSibling);#}
+        {#} else {#}
+          {#e.parentNode.appendChild(i);#}
+        {#}#}
+      {#}#}
+    {#</script>#}
+
+  {% endblock %}
+

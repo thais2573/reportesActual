@@ -1,0 +1,120 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Lisandra
+ * Date: 04/02/2019
+ * Time: 15:58
+ */
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cpuchasis")
+ * @UniqueEntity(fields="inventario",message="Este inventario ya esta en uso")
+ */
+class cpuchasis
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $modelo;
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $serie;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $color;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $numInventario;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $selloSeguridad;
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $descripcion;
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $estado;
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $fechaMantenimiento;
+
+  /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\inventario", mappedBy="chasis")
+   */
+  private $estacion;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\bocinas", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $bocina1;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\fuente", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $fuente;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\motherboard", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $board;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\microprocesador", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $micro;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\ram", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $memoria_ram;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\hdd", mappedBy="cpu", cascade={"persist","remove"})
+   *
+   */
+  private $discoD;
+
+  /**
+   * @ORM\OneToMany(targetEntity="AppBundle\Entity\lector", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $lectorCD;
+
+  /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\mouse", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $raton;
+
+  /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\teclado", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $teclado1;
+
+  /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\tarjeta_video", mappedBy="cpu", cascade={"persist","remove"})
+   */
+  private $tarjeta_video;
+}

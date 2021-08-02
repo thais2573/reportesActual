@@ -1,0 +1,266 @@
+{% if editar == 'no' %}
+    <div id="ent_div" class="tab-content material" data-prototype="{{(form.equipos.vars.prototype)|e}}">
+
+     {% for ent in form.equipos %}
+      {% set indice = loop.index-1 %}
+      <div class="well text-info form-horizontal equipos">
+        <div id="app_bundleinventario_form_equipos_{{ indice }}" class="container-fluid">
+          <div class="form-group row">
+            <div id="columna5_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.sata) }}{{ form_label(ent.sata) }}{{ form_widget(ent.sata) }}
+            </div>
+            <div id="columna6_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.capacidad) }}{{ form_label(ent.capacidad) }}{{ form_widget(ent.capacidad) }}
+            </div>
+            <div id="columna7_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.velocidad) }}{{ form_label(ent.velocidad) }}{{ form_widget(ent.velocidad) }}
+            </div>
+            <div id="columna8_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.lga) }}{{ form_label(ent.lga) }}{{ form_widget(ent.lga) }}
+            </div>
+          </div>
+          <div class="form-group row">
+            <div id="columna9_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.ram) }}{{ form_label(ent.ram) }}{{ form_widget(ent.ram) }}
+            </div>
+            <div id="columna10_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.ranuraVideo) }}{{ form_label(ent.ranuraVideo) }}{{ form_widget(ent.ranuraVideo) }}
+            </div>
+            <div id="columna11_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.optico) }}{{ form_label(ent.optico) }}{{ form_widget(ent.optico) }}
+            </div>
+            <div id="columna12_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.conector) }}{{ form_label(ent.conector) }}{{ form_widget(ent.conector) }}
+            </div>
+            <div id="columna13_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+              {{ form_errors(ent.tipo) }}{{ form_label(ent.tipo) }}{{ form_widget(ent.tipo) }}
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <BR/>
+    {% endfor %}
+    </div>
+{% else %}
+<div id="c" class="tab-content material" data-prototype="{{ form_widget(form.equipos.vars.prototype)|e }} "
+     data-index="{{ form.equipos|length }}">
+    {#{{ dump(solicitudForm.material) }}#}
+     <div class="card">
+<div class="card-header">Equipos<small> en estacion</small></div>
+<div class="card-body">
+<div class="row bd-example2">
+<div class="col-4">
+<div class="list-group" id="list-example">
+    {% for ent in form.equipos %}
+{#        {% set indice = loop.index-1 %}#}
+ {% if ent.vars.value.tipoEquipo =='monitor' %}
+<a class="list-group-item list-group-item-action" href="#list-item-1">Monitor</a>
+ {% elseif ent.vars.value.tipoEquipo =='impresora' %}
+<a class="list-group-item list-group-item-action" href="#list-item-2">Impresora</a>
+ {% elseif ent.vars.value.tipoEquipo =='backup' %}
+<a class="list-group-item list-group-item-action active" href="#list-item-3">Backup</a>
+ {% elseif ent.vars.value.tipoEquipo =='estabilizador' %}
+<a class="list-group-item list-group-item-action" href="#list-item-4">Estabilizador</a>
+ {% elseif ent.vars.value.tipoEquipo =='scanner' %}
+<a class="list-group-item list-group-item-action" href="#list-item-5">Scanner</a>
+ {% elseif ent.vars.value.tipoEquipo =='cpuchasis' %}
+<a class="list-group-item list-group-item-action" href="#list-item-6">Chasis</a>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+<div class="col-8">
+<div id="spy-example2" data-spy="scroll" data-target="#list-example" data-offset="0" style="height: 200px; overflow: auto">
+   {% for ent in form.equipos %}
+        {% set indice = loop.index-1 %}
+        <div class="well text-info form-horizontal material" id="material_{{ indice }}">
+            <div id="app_bundleinventario_form_equipos_{{ indice }}" class="container-fluid">
+    <div class="form-group row">
+                    {% if ent.vars.value.tipoEquipo =='monitor' %}
+                   <h4 id="list-item-1">Monitor</h4>
+                        <div class="form-group row" style="padding-left: 5%;padding-top: 3%">
+                            {{ form_widget(ent.numInventario, { 'attr':{'hidden' : 'true'}}) }}
+                            {{ form_widget(ent.tipoEquipo, { 'attr':{'hidden' : 'true'}}) }}
+                            <br>Numero de inventario: {{ ent.children.numInventario.vars.value }}
+                        </div>
+                        <div id="columna1_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}{{ form_widget(ent.modelo) }}
+                        </div>
+                        <div id="columna2_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+                        </div>
+                        <div id="columna3_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.marca) }}{{ form_label(ent.marca) }}{{ form_widget(ent.marca) }}
+                        </div>
+                            <br>
+                               <div id="columna4_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.lcd) }}{{ form_label(ent.lcd) }}{{ form_widget(ent.lcd) }}
+                               </div>
+                            <br>
+                            <div id="delete_{{ indice }}" style="float: right">
+                                <a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"
+                                   onclick="eliminar1Form({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+                            </div>
+                        </div>
+        {% elseif ent.vars.value.tipoEquipo =='impresora' %}
+        <h4 id="list-item-2">Impresora</h4>
+                        <div class="form-group row">
+                            <div class="form-group row" style="padding-left: 5%;padding-top: 3%;">
+                                {{ form_widget(ent.numInventario, { 'attr':{'hidden' : 'true'}}) }}
+                                {{ form_widget(ent.tipoEquipo, { 'attr':{'hidden' : 'true'}}) }}
+                                <br>Numero de inventario: {{ ent.children.numInventario.vars.value }}
+                            </div>
+                            <div id="columna1_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                                {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}{{ form_widget(ent.modelo) }}
+                            </div>
+                            <div id="columna2_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                                {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+                            </div>
+                            <div id="columna3_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                                {{ form_errors(ent.marca) }}{{ form_label(ent.marca) }}{{ form_widget(ent.marca) }}
+                            </div>
+
+                            <div id="columna5_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                                {{ form_errors(ent.tipo) }}{{ form_label(ent.tipo) }}{{ form_widget(ent.tipo) }}
+                            </div>
+                            <div id="columna6_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                                {{ form_errors(ent.tipoTonerCartucho) }}{{ form_label(ent.tipoTonerCartucho) }}{{ form_widget(ent.tipoTonerCartucho) }}
+                            </div>
+                            <div id="columna7_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                                {{ form_errors(ent.tonerCartucho) }}{{ form_label(ent.tonerCartucho) }}{{ form_widget(ent.tonerCartucho) }}
+                            </div>
+                            <div id="delete_{{ indice }}" style="float: right">
+                                <a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"
+                                   onclick="eliminar1Form({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+                            </div>
+                        </div>
+
+ {% elseif ent.vars.value.tipoEquipo =='backup' %}
+ <h4 id="list-item-3">Backup</h4>
+                     <div class="form-group row">
+                        <div class="form-group row" style="padding-left: 5%;padding-top: 3%;">
+
+                            {{ form_widget(ent.numInventario, { 'attr':{'hidden' : 'true'}}) }}
+                            {{ form_widget(ent.tipoEquipo, { 'attr':{'hidden' : 'true'}}) }}
+                            <br>Numero de inventario: {{ ent.children.numInventario.vars.value }}
+                        </div>
+                        <div id="columna2_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+                        </div>
+                        <div id="columna2_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}{{ form_widget(ent.modelo) }}
+                        </div>
+                        <div id="columna3_{{ indice }}" class="col-md-2" style="padding-left: 5%;">
+                            {{ form_errors(ent.marca) }}{{ form_label(ent.marca) }}{{ form_widget(ent.marca) }}
+                        </div>
+                        <div id="columna5_{{ indice }}" class="col-sm-1" style="padding-left: 2%;">
+                            {{ form_errors(ent.sello) }}{{ form_label(ent.sello) }}{{ form_widget(ent.sello) }}
+                        </div>
+                        <div id="columna6_{{ indice }}" class="col-sm-2" style="padding-left: 5%;">
+                            {{ form_errors(ent.capacidad) }}{{ form_label(ent.capacidad) }}{{ form_widget(ent.capacidad) }}
+                            <br>
+                            <div id="delete_{{ indice }}" style="float: right">
+                                <a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"
+                                   onclick="eliminar1Form({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+                            </div>
+                        </div>
+                        </div>
+ {% elseif ent.vars.value.tipoEquipo =='estabilizador' %}
+ <h4 id="list-item-4">Estabilizador</h4>
+                     <div class="form-group row">
+                        <div class="form-group row" style="padding-left: 5%;padding-top: 3%;">
+                            {{ form_widget(ent.numInventario, { 'attr':{'hidden' : 'true'}}) }}
+                            {{ form_widget(ent.tipoEquipo, { 'attr':{'hidden' : 'true'}}) }}
+                            <br>Numero de inventario: {{ ent.children.numInventario.vars.value }}
+                        </div>
+                        <div id="columna1_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+                            {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}{{ form_widget(ent.modelo) }}
+                        </div>
+                        <div id="columna13_{{ indice }}" class="col-md-2" style="padding-left: 5%;">
+                            {{ form_errors(ent.marca) }}{{ form_label(ent.marca) }}{{ form_widget(ent.marca) }}
+                        </div>
+                        <div id="columna2_{{ indice }}" class="col-sm-2" style="padding-left: 5%;">
+                            {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+                        </div>
+                        <div id="columna3_{{ indice }}" class="col-sm-2" style="padding-left: 5%;">
+                            {{ form_errors(ent.capacidad) }}{{ form_label(ent.capacidad) }}{{ form_widget(ent.capacidad) }}
+                            <br>
+                            <div id="delete_{{ indice }}" style="float: right">
+                                <a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"
+                                   onclick="eliminar1Form({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+                            </div>
+                        </div>
+                        </div>
+ {% elseif ent.vars.value.tipoEquipo =='scanner' %}
+  <h4 id="list-item-5">Scanner</h4>
+     <div class="form-group row">
+         <div class="form-group row" style="padding-left: 5%;padding-top: 3%;">
+             {{ form_widget(ent.numInventario, { 'attr':{'hidden' : 'true'}}) }}
+             {{ form_widget(ent.tipoEquipo, { 'attr':{'hidden' : 'true'}}) }}
+             <br>Numero de inventario: {{ ent.children.numInventario.vars.value }}
+         </div>
+         <div id="columna7_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+             {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}{{ form_widget(ent.modelo) }}
+         </div>
+         <div id="columna13_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+             {{ form_errors(ent.marca) }}{{ form_label(ent.marca) }}{{ form_widget(ent.marca) }}
+         </div>
+         <div id="columna2_{{ indice }}" class="col-md-2" style="padding-left: 5%;">
+             {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+         </div>
+         <div id="delete_{{ indice }}" style="float: right">
+             <a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"
+                onclick="eliminar1Form({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+         </div>
+     </div>
+
+ {% elseif ent.vars.value.tipoEquipo =='cpuchasis' %}
+     <h4 id="list-item-6">Chasis</h4>
+     <div class="form-group row">
+         <div class="form-group row" style="padding-left: 5%;padding-top: 3%;">
+             {{ form_widget(ent.numInventario, { 'attr':{'hidden' : 'true'}}) }}
+             {{ form_widget(ent.tipoEquipo, { 'attr':{'hidden' : 'true'}}) }}
+             <br>Numero de inventario: {{ ent.children.numInventario.vars.value }}
+         </div>
+         <div id="columna7_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+             {{ form_errors(ent.modelo) }}{{ form_label(ent.modelo) }}{{ form_widget(ent.modelo) }}
+         </div>
+         <div id="columna2_{{ indice }}" class="col-md-2" style="padding-left: 5%;">
+             {{ form_errors(ent.serie) }}{{ form_label(ent.serie) }}{{ form_widget(ent.serie) }}
+         </div>
+         <div id="columna13_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+             {{ form_errors(ent.sello) }}{{ form_label(ent.sello) }}{{ form_widget(ent.sello) }}
+         </div>
+         <div id="columna2_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+             {{ form_errors(ent.color) }}{{ form_label(ent.color) }}{{ form_widget(ent.color) }}
+             <br>
+             {#<div id="delete_{{ indice }}" style="float: right">#}
+             {#<a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"#}
+             {#onclick="eliminar1Form({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>#}
+
+             {#</div>#}
+         </div>
+     </div>
+    {% endif %}
+</div>
+</div></div>
+    {% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+    </div>
+{% endif %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        function eliminar1Form(posFrom) {
+            var div = document.getElementById("material_" + posFrom);
+            div.parentNode.removeChild(div);
+        }
+    </script>
+{% endblock %}

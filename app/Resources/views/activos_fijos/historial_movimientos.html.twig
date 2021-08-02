@@ -1,0 +1,403 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+    <script src="{{ asset('build/js/pace.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+    {#<!-- CoreUI CSS -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    {#<meta charset="utf-8">#}
+    {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+    {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+    {#<!-- Font Awesome -->#}
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    {#<!-- Bootstrap core CSS -->#}
+    {#<!-- Select2 -->#}
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Historial de movimientos</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+
+    <div class="container-fluid">
+    <div class="animated fadeIn">
+    <div class="row">
+    <div class="col-lg-12">
+    {% for message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+    <div class="card">
+    <div class="card-header">
+    {#{{ dump(lista_historial) }}#}
+    <i class="fa fa-align-justify"></i> <strong>Total de movimientos realizados </strong>
+    <strong> {{ pagination.getTotalItemCount }} </strong>
+    {% for g in entity.grupos %}
+    {% if g.nombre== 'Administradores'%}
+    <a href="{{ path('comprobar_movimiento_activos',{'lista':lista_historial}) }}"
+                                   class="btn btn-primary float-md-right">
+                                    <i class="nav-icon icon-reload"
+                                       data-toggle="tooltip"
+                                       data-placement="bottom"
+                                       title="Nueva Modal"></i>
+                                    Comprobar movimientos realizados
+                                </a>
+                            {% endif %}
+        {% endfor %}
+                            <br>
+                            <br>
+                            <div class="float-left">
+                                <label>Cantidad de resultados por pagina</label> <select name="maxItemPerPage"
+                                                                                         id="maxItemPerPage"
+                                                                                         class="custom-select col-3">
+                                    <option id="Seleccione" value="1">Seleccione</option>
+                                    <option id="5">5</option>
+                                    <option id="10">10</option>
+                                    <option id="20">20</option>
+                                    <option id="30">30</option>
+                                </select>
+                            </div>
+
+                            {#<div class="float-right">#}
+                            {#<a href="{{ path('imprimir_activos',{'id':inventarios[0].idcosto}) }}"#}
+                            {#class="btn btn-sm btn-success float-md-right">Ver lista de activos</a>#}
+                            {#</div>#}
+                        </div>
+                        {% set lista=lista_historial %}
+                        <div class="card-body">
+                            <div class="float-right">
+                                <form class="form-inline float-right" action="{{ path('busca_historial_activo',{'lista':lista|json_encode}) }}" method="post">
+                                    <div class="input-group ">
+                                        <input class="form-control" id="numI" type="text" name="numI"
+                                               placeholder="Numero de inventario">
+                                        <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                                    </div>
+                                </form><br><br>
+                            </div>
+                            <br>
+
+                            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Departamento</th>
+                                    <th>Departamento destino</th>
+                                    <th>Activo Fijo</th>
+                                    <th>No.Inventario</th>
+                                    <th>Fecha de movimiento</th>
+                                    <th>Usuario que realizo el movimiento</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if pagination.getTotalItemCount>1 %}
+                                {% for incidencia in pagination %}
+                                    <tr {% if loop.index is odd %}class="color"{% endif %}>
+                                        {#{{ dump(incidencia) }}#}
+                                        {#{{ loop.index+1 }}#}
+                                        <td>{{ incidencia[0].dpto }}</td>
+                                        <td>{{ incidencia['areaDestino'] }}</td>
+                                        <td>{{ incidencia[0].asesorio }}</td>
+                                        <td>{{ incidencia[0].numInventario }}</td>
+                                        <td>{{ incidencia[0].fecha |date("d/m/Y") }}</td>
+                                        <td>{{ incidencia[0].user }}</td>
+                                        <td>
+
+                                            {#{% if incidencia.estado=='Reparación' or incidencia.estado=='Reparacion' %}#}
+                                            {% if incidencia[0].estadoMovimiento=='Realizado' %}
+                                                <span class="badge badge-success">
+                            Realizado
+                            </span>
+                                            {% else %}
+                                                <span class="badge badge-warning">Pendiente</span>
+                                            {% endif %}
+                                            {#<span class="badge badge-warning">#}
+                                            {#{% if estados!=[] %}#}
+                                            {#{{ dump(loop.index-1) }}#}
+                                            {#{{ dump(estados[loop.index-1]) }}#}
+                                            {#{{ estados[loop.index-1]['estadoMovimiento'] }}#}
+                                            {#{% else %}#}
+                                            {#Pendiente#}
+                                            {#{% endif %}#}
+                                            {#</span>#}
+                                            {#<span class="badge badge-success">Realizado </span>#}
+                                        </td>
+
+                                        <td>
+                                            <a href="{{ path('incidencia_ver', {'id': incidencia[0].id}) }}">
+                                                <i class="nav-icon icon-magnifier"
+                                                   data-toggle="tooltip" data-placement="bottom"
+                                                   title="Ver Incidencia"></i> </a>
+                                            <a href="{{ path('remove_incidenciaAF',{'id': incidencia[0].id}) }}">
+                                                <i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"
+                                                   title="Eliminar"></i></a>
+                                            {#<a href="{{ path('incidencia_movimientoAFT_ver', {'id': incidencia.id}) }}">#}
+                                            {#<i class="nav-icon icon-magnifier"#}
+                                            {#data-toggle="tooltip" data-placement="bottom"#}
+                                            {#title="Ver Incidencia"></i> </a>#}
+                                            {#<a href="{{ path('remove_movimientoAFT',{'id': incidencia.id}) }}">#}
+                                            {#<i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"#}
+                                            {#title="Eliminar"></i></a>#}
+
+                                            {#{% if app.user.rol=='ROLE_JEFE' or app.user.rol=='ROLE_ADMIN' %}#}
+                                            {#<a href="{{ path('remove_incidencia',{'id': incidencia.id}) }}">#}
+                                            {#<i class="nav-icon icon-trash" data-toggle="tooltip"#}
+                                            {#data-placement="bottom"#}
+                                            {#title="Eliminar"></i></a>#}
+
+                                            {#<a href="{{ path('incidencia_edit', {'id': incidencia.id}) }}">#}
+                                            {#<i class="nav-icon icon-pencil"#}
+                                            {#data-toggle="tooltip" data-placement="bottom"#}
+                                            {#title="Editar"></i></a>#}
+
+                                            {#{% endif %}#}
+
+
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                {% else %}
+
+                                    {% for incidencia in pagination %}
+                                        <tr >
+                                            {#{{ dump(incidencia) }}#}
+                                            {#{{ loop.index+1 }}#}
+                                            <td>{{ incidencia[0].dpto }}</td>
+                                            <td>{{ incidencia['areaDestino'] }}</td>
+                                            <td>{{ incidencia[0].asesorio }}</td>
+                                            <td>{{ incidencia[0].numInventario }}</td>
+                                            <td>{{ incidencia[0].fecha |date("d/m/Y") }}</td>
+                                            <td>{{ incidencia[0].user }}</td>
+                                            <td>
+
+                                                {#{% if incidencia.estado=='Reparación' or incidencia.estado=='Reparacion' %}#}
+                                                {% if incidencia[0].estadoMovimiento=='Realizado' %}
+                                                    <span class="badge badge-success">
+                            Realizado
+                            </span>
+                                                {% else %}
+                                                    <span class="badge badge-warning">Pendiente</span>
+                                                {% endif %}
+                                                {#<span class="badge badge-warning">#}
+                                                {#{% if estados!=[] %}#}
+                                                {#{{ dump(loop.index-1) }}#}
+                                                {#{{ dump(estados[loop.index-1]) }}#}
+                                                {#{{ estados[loop.index-1]['estadoMovimiento'] }}#}
+                                                {#{% else %}#}
+                                                {#Pendiente#}
+                                                {#{% endif %}#}
+                                                {#</span>#}
+                                                {#<span class="badge badge-success">Realizado </span>#}
+                                            </td>
+
+                                            <td>
+                                                <a href="{{ path('incidencia_ver', {'id': incidencia[0].id}) }}">
+                                                    <i class="nav-icon icon-magnifier"
+                                                       data-toggle="tooltip" data-placement="bottom"
+                                                       title="Ver Incidencia"></i> </a>
+                                                <a href="{{ path('remove_incidenciaAF',{'id': incidencia[0].id}) }}">
+                                                    <i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"
+                                                       title="Eliminar"></i></a>
+                                                {#<a href="{{ path('incidencia_movimientoAFT_ver', {'id': incidencia.id}) }}">#}
+                                                {#<i class="nav-icon icon-magnifier"#}
+                                                {#data-toggle="tooltip" data-placement="bottom"#}
+                                                {#title="Ver Incidencia"></i> </a>#}
+                                                {#<a href="{{ path('remove_movimientoAFT',{'id': incidencia.id}) }}">#}
+                                                {#<i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"#}
+                                                {#title="Eliminar"></i></a>#}
+
+                                                {#{% if app.user.rol=='ROLE_JEFE' or app.user.rol=='ROLE_ADMIN' %}#}
+                                                {#<a href="{{ path('remove_incidencia',{'id': incidencia.id}) }}">#}
+                                                {#<i class="nav-icon icon-trash" data-toggle="tooltip"#}
+                                                {#data-placement="bottom"#}
+                                                {#title="Eliminar"></i></a>#}
+
+                                                {#<a href="{{ path('incidencia_edit', {'id': incidencia.id}) }}">#}
+                                                {#<i class="nav-icon icon-pencil"#}
+                                                {#data-toggle="tooltip" data-placement="bottom"#}
+                                                {#title="Editar"></i></a>#}
+
+                                                {#{% endif %}#}
+
+
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                            <div class="navigation">
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- /.col-->
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+            //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+            $('#maxItemPerPage').change(function () {
+                var url = '{{ path('lista_incidencias_movimiento',{'maxItemPerPage':'_itemNum'}) }}';
+                var item = $('#maxItemPerPage').find(":selected").text();
+                window.location.href = url.replace('_itemNum', item);
+            })
+        </script>
+        {#<script src="{{ asset('build/js/select2.full.js') }}"></script>#}
+        {#<script src="{{ asset('build/js/es.js') }}"></script>#}
+
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#areas, #departamentos, #estaciones').select2({
+                    placeholder: "---Seleccione---"
+                });
+            });
+        </script>
+        <script type="application/javascript">
+            $('#areas').on('select2:select', function (e) {
+                // var data = e.params.data;
+                var area = e.params.data.element.text;
+                var id_i = e.params.data.element.id;  // de tu elemento
+                $.ajax({
+                    url: "{{ path('list_departamentos') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        area_nombre: area,
+                        id_ccosto: id_i
+                    },
+                    success: function (depart) {
+                        $("#estaciones" ).empty();
+       $("#departamentos").empty();
+    // console.log(depart);
+    //  $('#departamentos').html(resp);
+    // var neighborhoodSelect = $("#departamentos");
+    var datos = [];
+    $.each(depart, function (key, depart) {
+    datos.push({id: parseInt(depart.id_dep), text: depart.dep});
+    });
+    $('#departamentos').val(null).trigger('change');
+    $("#departamentos").select2({
+    data: datos
+    });
+    // Remove current options
+    // neighborhoodSelect.html('');
+    // Empty value ...
+    // neighborhoodSelect.append('
+    <option value> Selecciona un departamento de ' + area + ' ...</option>');
+    // $.each(depart, function (key, depart) {
+    //
+    //   neighborhoodSelect.append('
+    <option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+    //
+    // });
+    },
+    error: function (err) {
+    alert("An error ocurred while loading data ...");
+    }
+    });
+    });
+    $('#departamentos').on('select2:select', function (e) {
+    // var data = e.params.data;
+    var area = e.params.data.text;
+    var id_ic = e.params.data.id;
+    // console.log('text -->'+area);
+    // console.log('id -->'+id_ic);
+    // console.log(data);
+    // var municipioSelector = $(this);
+    // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+    //alert(id_ic);
+    // alert(municipioSelector.val());
+    // Request the neighborhoods of the selected city.
+    $.ajax({
+    url: "{{ path('list_inventarios') }}",
+    type: "GET",
+    dataType: "JSON",
+    data: {
+    id_Costo2: id_ic
+    },
+    success: function (neighborhood) {
+    var datos = [];
+    console.log(neighborhood);
+    $.each(neighborhood, function (key, neighborhood) {
+    datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+    });
+    $('#estaciones').val(null).trigger('change');
+    $("#estaciones").select2({
+    data: datos
+    });
+    // var unidadSelect = $("#estaciones");
+    // Remove current options
+    // unidadSelect.html('');
+    // Empty value ...
+    // unidadSelect.append('
+    <option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...
+    </option>');
+    // $.each(neighborhood, function (key, neighborhood) {
+    //
+    //   unidadSelect.append('
+    <option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '
+    </option>');
+    //
+    //   unidadSelec = neighborhood.id_estacion;
+    // });
+    },
+    error: function (err) {
+    alert("An error ocurred while loading data ...");
+    }
+    });
+    }
+    );
+    $("#estaciones").empty();
+    $("#departamentos").empty();
+    // });
+    </script>
+
+    {% endblock %}
+{% endblock %}

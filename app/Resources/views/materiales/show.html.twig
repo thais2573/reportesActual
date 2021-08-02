@@ -1,0 +1,118 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+  <!-- CoreUI CSS -->
+
+
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block main %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a>Vista de solicitud</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i> </a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  </a>
+      </div>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-header">
+              <strong> Solicitud #{{ solicitud.id }}</strong>
+              <div class="form-group-row">
+                <a class="btn btn-ghost-success pull-right"
+                href="{{ path('imprimir_valesolicitud', {'id': solicitud.id}) }}"><i
+                class="nav-icon icon-printer"
+                data-toggle="tooltip"
+                title="Nueva Incidencia"></i> Imprimir</a>
+              </div>
+            </div>
+            <div class="card-body">
+              <form class="form-horizontal" action="" method="post">
+                <div class="form-group row">
+
+                  <label class="col-md-2 col-form-label" for="form-reg">Centro de Costo:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-reg"
+                           type="text"
+                           name="form-reg"
+                           value="{{ solicitud.centroCosto }}">
+                  </div>
+                  <label class="col-md-2 col-form-label" for="form-reg">Realizada por:</label>
+                  <div class="col-md-2">
+                    <input class="form-control"
+                           readonly
+                           id="form-reg"
+                           type="text"
+                           name="form-reg"
+                           value="{{ solicitud.solicitante }}">
+                  </div>
+
+
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-12">
+                    <label class="col-md-2 col-form-label" for="form-reg" style="alignment: center;">Materiales
+                                                                                                          Solicitados:</label><br>
+                    <ul class="list-group">
+                      {% if solicitud.material is not iterable %}
+                        <li
+                          class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
+                          {{ solicitud.material.descripcion }}{{ solicitud.material.um }}
+                          <span class="badge badge-primary badge-pill">{{ solicitud.material.cantidad }}</span>
+                        </li>
+                      {% else %}
+                        {% for m in solicitud.material %}
+                          <li
+                            class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
+                            Descripcion: {{ m.idProducto.descripcion }} <br>Unidad de Medida:{{m.um }}
+                            <span class="badge badge-primary badge-pill">{{ m.cantidad }}</span>
+                          </li>
+                        {% endfor %}
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+
+
+              </form>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary" href="{{ path('listado_materiales') }}">Atrás</a>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+{% endblock %}
+

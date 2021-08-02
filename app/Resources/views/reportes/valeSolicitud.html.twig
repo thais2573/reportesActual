@@ -1,0 +1,201 @@
+<html >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+<table border="1" cellpadding="1" cellspacing="1" style="width:900px;font-size: 12px">
+  <tbody>
+  <tr style="height: 20px">
+    <td colspan="5" rowspan="1">ORGANISMO: MINSAP</td>
+    <td style="text-align: center; font-weight: bold" colspan="5" rowspan="2">SOLICITUD DE MATERIALES</td>
+  </tr>
+  <tr style="height: 20px">
+    <td colspan="5" rowspan="1">EMPRESA: "CICC"</td>
+  </tr>
+  <tr style="height: 20px">
+    <td colspan="10">ALMACEN AL QUE SE SOLICITAN: Central</td>
+  </tr>
+  <tr style="height: 20px">
+    <td>DESTINO</td>
+    <td style="vertical-align: top" colspan="3" rowspan="1">ORDEN DE TRABAJO #:</td>
+    <td style="vertical-align: top" colspan="4" rowspan="1">CENTRO DE COSTO:{{ lista.centroCosto }}</td>
+    <td style="vertical-align: top" colspan="2" rowspan="1">CODIGO C.C:</td>
+  </tr>
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="2" rowspan="1">CODIGO</td>
+    <td style="text-align: center" colspan="6" rowspan="1">DESCRIPCION</td>
+    <td style="text-align: center">U.M</td>
+    <td style="text-align: center">CANTIDAD</td>
+  </tr>
+  {% for m in lista.material %}
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="2" rowspan="1">{{  m.idProducto.idProducto }}</td>
+    <td style="text-align: center" colspan="6" rowspan="1">{{ m.idProducto.descripcion }}</td>
+    <td style="text-align: center">{{ m.um }}</td>
+    <td style="text-align: center">{{ m.cantidad }}</td>
+  </tr>
+{% endfor %}
+
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="4" rowspan="1">SOLICITADO POR:</td>
+    <td style="text-align: center" colspan="4" rowspan="1">RECIBIDO POR:</td>
+    <td style="vertical-align: top; text-align: center" colspan="1" rowspan="4"><div style="width: 80px">VALE DE </div> <div style="width: 80px">ENTREGA #:</div></td>
+    <td style="vertical-align: top; text-align: center" colspan="1" rowspan="4">SOLICITUD #:</br> {{ app.user.consecutivoSolicitud }}</td>
+  </tr>
+  <tr  style="height: 30px">
+    <td colspan="4" rowspan="1">NOMBRE Y APELLIDOS: <div style="width: 200px">{{ lista.solicitante }}</div></td>
+    <td colspan="4" rowspan="1">NOMBRE Y APELLIDOS:<div style="width: 200px"> </div></td>
+  </tr>
+  <tr style="text-align: center; height: 20px">
+    <td style="vertical-align: top" colspan="1" rowspan="2">FIRMA:</td>
+    <td>D</td>
+    <td>M</td>
+    <td>A</td>
+    <td style="vertical-align: top" colspan="1" rowspan="2">FIRMA</td>
+    <td>D</td>
+    <td>M</td>
+    <td>A</td>
+  </tr>
+  <tr style="text-align: center; height: 25px">
+  <td>{{ "now"|date('d') }}</td>
+  <td>{{ "now"|date('m') }}</td>
+  <td>{{ "now"|date('Y') }}</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellpadding="1" cellspacing="1" style="width:900px;font-size: 12px">
+  <tbody>
+  <tr style="height: 20px">
+    <td colspan="5" rowspan="1">ORGANISMO: MINSAP</td>
+    <td style="text-align: center; font-weight: bold" colspan="5" rowspan="2">SOLICITUD DE MATERIALES</td>
+  </tr>
+  <tr style="height: 20px">
+    <td colspan="5" rowspan="1">EMPRESA: "CICC"</td>
+  </tr>
+  <tr style="height: 20px">
+    <td colspan="10">ALMACEN AL QUE SE SOLICITAN: Central</td>
+  </tr>
+  <tr style="height: 20px">
+    <td>DESTINO</td>
+    <td style="vertical-align: top" colspan="3" rowspan="1">ORDEN DE TRABAJO #:</td>
+    <td style="vertical-align: top" colspan="4" rowspan="1">CENTRO DE COSTO:{{ lista.centroCosto }}</td>
+    <td style="vertical-align: top" colspan="2" rowspan="1">CODIGO C.C:</td>
+  </tr>
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="2" rowspan="1">CODIGO</td>
+    <td style="text-align: center" colspan="6" rowspan="1">DESCRIPCION</td>
+    <td style="text-align: center">U.M</td>
+    <td style="text-align: center">CANTIDAD</td>
+  </tr>
+  {% for m in lista.material %}
+    <tr style="height: 20px">
+      <td style="text-align: center" colspan="2" rowspan="1">{{  m.idProducto.idProducto }}</td>
+      <td style="text-align: center" colspan="6" rowspan="1">{{ m.idProducto.descripcion }}</td>
+      <td style="text-align: center">{{ m.um }}</td>
+      <td style="text-align: center">{{ m.cantidad }}</td>
+    </tr>
+  {% endfor %}
+
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="4" rowspan="1">SOLICITADO POR:</td>
+    <td style="text-align: center" colspan="4" rowspan="1">RECIBIDO POR:</td>
+    <td style="vertical-align: top; text-align: center" colspan="1" rowspan="4"><div style="width: 80px">VALE DE </div> <div style="width: 80px">ENTREGA #:</div></td>
+    <td style="vertical-align: top; text-align: center" colspan="1" rowspan="4">SOLICITUD #:</br> {{ app.user.consecutivoSolicitud }}</td>
+  </tr>
+  <tr  style="height: 30px">
+    <td colspan="4" rowspan="1">NOMBRE Y APELLIDOS: <div style="width: 200px">{{ lista.solicitante }}</div></td>
+    <td colspan="4" rowspan="1">NOMBRE Y APELLIDOS:<div style="width: 200px"> </div></td>
+  </tr>
+  <tr style="text-align: center; height: 20px">
+    <td style="vertical-align: top" colspan="1" rowspan="2">FIRMA:</td>
+    <td>D</td>
+    <td>M</td>
+    <td>A</td>
+    <td style="vertical-align: top" colspan="1" rowspan="2">FIRMA</td>
+    <td>D</td>
+    <td>M</td>
+    <td>A</td>
+  </tr>
+  <tr style="text-align: center; height: 25px">
+    <td>{{ "now"|date('d') }}</td>
+    <td>{{ "now"|date('m') }}</td>
+    <td>{{ "now"|date('Y') }}</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellpadding="1" cellspacing="1" style="width:900px;font-size: 12px">
+  <tbody>
+  <tr style="height: 20px">
+    <td colspan="5" rowspan="1">ORGANISMO: MINSAP</td>
+    <td style="text-align: center; font-weight: bold" colspan="5" rowspan="2">SOLICITUD DE MATERIALES</td>
+  </tr>
+  <tr style="height: 20px">
+    <td colspan="5" rowspan="1">EMPRESA: "CICC"</td>
+  </tr>
+  <tr style="height: 20px">
+    <td colspan="10">ALMACEN AL QUE SE SOLICITAN: Central</td>
+  </tr>
+  <tr style="height: 20px">
+    <td>DESTINO</td>
+    <td style="vertical-align: top" colspan="3" rowspan="1">ORDEN DE TRABAJO #:</td>
+    <td style="vertical-align: top" colspan="4" rowspan="1">CENTRO DE COSTO:{{ lista.centroCosto }}</td>
+    <td style="vertical-align: top" colspan="2" rowspan="1">CODIGO C.C:</td>
+  </tr>
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="2" rowspan="1">CODIGO</td>
+    <td style="text-align: center" colspan="6" rowspan="1">DESCRIPCION</td>
+    <td style="text-align: center">U.M</td>
+    <td style="text-align: center">CANTIDAD</td>
+  </tr>
+  {% for m in lista.material %}
+    <tr style="height: 20px">
+      <td style="text-align: center" colspan="2" rowspan="1">{{  m.idProducto.idProducto }}</td>
+      <td style="text-align: center" colspan="6" rowspan="1">{{ m.idProducto.descripcion }}</td>
+      <td style="text-align: center">{{ m.um }}</td>
+      <td style="text-align: center">{{ m.cantidad }}</td>
+    </tr>
+  {% endfor %}
+
+  <tr style="height: 20px">
+    <td style="text-align: center" colspan="4" rowspan="1">SOLICITADO POR:</td>
+    <td style="text-align: center" colspan="4" rowspan="1">RECIBIDO POR:</td>
+    <td style="vertical-align: top; text-align: center" colspan="1" rowspan="4"><div style="width: 80px">VALE DE </div> <div style="width: 80px">ENTREGA #:</div></td>
+    <td style="vertical-align: top; text-align: center" colspan="1" rowspan="4">SOLICITUD #:</br> {{ app.user.consecutivoSolicitud }}</td>
+  </tr>
+  <tr  style="height: 30px">
+    <td colspan="4" rowspan="1">NOMBRE Y APELLIDOS: <div style="width: 200px">{{ lista.solicitante }}</div></td>
+    <td colspan="4" rowspan="1">NOMBRE Y APELLIDOS:<div style="width: 200px"> </div></td>
+  </tr>
+  <tr style="text-align: center; height: 20px">
+    <td style="vertical-align: top" colspan="1" rowspan="2">FIRMA:</td>
+    <td>D</td>
+    <td>M</td>
+    <td>A</td>
+    <td style="vertical-align: top" colspan="1" rowspan="2">FIRMA</td>
+    <td>D</td>
+    <td>M</td>
+    <td>A</td>
+  </tr>
+  <tr style="text-align: center; height: 25px">
+    <td>{{ "now"|date('d') }}</td>
+    <td>{{ "now"|date('m') }}</td>
+    <td>{{ "now"|date('Y') }}</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  </tbody>
+</table>
+</html>
+
+{% endblock %}
+

@@ -1,0 +1,197 @@
+<html >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    <div class="row">
+        {#<img src="{{ 'http://pro.local/images/brand/logo2.png' }}" alt="logo de la clinica" />#}
+        <img src="{{ 'https://reportes.cicc.cu/img/iconos/logoreportes.png' }}" alt="logo de la clinica" />
+        {#<img src="{{ 'https://sigh.camilo.sld.cu/images/logo.png' }}" alt="logo de la clinica" />#}
+    </div>
+    <br>
+    <div class="float-right">{{ date('now') |date('d-m-Y') }}</div>
+    <h2 align="center">Equipos pendientes de taller </h2><br><br>
+    {% set backups = [] %}
+    {% set impresoras = [] %}
+    {% set monitores = [] %}
+    {% set cpuchasis = [] %}
+    {% set scanners = [] %}
+    {% set laptops = [] %}
+    {% set servidores = [] %}
+    {% set equiposRed = [] %}
+    {% set estabilizadores = [] %}
+    {% for datos in lista %}
+        {% if datos.tipoEquipo =='servidor' or datos.tipoEquipo=='Servidor' %}
+            {% set servidores = servidores|merge([datos]) %}
+        {% endif %}
+        {% if datos.tipoEquipo =='equipoRed' or datos.tipoEquipo=='equipored' %}
+            {% set equiposRed = equiposRed|merge([datos]) %}
+        {% endif %}
+        {% if datos.tipoEquipo =='backup' or datos.tipoEquipo=='Backup' %}
+            {% set backups = backups|merge([datos]) %}
+        {% endif %}
+        {% if  datos.tipoEquipo =='impresora' or datos.tipoEquipo=='Impresora' %}
+            {% set impresoras = impresoras|merge([datos]) %}
+        {% endif %}
+        {% if  datos.tipoEquipo =='monitor' or datos.tipoEquipo=='Monitor' %}
+            {% set monitores = monitores|merge([datos]) %}
+        {% endif %}
+        {% if  datos.tipoEquipo =='cpuchasis' or datos.tipoEquipo=='CPU-Chasis' %}
+            {% set cpuchasis = cpuchasis|merge([datos]) %}
+        {% endif %}
+        {% if  datos.tipoEquipo =='scanner' or datos.tipoEquipo=='Scanner' %}
+            {% set scanners = scanners|merge([datos]) %}
+        {% endif %}
+        {% if  datos.tipoEquipo =='laptop' or datos.tipoEquipo=='Laptop' %}
+            {% set laptops = laptops|merge([datos]) %}
+        {% endif %}
+        {% if  datos.tipoEquipo =='Estabilizador' or datos.tipoEquipo=='estabilizador' %}
+            {% set estabilizadores = estabilizadores|merge([datos]) %}
+        {% endif %}
+    {% endfor %}
+    <table width="100%">
+        <thead>
+        </thead>
+        <tbody>
+        <tr>
+            <th width="30%">Dpto.</th>
+            <th>Modelo</th>
+            <th >Equipo</th>
+            <th>No.Inventario</th>
+        </tr>
+        {% if backups|length>0 %}
+            <tr><th colspan="5">Backup</th></tr>
+            {% for b in backups %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ b.dpto }}</td>
+                    <td>{{ b.modelo }}</td>
+                    <td>{{ b.tipoEquipo }}</td>
+                    <td>{{ b.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total: {{ backups|length }}</th></tr>
+        {% endif %}
+        {% if impresoras|length>0 %}
+            <tr><th colspan="5">Impresora</th></tr>
+            {% for i in impresoras %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ i.dpto }}</td>
+                    <td>{{ i.modelo }}</td>
+                    <td>{{ i.tipoEquipo }}</td>
+                    <td>{{ i.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ impresoras|length }}</th></tr>
+        {% endif %}
+        {% if monitores |length>0 %}
+            <tr><th colspan="5">Monitor</th></tr>
+            {% for m in monitores %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ m.dpto }}</td>
+                    <td>{{ m.modelo }}</td>
+                    <td>{{ m.tipoEquipo }}</td>
+                    <td>{{ m.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ monitores|length }}</th></tr>
+        {% endif %}
+        {% if cpuchasis |length>0 %}
+            <tr><th colspan="5">Chasis</th></tr>
+            {% for c in cpuchasis %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ c.dpto }}</td>
+                    <td>{{ c.modelo }}</td>
+                    <td>{{ c.tipoEquipo }}</td>
+                    <td>{{ c.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ cpuchasis|length }}</th></tr>
+        {% endif %}
+        {% if scanners |length>0 %}
+            <tr><th colspan="5">Scanner</th></tr>
+            {% for s in scanners %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ s.dpto }}</td>
+                    <td>{{ s.modelo }}</td>
+                    <td>{{ s.tipoEquipo }}</td>
+                    <td>{{ s.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ scanners|length }}</th></tr>
+        {% endif %}
+        {% if laptops |length>0 %}
+            <tr><th colspan="5">Laptop</th></tr>
+            {% for l in laptops %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ l.dpto }}</td>
+                    <td>{{ l.modelo }}</td>
+                    <td>{{ l.tipoEquipo }}</td>
+                    <td>{{ l.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ laptops|length }}</th></tr>
+        {% endif %}
+        {% if estabilizadores |length>0 %}
+            <tr><th colspan="5">Estabilizador</th></tr>
+            {% for e in estabilizadores %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ e.dpto }}</td>
+                    <td>{{ e.modelo }}</td>
+                    <td>{{ e.tipoEquipo }}</td>
+                    <td>{{ e.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ estabilizadores|length }}</th></tr>
+        {% endif %}<br>
+        {% if servidores |length>0 %}
+            <tr><th colspan="5">Servidor</th></tr>
+            {% for s in servidores %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ s.dpto }}</td>
+                    <td>{{ s.modelo }}</td>
+                    <td>{{ s.tipoEquipo }}</td>
+                    <td>{{ s.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ servidores|length }}</th></tr>
+        {% endif %}
+        {% if equiposRed |length>0 %}
+            <tr><th colspan="5">Equipos de red</th></tr>
+            {% for eq in equiposRed %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ eq.dpto }}</td>
+                    <td>{{ eq.modelo }}</td>
+                    <td>{{ eq.tipoEquipo }}</td>
+                    <td>{{ eq.numI }}</td>
+                </tr>
+            {% endfor %}
+            <tr><th colspan="5">Total:{{ equiposRed|length }}</th></tr>
+        {% endif %}
+        <tr><th colspan="5">Total General:{{ lista|length }}</th></tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <table>
+        <tr with="600">
+            <td>
+                <ADDRESS>_______________________________________</ADDRESS>
+                <br>
+                <strong>Nombre y Apellidos</strong><br>
+                Elio Mendoza
+            </td>
+
+            <td>
+                <ADDRESS>_______________________________________</ADDRESS>
+                <br>
+                <strong>Aprobado</strong><br>
+                Eddy Frank Perez Ledezma
+            </td>
+
+        </tr>
+    </table>
+
+{% endblock %}
+
+</html>

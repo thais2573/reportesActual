@@ -1,0 +1,370 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- CoreUI CSS -->
+  {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+  <script src="{{ asset('build/js/pace.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+  {#<!-- CoreUI CSS -->#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  {#<!-- Bootstrap core CSS -->#}
+  {#<!-- Select2 -->#}
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables/media/css/jquery.dataTables.css') }}">
+
+
+{% endblock %}
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a>Lista de Componentes</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          <div class="card">
+            <div class="card-header">
+              <strong>Buscar componente</strong>
+
+{#              <form class="form-inline float-right" action="{{ path('filtrar_componentesNS') }}" method="post">#}
+
+
+{#                <div class="input-group ">#}
+
+{#                  <input class="form-control" id="numI" type="text" name="numI" placeholder="Numero de serie">#}
+{#                  <span class="input-group-prepend">#}
+{#                              <button class="btn btn-primary" type="submit">#}
+{#                                <i class="fa fa-search"></i> </button>#}
+{#                            </span>#}
+
+{#                </div>#}
+
+
+{#              </form>#}
+            </div>
+            <div class="card-body">
+              <form class="form-inline" action="{{ path('componente_filter') }}" method="post">
+                <div class="form-group row">
+
+                  <div class="col-sm-4">
+                    <label class="col-5" for="tipo">Departamento</label> &nbsp;
+                    <select id="areas" name="usuarios[]" class="custom-select" style="width: 400px">
+                      {% set cant=0 %}
+                      {% for area in areas %}
+                        {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                        <option id="{{ areas[cant]['Id_Ccosto'] }}"
+                                value="{{ areas[cant]['Desc_Ccosto'] }}">{{ areas[cant]['Desc_Ccosto'] }}</option>
+                        {% set cant=cant+1 %}
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="col-sm--7">
+                    <label class="col-8">Centro de Costo</label>
+                    <select id="departamentos" name="costos[] " class="custom-select" style="width: 400px">
+                      {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                    </select>
+                  </div>
+                  <div class="col-sm-4">
+
+                    <label class="col-5">Estacion</label> &nbsp;
+
+                    <select id="estaciones" name="estaciones[] " class="custom-select" style="width: 400px">
+
+
+                      {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+
+                    </select>
+                  </div>
+
+
+                </div>
+
+
+                <div class="form-group row">
+                  <br>
+                </div>
+            </div>
+
+            <input type="hidden" id="reset" name="reset" value="0">
+
+
+            <div class="card-footer">
+              <button class="btn btn-sm btn-primary" type="submit"
+                      onclick="document.getElementById('reset').value = 0; forms[0].submit()">
+                <i class="fa fa-dot-circle-o"></i> Buscar
+              </button>
+              <button class="btn btn-sm btn-danger" type="reset"
+                      onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                <i class="fa fa-ban"></i> Borrar
+              </button>
+              </form>
+            </div>
+          </div>
+
+
+          <div class="card">
+            <div class="card-header">
+
+              <i class="fa fa-align-justify"></i> <strong>Existencia : </strong>
+
+
+              <strong> {% if lista is defined %}{{ lista|length }} {% endif %}</strong>
+
+              {% for message in app.session.flashBag.get('success') %}
+                <div class="alert alert-info" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+
+            </div>
+
+            {% if lista is defined %}
+            {% if lista is not null %}
+            <div class="card-body">
+              <br>
+              <table class="display" style="width: 100%" id="componentesTable">
+                <thead>
+                <tr>
+                  <th>Tipo de componente</th>
+                  <th>Estacion de trabajo</th>
+                  <th>No.Serie</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Estado Actual</th>
+                  <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if lista !='' %}
+                  {% if lista is not iterable %}
+                    <td>{{ lista.tipoComponente }}</td>
+                    {% if lista.estacion2 is not null %}
+                      <td>{{ lista.estacion2.nombreRed }}</td>
+                    {% else %}
+                      <td>Sin estacion de trabajo</td>
+                    {% endif %}
+                    <td>{{ lista.serie }}</td>
+                    <td>{{ lista.marca }}</td>
+                    <td>{{ lista.modelo }}</td>
+                    <td>
+                      {{ lista.estado }}
+                    </td>
+                    {#Acciones#}
+                    <td>
+                      <a href="{{ path('ver_datos_componente', {'id': lista.id}) }}">
+                        <i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"
+                           title="Consultar Datos"></i>
+                      </a>
+
+
+                      <a href="{{ path('editar_componente',{'id': lista.id}) }}">
+                        <i class="icon-pencil" data-toggle="tooltip" data-placement="bottom"
+                           title="Editar equipo"></i></a>
+                    </td>
+                  {% else %}
+                    {% for i in lista %}
+                      <tr>
+                      <td>{{ i.tipoComponente }}</td>
+                      {% if i.estacion2 is not null %}
+                        <td>{{ i.estacion2.nombreRed }}</td>
+                      {% else %}
+                        <td>Sin estacion de trabajo</td>
+                      {% endif %}
+                      <td>{{ i.serie }}</td>
+                      <td>{{ i.marca }}</td>
+                      <td>{{ i.modelo }}</td>
+                      <td>
+                        {{ i.estado }}
+                      </td>
+
+
+                      {#Acciones#}
+                      <td>
+                        <a href="{{ path('ver_datos_componente', {'id': i.id}) }}">
+                          <i class="nav-icon icon-magnifier" data-toggle="tooltip" data-placement="bottom"
+                             title="Consultar Datos"></i>
+                        </a>
+
+
+                        <a href="{{ path('editar_componente',{'id': i.id}) }}">
+                          <i class="icon-pencil" data-toggle="tooltip" data-placement="bottom"
+                             title="Editar equipo"></i></a>
+
+
+
+                      </td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+
+
+
+                {% endif %}
+
+                {% endif %}
+                </tbody>
+                {% else %}
+
+
+
+                {% endif %}
+              </table>
+            </div>
+            <div class="card-footer">
+              {% if pagination is defined %}
+                <div class="navigation">
+                  {{ knp_pagination_render(pagination) }}
+                </div>
+              {% endif %}
+            </div>
+
+          </div>
+
+          <!-- /.col-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block javascripts %}
+    {{ parent() }}
+{#    <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+{#    <script src="{{ asset('build/js/jquery-ui.js') }}"></script>#}
+    {#<script src="{{ asset('build/js/es.js') }}"></script>#}
+    <script src="{{ asset('build/js/select2.js') }}"></script>
+    <script src="{{ asset('build/js/jquery.dataTables.min.js')}}"></script>
+    <script type="application/javascript">
+      $(document).ready(function () {
+        $('#areas, #departamentos, #estaciones').select2({
+          placeholder: "---Seleccione---"
+        });
+
+      });
+      $(document).ready( function () {
+        $('#componentesTable').DataTable();
+      } );
+    </script>
+    <script type="application/javascript">
+      $('#areas').on('select2:select', function (e) {
+        // var data = e.params.data;
+        var area = e.params.data.element.text;
+        var id_i = e.params.data.element.id;  // de tu elemento
+        $.ajax({
+          url: "{{ path('list_departamentos') }}",
+          type: "GET",
+          dataType: "JSON",
+          data: {
+            area_nombre: area,
+            id_ccosto: id_i
+          },
+          success: function (depart) {
+            $("#estaciones").empty();
+            $("#departamentos").empty();
+            console.log(depart);
+            //  $('#departamentos').html(resp);
+            // var neighborhoodSelect = $("#departamentos");
+            var datos = [];
+            $.each(depart, function (key, depart) {
+              datos.push({id: parseInt(depart.id_dep), text: depart.dep, id2: parseInt(depart.id_area)});
+            });
+            if ($('#departamentos').find("option[value='" + datos.id + "']").length) {
+              $('#departamentos').val(datos.id).trigger('change');
+            } else {
+              // Create a DOM Option and pre-select by default
+              var newOption = new Option(datos.text, datos.id, true, true);
+              // Append it to the select
+              $('#departamentos').append(newOption).trigger('change');
+            }
+            $('#departamentos').val(null).trigger('change');
+            $("#departamentos").select2({
+              data: datos,
+              placeholder: 'Selecciona una opcion'
+            });
+          },
+          error: function (err) {
+            alert("An error ocurred while loading data ...");
+          }
+        });
+      });
+      $('#departamentos').on('select2:select', function (e) {
+                $("#estaciones").empty();
+                // var data = e.params.data;
+                var area = e.params.data.text;
+                var id_ic = e.params.data.id;
+                var area_id = e.params.data.id2;
+                console.log('id -->' + area_id);
+                $.ajax({
+                  url: "{{ path('list_inventarios') }}",
+                  type: "GET",
+                  dataType: "JSON",
+                  data: {
+                    id_Costo2: id_ic,
+                    idArea: area_id
+                  },
+                  success: function (neighborhood) {
+                    var datos = [];
+                    console.log(neighborhood);
+                    $.each(neighborhood, function (key, neighborhood) {
+                      datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+                    });
+                    $('#estaciones').val(null).trigger('change');
+                    $("#estaciones").select2({
+                      data: datos
+                    });
+                    // var unidadSelect = $("#estaciones");
+                    // Remove current options
+                    // unidadSelect.html('');
+                    // Empty value ...
+                    // unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');
+                    // $.each(neighborhood, function (key, neighborhood) {
+                    //
+                    //   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');
+                    //
+                    //   unidadSelec = neighborhood.id_estacion;
+                    // });
+                  },
+                  error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                  }
+                });
+              }
+      );
+      $("#estaciones").empty();
+      $("#departamentos").empty();
+      // });
+    </script>
+
+  {% endblock %}
+
+{% endblock %}

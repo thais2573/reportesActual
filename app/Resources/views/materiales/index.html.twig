@@ -1,0 +1,202 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{#    <!-- CoreUI CSS -->#}
+{#    #}{#<link rel="stylesheet" href="{{ asset('build/layout.css') }}">#}
+{#    #}{#<script src="{{ asset('build/js/pace.min.js') }}"></script>#}
+{#    #}{#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+{#    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">#}
+{#    <meta charset="utf-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+{#    <meta http-equiv="x-ua-compatible" content="ie=edge">#}
+{#    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"#}
+{#          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+
+{#    <script src="{{ asset('build/js/jquery.min.js') }}"></script>#}
+
+
+
+{% endblock %}
+
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      Solicitudes de materiales realizadas
+    </li>
+    <!-- Breadcrumb Menu-->
+  </ol>
+  {#<h4> Solicitudes de materiales realizadas</h4>#}
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          <div class="card">
+            <div class="card-header">
+              <strong>Listado solicitudes de material realizadas </strong>
+              {#{{ dep }}#}
+              <a href="{{ path('nueva_solicitud') }}" class="btn btn-success float-right" style="color: white">
+                <i class="fa fa-plus"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Nueva Modal"></i>
+                Nueva Solicitud</a>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- /.col-->
+      </div>
+      <div class="card col-12">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> <strong>Existencia : </strong>
+          <strong>
+            {% if listado is not empty %}
+              {{ listado|length }}
+            {% else %}
+              {% if pagination is defined %}
+                {{ pagination.getTotalItemCount }}
+              {% endif %} {% endif %}
+          </strong>
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-info" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+          {% set idArea=0 %}
+          {% if listado is defined and listado !='' %}
+            {#<a href="{{ path('imprimir_activos',{'id':listado[0].idCosto,'idCosto':listado[0].idArea}) }}"#}
+            {#class="btn btn-primary float-md-right">#}
+            {#<i class="nav-icon icon-printer"#}
+            {#data-toggle="tooltip"#}
+            {#data-placement="bottom"#}
+            {#title="Nueva Modal"></i>#}
+            {#Imprimir Seleccion#}
+            {#</a>#}
+          {% else %}
+            {% if pagination is defined %}
+              <a href="{{ path('imprimir_activos',{'id':pagination.items[0].idCosto,'idCosto':0}) }}"
+                 class="btn btn-primary float-md-right">
+                <i class="nav-icon icon-printer"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Nueva Modal"></i>
+                Imprimir Todo
+              </a>
+              <a
+                href="{{ path('imprimir_activos',{'id':pagination.items[0].idCosto,'idCosto':pagination.items[0].idArea}) }}"
+                class="btn btn-primary float-md-right">
+                <i class="nav-icon icon-printer"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Nueva Modal"></i>
+                Imprimir Seleccion
+              </a>
+            {% endif %}
+          {% endif %}
+
+        </div>
+        {% if listado is defined %}
+        <div class="card-body">
+          <br>
+          <table class="table table-responsive-sm table-bordered table-striped table-sm">
+            <thead>
+            <tr>
+              <th>Centro de Costo</th>
+              <th>Material</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if listado !='' %}
+            {% for l in listado %}
+              <tr>
+                <td>{{ l.centroCosto }}</td>
+                {% if l.material is iterable %}
+                <td>
+                  {% for m in l.material %}
+                    {{ m.idProducto.descripcion }}
+                  {% endfor %}
+                </td>
+                {% else %}
+                {{ l.material }}
+                  {% endif %}
+                </td>
+                <td>{{ l.fechaSolicitud|date('d/m/Y H:i:s') }}</td>
+                <td> <a href="{{ path('ver_datos_solicitud', {'id': l.id}) }}">
+                    <i class="nav-icon icon-magnifier"
+                       data-toggle="tooltip" data-placement="bottom"></i></a>
+                  <a href="{{ path('editar_solicitud_materiales', {'id': l.id}) }}">
+                    <i class="nav-icon icon-note"
+                       data-toggle="tooltip" data-placement="bottom"
+                       title="Editar solicitud"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            {% else %}
+            {% if pagination is defined %}
+            {% for l in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+              {% set idArea=l.idArea %}
+              <td>{{ l.descripcion }}</td>
+              <td>{{ l.numInventario }}</td>
+              <td>{{ l.idCosto }}</td>
+              <td>{{ l.idArea }}</td>
+              <td>{{ l.serie }}</td>
+              <td>
+                Activo
+              </td>
+              <td>
+                {% if l.activo!=0 or l.activo=='Inactivo' %}
+                  <a href="{{ path('traslado_activo',{'id_equi':l.id,'id_area':l.idArea}) }}">
+                    <i class="nav-icon icon-wrench"
+                       data-toggle="tooltip" data-placement="bottom"
+                       title="Realizar movimiento interno"></i></a>
+                {% endif %}
+              </td>
+              {% endfor %}
+              {% endif %}  {% endif %}{% endif %}
+            </tbody>
+
+          </table>
+        </div>
+
+
+        <div class="card-footer">
+          {% if pagination is defined %}
+            <div class="navigation">
+              {{ knp_pagination_render(pagination) }}
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+      {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+        <script src="{{ asset('build/js/Chart.js') }}"></script>
+        <script src="{{ asset('build/js/popper.js') }}"></script>
+
+        <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+        {#<script src="{{ asset('build/js/b') }}"></script>#}
+        <script src="{{ asset('build/js/app.js') }}"></script>
+        {#<script src="{{ asset('build/js/pace.min.js') }}"></script>#}}
+      {% endblock %}

@@ -1,0 +1,58 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Lisandra
+ * Date: 05/02/2019
+ * Time: 11:30
+ */
+
+namespace AppBundle\Entity;
+
+
+use AppBundle\AppBundle;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="tarjeta_video")
+ */
+class tarjeta_video
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $ranuraVideo;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $marca;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $velocidad;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $serie;
+
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $numInventario;
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $estado;
+
+  /**
+   * @ORM\OneToOne(targetEntity="AppBundle\Entity\cpuchasis", inversedBy="tarjeta_video")
+   * @ORM\JoinColumn(name="chasis_id", referencedColumnName="id")
+   */
+  private $cpu;
+}

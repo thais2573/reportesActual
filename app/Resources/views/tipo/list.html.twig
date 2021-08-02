@@ -1,0 +1,164 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a >Lista de Categorías</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                    <div class="card">
+                        <div class="card-header">
+
+                            <i class="fa fa-align-justify"></i> <strong>Listado de Categorías </strong>
+
+                            <strong> {{ lista|length }} </strong>
+                            <a class="btn btn-primary pull-right" href="{{ path('tipo_new') }}"><i
+                                        class="nav-icon icon-note"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Nueva Categoría"></i> Nuevo</a>
+
+                        </div>
+
+
+                        <div class="card-body">
+                            <br>
+                            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+
+                                <thead>
+                                <tr>
+
+
+                                    <th>Categoría</th>
+                                    <th>Prioridad</th>
+                                    <th>Tiempo</th>
+                                    <th>Visibilidad Usuario</th>
+                                    <th>Acciones</th>
+
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for cate in lista %}
+                                    <tr>
+
+
+                                        <td>{{ cate.name }}</td>
+                                        {% if cate.prioridad=='Alta' %}
+                                            <td>
+                                                <span class="badge badge-danger">{{ cate.prioridad }}</span>
+                                            </td>
+                                        {% endif %}
+                                        {% if cate.prioridad=='Media' %}
+                                            <td>
+                                                <span class="badge badge-warning">{{ cate.prioridad }}</span>
+                                            </td>
+                                        {% endif %}
+                                        {% if cate.prioridad=='Baja' %}
+                                            <td>
+                                                <span class="badge badge-info">{{ cate.prioridad }}</span>
+                                            </td>
+                                        {% endif %}
+
+                                        <td>{{ cate.tiempo }}</td>
+                                        <td>{{ cate.permiso }}</td>
+
+
+
+
+                                        <td>
+
+                                                <a href="{{ path('tipo_edit', {'id': cate.id}) }}">
+                                                    <i class="nav-icon icon-pencil"
+                                                       data-toggle="tooltip" data-placement="bottom"
+                                                       title="Editar"></i></a>
+
+                                            <a href="{{ path('tipo_remove',{'id': cate.id}) }}"
+                                               onclick="if(! confirm('Desea eliminar definitivamente la categoría de la B.D')) return false;">
+                                                <i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"
+                                                   title="Eliminar Persona"></i></a>
+
+
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="pa"></li>
+                                    <li class="page-item">
+                                        <a class="page-link"  href="#">Prev </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link"  href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">4</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.col-->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

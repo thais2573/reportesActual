@@ -1,0 +1,85 @@
+
+{% if editar == 'no' %}
+  <div id="ent_div" class="tab-content material" data-prototype="{{ form_widget(solicitudForm.material.vars.prototype)|e }}">
+    {% for ent in solicitudForm.material %}
+      {% set indice = loop.index-1 %}
+      <div class="well text-info form-horizontal componente">
+        <div id="app_bundlesolicitud_producto_form_type_{{ indice }}" class="container-fluid">
+          <div class="form-group row">
+            <div id="columna15_{{ indice }}" class="col-md-3" style="padding-left: 5%;">
+
+               <div class="form-group row">
+                <label for="ccnumber" class="col-md-3 col-form-label">Producto</label>
+                <div class="col-md-9">
+                  <select id="productos" name="productos[]" class="custom-select col-8">
+
+                    {% for p in productos %}
+                      <option id="{{ p['id'] }}"
+                              value="{{ p['descripcion'] }}">{{p['descripcion']  }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+                {{ form_errors(ent.um) }}{{ form_widget(ent.um) }}
+              <div class="hidden">{{ form_label(ent.idProducto) }}</div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+      <BR/>
+    {% endfor %}
+  </div>
+{% else %}
+
+<div id="c" class="tab-content material" data-prototype="{{ form_widget(solicitudForm.material.vars.prototype)|e }} " data-index="{{ solicitudForm.material|length }}">
+{#  {{ dump(solicitudForm.material) }}#}
+     {% for ent in solicitudForm.material %}
+      {% set indice = loop.index-1 %}
+      <div class="well text-info form-horizontal material" id="material_{{ indice }}">
+      <div id="app_bundlemateriales_sform_material_{{ indice }}" class="container-fluid">
+     <div class="form-group row">
+
+             <div id="columna3_{{ indice }}" class="col-md-12">
+              {{ form_errors(ent.idProducto) }}{{ form_label(ent.idProducto) }}{{ form_widget(ent.idProducto) }}
+            </div>
+{#              <div id="columna4_{{ indice }}" class="col-md-5 " style="padding-left: 5%;">#}
+{#            </div>#}
+            </div>
+            <div class="form-group row">
+            <div id="columna1_{{ indice }}" class="col-md-3" style="padding-left: 5%;width: 90px">
+              {{ form_errors(ent.um) }}{{ form_label(ent.um) }}{{ form_widget(ent.um) }}
+            </div>
+            <br>   <br>   <br>
+            <div id="columna2_{{ indice }}" class="col-sm-3" style="padding-left: 5%;">
+              {{ form_errors(ent.cantidad) }}{{ form_label(ent.cantidad) }}{{ form_widget(ent.cantidad) }}
+            </div>
+              </div>
+
+
+        <div class="form-group row">
+          <div id="delete_{{ indice }}" style="float: right">
+            <a style="text-decoration: none;color: #ffffff; float: right" class="btn btn-danger btn-small"
+               onclick="eliminarForm({{ indice }})"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+          </div>
+
+        </div>
+        </div>
+        </div>
+    {#</div>#}
+    {#<BR/>#}
+    {#<input style="display: none;" id="contador" cant= {{ form.componente | length }}>#}
+  {% endfor %}
+
+  {#</div>#}
+{% endif %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+      function eliminarForm(posFrom) {
+      var div = document.getElementById("material_" + posFrom);
+      div.parentNode.removeChild(div);
+    }
+  </script>
+{% endblock %}

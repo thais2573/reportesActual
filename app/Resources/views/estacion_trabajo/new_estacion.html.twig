@@ -1,0 +1,728 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block main %}
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a href="#">Nuevo inventario</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Graficos</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Herramientas</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        {% for message in app.session.flashBag.get('success') %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="card">
+
+
+                            {% for error in errores %}
+                                    <p class="alert alert-danger">{{ error.message }}</p>
+                                {% endfor %}
+
+                            <div class="card-header">
+                                <i class="fa fa-plus"></i> <strong> Nueva estación</strong>
+                                <button class="btn btn-success pull-right" type="submit" formnovalidate>
+                                    <i class="fa fa-pencil" data-placement="bottom"></i> Guardar inventario
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                <div class="col-sm-3">
+                                    <label>Responsable</label>
+                                    <div class="form-group">
+                                        <div class="control">
+                                            <select id="app_bundleinventario_form_responsable"
+                                                    name="app_bundleinventario_form[responsable]"
+                                                    required="required" style="width: 400px">
+                                                {% for usuario in usuarios if usuario.username not in usuarios %}
+                                                    <option
+                                                            value="{{ usuario['first_name'] }} {{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-5">Departamento</label> &nbsp;
+                                        <select id="areas" name="usuarios[]" class="custom-select"
+                                                style="width: 400px">
+                                            {% set cant=0 %}
+                                            {% for area in areas %}
+                                                <option id="{{ area.idArea }}"
+                                                        value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                                {% set cant=cant+1 %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-8">Centro de Costo</label>
+                                        <select id="app_bundleinventario_form_centroCosto" name="costos[] " class="custom-select"
+                                                style="width: 400px">
+                                            {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-3">
+                                    <label>Nombre Pc</label>
+                                        {{ form_widget(form.nombreRed) }}
+                                    </div><br>
+                                    <div class="col-3">
+                                    <label >Antivirus:</label>
+                                        {{ form_widget(form.antivirus) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                <div class="col-3">
+                                    <label>Ip:</label>
+
+                                    {{ form_widget(form.ip) }}
+                                </div>
+                                <div class="col-3">
+
+                                    <label >Contraseña Setup:</label>
+                                    {{ form_widget(form.passSetup) }}
+
+                                </div>
+                                </div>
+                                </div>
+
+
+                                </div>
+
+                                <div class="card">
+                                    {% set totalPerifericos=0 %}
+                                    {% set totalComponentes=0 %}
+                                    <div class="card-header">Perifericos <span
+                                                class="badge badge-info">{{ totalPerifericos }}</span>
+                                        <button type="button" id="ocultarEquipos"
+                                                class="float-right btn btn-sm btn-info"><i class="fa fa-eye-slash"></i>
+                                        </button>
+                                        <button type="button" id="btEquipo" class="float-right btn btn-sm btn-info"><i
+                                                    class="fa fa-plus"></i></button>
+
+                                    </div>
+                                    <div class="card-body" id="listaEq">
+                                        <div class="card">
+                                            {{ include('estacion_trabajo/agregarEquipoEstacion.twig', { 'tipo_edicion':'inventario_nuevo'}) }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card">
+
+                                    <div class="card-header">Componentes <span
+                                                class="badge badge-info">{{ totalComponentes }}</span>
+                                        <button type="button" id="ocultarComp" class="float-right btn btn-sm btn-info">
+                                            <i class="fa fa-eye-slash"></i></button>
+                                        <button type="button" id="btComp" class="btn btn-sm btn-info float-right "><i
+                                                    class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="card-body" id="listaComp">
+                                        {{ include('plantillas_edicion/crearComponentes.html.twig') }}
+                                    </div>
+                                </div>
+                                <br><br><br>
+
+                            </div>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {{ form_errors(form) }}
+            {{ form_end(form,{'render_rest':false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/select2.full.min.js') }}"></script>
+{#        <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#app_bundleinventario_form_responsable').select2({
+                    placeholder: "---Seleccione---"
+                });
+
+                //   $('#listaComp').hide();
+            });
+        </script>
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#areas, #app_bundleinventario_form_centroCosto, #estaciones').select2({
+                    placeholder: "---Seleccione---"
+                });
+
+            });
+        </script>
+        <script type="application/javascript">
+            var botonBuscar = $('#buscarEquipo1');
+            var pos1=0;
+            $('#mensaje').hide();
+            $('#buscarEquipo1').click(function (e) {
+                var valor = document.getElementById('numI').value;
+                var datos = [];
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $.ajax({
+                    url: "{{ path('existencia_equipos') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        numI: valor
+                    },
+                    success: function (eq) {
+                        // $("#estaciones").empty();
+                        // $("#departamentos").empty();
+                        // console.log(depart);
+                        //  $('#departamentos').html(resp);
+                        // var neighborhoodSelect = $("#departamentos");
+
+                        $.each(eq, function (key, eq) {
+                            datos.push({
+                                id: parseInt(eq.id),
+                                text: 'Equipo:' + eq.tipoEquipo + ' ' + 'Numero de Inventario:' + eq.numI,
+                                text2:eq.inventario,
+                                text3:eq.numI
+                            });
+                        });
+                       //    console.log(eq);
+                     //   var inventario=datos.text2;
+                        if (datos[0].text2!= null ) {
+                          //  console.log("Inventario vacio");
+                        //   console.log(datos[0].text2);
+                        //     var label = document.createElement('label');
+                        //     label.htmlFor = "id";
+                        //   //  label.id="mensaje1";
+                        //    // label.toggleClass("badge badge-light badge-pill");
+                        //     label.appendChild(document.createTextNode("Este equipo ya esta asignado a una estacion"));
+                        //     label.style.color="red";
+                        //     //var br = document.createElement('br');
+                        //     document.getElementById('mensaje').appendChild(label);
+                          //  document.getElementById('mensaje').appendChild(br);
+                            $('#mensaje').show();
+                          //  $('#mensaje').show(4000);
+                        } else {
+                      //      console.log("Inventario lleno");
+                       //   console.log(datos[0].text2);
+                            $('#mensaje').hide();
+
+                            var o = document.createElement('input');
+                            o.type = "checkbox";
+                            o.id = "exist";
+                            o.name = "equipos[]";
+                            o.value=datos[0].text3;
+
+                            var label = document.createElement('label');
+                            label.htmlFor = "id";
+                            label.appendChild(document.createTextNode( datos[0].text));
+                           // console.log(datos[0].text);
+                            var br = document.createElement('br');
+                            document.getElementById('nuevosEq').appendChild(o);
+                            document.getElementById('nuevosEq').appendChild(label);
+                            document.getElementById('nuevosEq').appendChild(br);
+                            pos1++;
+                        }
+
+
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+
+
+            });
+            //   alert("Hola" + valor);
+
+
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#btEquipo").click(function () {
+                    $('#listaEq').show("swing");
+                });
+                $("#btComp").click(function () {
+                    $('#listaComp').show("swing");
+                });
+
+            });
+            $(document).ready(function () {
+                $("#ocultarEquipos").click(function () {
+                    $('#listaEq').hide("swing");
+                });
+                $("#ocultarComp").click(function () {
+                    $('#listaComp').hide("swing");
+                });
+
+            });
+        </script>
+        <script type="application/javascript">
+            $('#areas').on('select2:select', function (e) {
+                // var data = e.params.data;
+                var area = e.params.data.element.text;
+                var id_i = e.params.data.element.id;  // de tu elemento
+                $.ajax({
+                    url: "{{ path('list_departamentos') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        area_nombre: area,
+                        id_ccosto: id_i
+                    },
+                    success: function (depart) {
+                        $("#estaciones").empty();
+                        $("#app_bundleinventario_form_centroCosto").empty();
+                        // console.log(depart);
+                        //  $('#departamentos').html(resp);
+                        // var neighborhoodSelect = $("#departamentos");
+                        var datos = [];
+                        $.each(depart, function (key, depart) {
+                            datos.push({id: parseInt(depart.id_dep), text: depart.dep,value:depart.dep});
+                        });
+                        $('#app_bundleinventario_form_centroCosto').val(null).trigger('change');
+                        $("#app_bundleinventario_form_centroCosto").select2({
+                            data: datos
+                        });
+                        // Remove current options
+                        // neighborhoodSelect.html('');
+                        // Empty value ...
+                        // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+                        // $.each(depart, function (key, depart) {
+                        //
+                        //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+                        //
+                        // });
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+            });
+            // $('#app_bundleinventario_form_centroCosto').on('select2:select', function (e) {
+            //         // var data = e.params.data;
+            //         var area = e.params.data.text;
+            //         var id_ic = e.params.data.id;
+            //         // console.log('text -->'+area);
+            //         // console.log('id -->'+id_ic);
+            //         // console.log(data);
+            //         // var municipioSelector = $(this);
+            //         // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+            //         //alert(id_ic);
+            //         // alert(municipioSelector.val());
+            //         // Request the neighborhoods of the selected city.
+            //     }
+            // );
+            $("#estaciones").empty();
+            $("#app_bundleinventario_form_centroCosto").empty();
+            // });
+        </script>
+
+        <script type="text/javascript">
+            var $addTagLink = $('<a href="#" class="add_tag_link btn btn-primary  btn-small pull-right" id="add" style="margin-bottom: 20px;"><i class="fa fa-plus"></i> Crear Componente</a>');
+            var $newLinkLi = $('<div class="container-fluid" style="margin-left: 3%; margin-right: 4%"></div>').append($addTagLink);
+            // var $addComponente = $('<a href="#" class="add_componente btn btn-success  btn-small pull-right" id="add" style="margin-bottom: 20px;"><i class="fa fa-plus"></i> Adicionar existente</a>');
+            // var $newLinkcomp = $('<div class="container-fluid2" style="margin-left: 4%; margin-right: 4%"></div>').append($addComponente);
+
+            var pos = 0;
+            jQuery(document).ready(function () {
+                var collectionHolder = $('#comp');
+                pos = $('.componente').length;
+                collectionHolder.append($newLinkLi);
+                // collectionHolder.append($newLinkcomp);
+                console.log(collectionHolder);
+                //alert(document.getElementById('#ent_div'))
+                //addTagForm(collectionHolder, $newLinkLi);
+
+                // $addTagLink.addEventListener('click',function(e){
+
+                $addTagLink.off().on('click', function (e) {
+                    // e.preventDefault();
+                    //   e.stopImmediatePropagation();
+                    addTagForm(collectionHolder, $newLinkLi);
+                });
+            });
+
+            function addTagFormDeleteLink($tagFormLi) {
+                var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+                $tagFormLi.append($removeFormA);
+                $removeFormA.on('click', function (e) {
+                    console.log(pos);
+                    if (pos == 1) {
+                        alert('Debe haber al menos un producto para añadir');
+                        return;
+                    }
+                    e.preventDefault();
+                    $tagFormLi.remove();
+                    pos--;
+                });
+            }
+
+            function addTagForm(collectionHolder, $newLinkLi) {
+                $(document).ready(function () {
+                    var prototype = collectionHolder.attr('data-prototype');
+                    var newForm = prototype.replace(/__name__/g, pos);
+                    var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(newForm);
+                    $newLinkLi.before($newFormLi);
+                    formulario = $('#app_bundleinventario_form_componente_' + pos);
+                    formulario.addClass('form-group row container-fluid');
+
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna15_' + pos + '" class="col-md-3"></div>');
+                    // $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna14_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna13_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna12_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna11_' + pos + '" class="col-md-3"></div>');
+                    // $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna10_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna9_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna8_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna7_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna6_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna5_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna4_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna3_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna2_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleinventario_form_componente_' + pos + ' div').first().before('<div id = "columna1_' + pos + '" class="col-md-3"></div>');
+
+
+                    $('#columna1_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_modelo').parent());
+                    $('#columna2_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_serie').parent());
+                    $('#columna3_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_marca').parent());
+                    $('#columna4_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_watts').parent());
+                    $('#columna5_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_sata').parent());
+                    $('#columna6_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_capacidad').parent());
+                    $('#columna7_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_velocidad').parent());
+                    $('#columna8_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_lga').parent());
+                    $('#columna9_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_ram').parent());
+                    $('#columna11_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_optico').parent());
+                    $('#columna12_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_conector').parent());
+                    $('#columna13_' + pos).append($('#app_bundleinventario_form_componente_' + pos + '_tipo').parent());
+                  //  $('#columna14_' + pos).append($('#app_bundleinventario_form_componente_' + pos + 'estacion2').hide());
+                    $('#columna15_' + pos).append($('#app_bundleinventario_form_componente_' + pos + 'tipoComponente').parent());
+                    //
+                    $('#columna1_' + pos).hide();
+                    $('#columna2_' + pos).hide();
+                    $('#columna3_' + pos).hide();
+                    $('#columna4_' + pos).hide();
+                    $('#columna5_' + pos).hide();
+                    $('#columna6_' + pos).hide();
+                    $('#columna7_' + pos).hide();
+                    $('#columna8_' + pos).hide();
+                    $('#columna9_' + pos).hide();
+                    $('#columna10_' + pos).hide();
+                    $('#columna11_' + pos).hide();
+                    $('#columna12_' + pos).hide();
+                    $('#columna13_' + pos).hide();
+
+                    $('#columna17_' + pos).hide();
+
+
+                    var select = document.getElementById('app_bundleinventario_form_componente_' + pos + '_tipoComponente');
+
+                    select.addEventListener('change',
+                        function (e) {
+                            e.preventDefault();
+                            var selectedOption = this.options[select.selectedIndex];
+                            console.log(selectedOption.value + ': ' + selectedOption.text);
+                            // var $buscarComponente = $('<select class="form-control"></select>');
+                            // $newFormLi.append($buscarComponente);
+                            if (selectedOption.text == 'Fuente') {
+                                console.log('entre');
+                                console.log('Posicion de ahora:' + pos);
+                                // $('#columna1_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_modelo').hide());
+                                // $('#columna6_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_capacidad').hide());
+                                // var modelo=document.getElementById("columna1_"+pos+"").hidden=true;
+                                // alert("columna1_"+(pos-1)+"");
+                                // console.log(document.getElementById('app_bundleequipo_fom_type_componente_'+pos+'_modelo'));
+                                //  $('#columna6_'+ (pos-1)).hide();
+                                $('#columna6_' + pos - 1).hide();
+                                $('#columna1_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+
+                                //     $('#columna2_' + pos).show();
+                                // $('#columna3_' + pos-1).show();
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+
+                            }
+
+                            if (selectedOption.text == 'Motherboard') {
+                                $('#columna1_' + (pos - 1)).show();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).show();
+                                $('#columna9_' + (pos - 1)).show();
+                                $('#columna10_' + (pos - 1)).show();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).hide();
+
+
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Microprocesador') {
+                                $('#columna1_' + (pos - 1)).hide();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).show();
+                                $('#columna8_' + (pos - 1)).show();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).show();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).show();
+                                $('#columna14_' + (pos - 1)).hide();
+
+
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).hide();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Ram') {
+                                $('#columna1_' + (pos - 1)).hide();
+                                $('#columna6_' + (pos - 1)).show();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+
+
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Hdd') {
+                                console.log(selectedOption.text);
+                                $('#columna1_' + (pos - 1)).hide();
+                                $('#columna6_' + (pos - 1)).show();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+
+
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).show();
+                            }
+                            if (selectedOption.text == 'Lector') {
+                                $('#columna1_' + (pos - 1)).show();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).show();
+                                $('#columna14_' + (pos - 1)).hide();
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Mouse') {
+                                $('#columna1_' + (pos - 1)).show();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).show();
+                                $('#columna12_' + (pos - 1)).show();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Teclado') {
+                                $('#columna1_' + (pos - 1)).show();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).show();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Bocina') {
+                                $('#columna1_' + (pos - 1)).show();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).hide();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).hide();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                            if (selectedOption.text == 'Tarjeta de video') {
+                                $('#columna1_' + (pos - 1)).show();
+                                $('#columna6_' + (pos - 1)).hide();
+                                $('#columna7_' + (pos - 1)).show();
+                                $('#columna8_' + (pos - 1)).hide();
+                                $('#columna9_' + (pos - 1)).hide();
+                                $('#columna10_' + (pos - 1)).show();
+                                $('#columna11_' + (pos - 1)).hide();
+                                $('#columna12_' + (pos - 1)).hide();
+                                $('#columna13_' + (pos - 1)).hide();
+                                $('#columna14_' + (pos - 1)).hide();
+                                $('#columna2_' + (pos - 1)).show();
+                                $('#columna3_' + (pos - 1)).show();
+                                $('#columna4_' + (pos - 1)).hide();
+                                $('#columna5_' + (pos - 1)).hide();
+                            }
+                        }
+
+
+                        );
+
+                    var serie = document.getElementById('app_bundleinventario_form_componente_' + pos + '_serie');
+                    function delay(callback, ms) {
+                        var timer = 0;
+                        return function() {
+                            var context = this, args = arguments;
+                            clearTimeout(timer);
+                            timer = setTimeout(function () {
+                                callback.apply(context, args);
+                            }, ms || 0);
+                        };
+                    }
+                    $('#app_bundleinventario_form_componente_' + pos + '_serie').keyup('click',function () {
+                        var serieActual=serie.value;
+                        console.log(serie.value);
+                        $.ajax({
+                            url: "{{ path('existeComponente') }}",
+                            type: "GET",
+                            dataType: "JSON",
+                            data: {
+                                serie: serieActual,
+                            },
+                            success: function (c) {
+                                if(c.length===0){
+                                    console.log("El componente no existe");
+
+                                }else{
+                                    $('#error').fadeIn(3000);
+                                    $('#error').fadeOut(5000);
+                                    serie.value=null;
+                                                            }
+                            },
+                            error: function (err) {
+                                console.log("el componente no existe,continuar")
+                            }
+                        });
+                    });
+
+                    // $("#estaciones").empty();
+                    // $("#app_bundlemovimientoR_form_type_areaDestino").empty();
+                    // }
+                    // else
+                    // {
+                    //   console.log('select online');
+                    //   $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').select2({
+                    //     language: 'es',
+                    //     placeholder: 'Seleccione un producto'
+                    //   });
+                    // }
+
+                    // $('.select2-container').css("width","500px !important");
+                    //   $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+                    addTagFormDeleteLink($newFormLi);
+                    pos++;
+                });
+
+            }
+        </script>
+        {#        <script type="application/javascript">#}
+        {#           var pos=0;#}
+        {#           //  var o = document.createElement('p');#}
+        {#           //  o.type = "text";#}
+        {#           //  o.classList="form-control existenciaP";#}
+        {#           // // o.placeholder="Existencia ";#}
+        {#           //  o.style="width:120px";#}
+        {#           //  o.id="equipo'"+pos+"'";#}
+        {#           //  //o.name = "exist";#}
+        {#           // // o.disabled=true;#}
+        {#           //  o.value = "";#}
+
+        {#          #}{#nuevosEquipos=[];#}
+
+        {#          #}{#nuevo={{ nuevo.numInventario }};#}
+        {#          #}{#nuevosEquipos[pos]=nuevo;#}
+
+        {#          #}{#console.log(nuevosEquipos);#}
+        {#          #}{#  //   $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').append(o);#}
+
+        {#          #}{#  $('#agregarEquipo').on('click' ,function (e) #}{#}#}
+        {#          #}{#      e.preventDefault();#}
+        {#          #}{#      document.getElementById('nuevosEq').append(nuevosEquipos);#}
+        {#          #}{#      pos++;#}
+        {#            });#}
+
+        {#        </script>#}
+
+    {% endblock %}
+
+{% endblock %}

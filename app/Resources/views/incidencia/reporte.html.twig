@@ -1,0 +1,115 @@
+<html >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <div class="header">
+    <div class="header__first">
+      <div class="row">
+        {#<img src="{{ 'http://pro.local/images/brand/logo2.png' }}" alt="logo de la clinica" />#}
+        <img src="{{ 'https://reportes.cicc.cu/img/iconos/logoreportes.png' }}" alt="logo de la clinica" />
+        {#<img src="{{ 'https://sigh.camilo.sld.cu/images/logo.png' }}" alt="logo de la clinica" />#}
+      </div>
+    </div>
+  </div>
+  <style>
+    body {font-family: sans-serif;
+      font-size:7pt;
+    }
+    p { margin: 0pt;
+    }
+    td { vertical-align: top; }
+    .items td {
+      border-left: 0.1mm solid #000000;
+      border-right: 0.1mm solid #000000;
+    }
+    table thead td { background-color: #EEEEEE;
+      text-align: center;
+      border: 0.1mm solid #000000;
+    }
+    .items td.blanktotal {
+      background-color: #FFFFFF;
+      border: 0mm none #000000;
+      border-top: 0.01mm solid #000000;
+    }
+    .items td.totals {
+      text-align: center;
+      border: 0.1mm solid #000000;
+    }
+    @media all {
+      .page-break { display:none; }
+    }
+    @media print {
+      .page-break { display:block; page-break-before:always; }
+    }
+  </style>
+  {#<link rel="stylesheet" href="{{ asset('build/css/structure.css') }}">#}
+</head>
+<body>
+<table style="width:980px" align="center" cellspacing="1" cellpadding="1">
+  <br><br> <br><br> <br>
+<FONT SIZE="+1">
+  <p style="margin-left: 70px">Reporte No.  {{ reporte.id  }}</p><br>
+<p style="margin-left: 70px">Informador: {{ app.user }}</p>
+<br><p style="margin-left: 70px">Estacion: {{ reporte.inventario}}</p>
+<br>
+<p style="margin-left: 70px">Resumen: {{ reporte.asunto }}</p>
+<br>
+<p style="margin-left: 70px">Descripción: {{ reporte.resumen }}</p>
+<br>
+<p style="margin-left: 70px">Categoria: {{ reporte.respuesta }}</p>
+<br>
+<p style="margin-left: 70px">Técnico: {{ reporte.tecAsignado }}</p>
+<br>
+<p style="margin-left: 70px">Fecha: {{ reporte.fecha |date('d-m-Y') }}</p>
+
+<br>
+<br>
+<br>
+<br><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br><br>
+<br>
+
+
+{#<strong>Recibe:</strong>_____________                <strong>Firma:</strong>____________#}
+
+  <table>
+    <tbody><tr>
+      <td ><table width="643" align="center" cellspacing="0" cellpadding="4">
+          <tbody><tr valign="top">
+            <td style=" border-bottom: 1px solid #000000;" width="900">
+               <p align="left"><br>
+                 Recibe:
+              </p>
+            </td>
+            <td style=" border-bottom: 0px solid #000000;" width="37">
+              <p align="center"><br>
+
+              </p>
+            </td>
+            <td style="border-bottom: 1px solid #000000;" width="207">
+              <p align="center"><br>
+              </p>
+            </td>
+          </tr>
+          <tr valign="top">
+              <td  width="373">
+              <p align="center">Nombre y Apellidos</p>
+            </td>
+            <td  width="60">
+              <p align="center"><br>
+              </p>
+            </td>
+            <td  width="207">
+              <p align="center">Firma</p>
+            </td>
+          </tr>
+          </tbody></table></td>
+    </tr>
+    </tbody></table>
+
+</FONT>
+</table>
+</html>

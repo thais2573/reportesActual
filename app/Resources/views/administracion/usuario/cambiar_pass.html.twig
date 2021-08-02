@@ -1,0 +1,75 @@
+{% extends 'layout/layout.html.twig' %}
+{% block main %}
+
+    <div class="container-fluid">
+    <div class="animated fadeIn">
+    <center>
+    <div class="pull-right">
+    </div>
+    <div class="row justify-content-center">
+    <div class="col-sm-6">
+    <div class="card mx-4">
+        <div class="card-body p-4">
+            <h1>Editar cuenta </h1>
+            <p class="text-muted">cambie su contraseña</p>
+            <div>{% for message in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}   </div>
+                {% endfor %}
+                {% for message in app.session.flashBag.get('warning') %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ message }}   </div>
+                {% endfor %}
+            </div>
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                <div class="form-group col-sm-6">
+                    <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                             <i class="icon-lock"></i>
+                                             </span>
+                        {{ form_widget(form.oldPassword,{ 'attr': {'class': 'form-control','type':'text','id':'pass','placeholder':' Contraseña actual'}}) }}
+                        {{ form_errors(form.oldPassword) }}
+                    </div>
+                </div>
+
+                    <div class="form-group col-sm-6">
+                        <div class="input-group-prepend">
+                                             <span class="input-group-text">
+<i class="icon-lock"></i>
+</span>
+                            {{ form_widget(form.password.first,{ 'attr': {'class': 'form-control','type':'text','id':'pass','placeholder':'Contraseña nueva'}}) }}
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   <i class="icon-lock"></i>
+                                                   </span>
+                            {{ form_widget(form.password.second,{ 'attr': {'class': 'form-control','type':'text','id':'pass1','placeholder':'Repita la contraseña'}}) }}
+
+
+                        </div>
+
+                    </div>
+                    {{ form_errors(form.password) }}
+
+                {{ form_errors(form) }}
+                {{ form_widget ( form ) }}
+                {% for message in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success" role="alert">        {{ message }}    </div>{% endfor %}
+                <button class="btn btn-block btn-success" type="submit">Guardar</button>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+
+
+{% endblock %}

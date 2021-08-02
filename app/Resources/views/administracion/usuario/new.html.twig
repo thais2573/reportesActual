@@ -1,0 +1,114 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+    <script src="{{ asset('build/js/pace.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+    {#<!-- CoreUI CSS -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    {#<meta charset="utf-8">#}
+    {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+    {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+    {#<!-- Font Awesome -->#}
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    {#<!-- Bootstrap core CSS -->#}
+    {#<!-- Select2 -->#}
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Nuevo usuario</a>
+        </li>
+    </ol>
+    <fieldset style="margin-left: 5px; margin-right: 5px;">
+        <legend style="text-align: center; font-size: 16px; font-weight: bold;">Adicionar Usuario</legend>
+    </fieldset>
+
+  <div class="container-fluid">
+      {{ form_start(form, {'attr':{ 'class': 'validate', 'novalidate' : 'novalidate'}}) }}
+        {% if add == 'sist' %}
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="usuario[username]" class="control-label">Usuarios del Sistema</label>
+                        <div class="control">
+                            <select id="usuario_usuarios" class="custom-select" name="usuarios[]" multiple="multiple" style="width: 400px">
+                                {#<select id="usuario_usuarios" class="custom-select" name="usuarios[]" multiple="multiple" style="width: 400px">#}
+                              {% for usuario in entity if usuario.username not in usuarios %}
+                                  <option value={{ usuario.id }}>{{ usuario.username }}</option>
+                              {%endfor%}
+                            </select>
+                          {{ form_widget(form.grupos) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="error text-exception">{{ form_errors(form.username) }}</div>
+                        <label for="usuario[username]" class="control-label">Usuarios del Sistema</label>
+                        <div class="select2-dropdown--above" style="width: 200px">
+                          {{ form_widget(form.username) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="error text-exception">{{ form_errors(form.estado) }}</div>
+                        <label for="usuario[estado]" class="control-label">Estado*</label>
+                        <div class="control" style="width: 200px">
+                          {{ form_widget(form.estado) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="error text-exception">{{ form_errors(form.grupos) }}</div>
+                        <label for="usuario[grupos]" class="control-label">Grupos</label>
+                          {{ form_widget(form.grupos) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div style="display: none">
+          {{ form_widget(form) }}
+        </div>
+        <div class="modal-footer">
+            <input id="insert" class="btn btn-primary" type="submit" value="Adicionar" />
+            <a id="back" class="btn btn-danger" type="button" href="{{ path('administracion_usuario_index') }}">Regresar</a>
+        </div>
+
+      {{ form_end(form) }}
+    </div>
+  {% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/select2.min.js') }}"></script>
+      <script type="application/javascript">
+          $(document).ready(function () {
+              $('#usuario_usuarios').select2({
+                  placeholder: "---Seleccione---"
+              });
+          });
+      </script>
+  {% endblock %}
+{% endblock %}

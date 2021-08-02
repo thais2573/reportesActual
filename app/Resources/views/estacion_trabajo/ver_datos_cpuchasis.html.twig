@@ -1,0 +1,832 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  <!-- CoreUI CSS -->
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+  <!-- Bootstrap core CSS -->
+
+  <!-- Material Design Bootstrap -->
+
+  <!-- Your custom styles (optional) -->
+  <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+  <script href="{{ asset('build/js/app.js') }}"></script>
+  <script src="{{ asset('build/js/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          crossorigin="anonymous"></script>
+  <script src="{{ asset('build/js/popper.min.js') }}"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a href="#">Datos del Chasis</a>
+
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i>  Dashboard</a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  Settings</a>
+      </div>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          <div class="card">
+            <div class="card-header">
+               {% if chasis.tipoEquipo=='cpuchasis' or chasis.tipoEquipo=='chasis' %}
+              <strong>Chasis</strong>
+              {% elseif chasis.tipoEquipo=='laptop' %}
+                <strong>Laptop</strong>
+              {% endif %}
+                <a href="{{ path('lista_incidencias_historial', {'idequipo': chasis.id}) }}" type="button" class="btn btn-primary float-md-right" >
+                    <i class="nav-icon icon-clock"
+                       data-toggle="tooltip"
+                       data-placement="bottom"
+                       title="Nueva Modal"></i>
+                    Historial
+                </a>
+              </strong>
+              <!-- Modal -->
+              {#<div class="modal fade bd-example-modal-lg" id="modal" tabindex="-1" role="dialog"#}
+                   {#aria-labelledby="exampleModalCenterTitle" aria-hidden="true">#}
+                {#<div class="modal-dialog modal-lg" role="document">#}
+                  {#<div class="modal-content">#}
+                    {#<div class="modal-header">#}
+                      {#<h5 class="modal-title" id="exampleModalLongTitle">Historial de incidencias</h5>#}
+                      {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                        {#<span aria-hidden="true">&times;</span>#}
+                      {#</button>#}
+                    {#</div>#}
+                    {#<div class="modal-body">#}
+
+                      {#{% if historial is defined %}#}
+                        {#{% if historial is not null %}#}
+                          {#<table class="table table-responsive-sm table-striped">#}
+                            {#<thead>#}
+                            {#<tr>#}
+
+
+                              {#<th>Fecha</th>#}
+                              {#<th>Tipo</th>#}
+                              {#<th>Usuario</th>#}
+
+                              {#<th>Respuesta</th>#}
+
+                            {#</tr>#}
+
+                            {#</thead>#}
+                            {#<tbody>#}
+
+                            {#<tr>#}
+
+                              {#{% for lista in historial %}#}
+
+
+                              {#<td>#}
+                                {#{% if lista.tipo=='Edicion' %}#}
+                                  {#<span class="badge badge-danger">{{ lista.fecha|date("d/m/Y") }}</span>#}
+                                {#{% else %}#}
+                                  {#<span class="badge badge-success">{{ lista.fecha|date("d/m/Y") }}</span>#}
+                                {#{% endif %}#}
+                              {#</td>#}
+                              {#<td>{{ lista.tipo }}</td>#}
+                              {#<td>{{ lista.user }}</td>#}
+
+
+                              {#<td>{% if lista.respuesta is null %}#}
+                                  {#Respuesta no registrada en BD#}
+                                {#{% else %}{{ lista.respuesta }}{% endif %}</td>#}
+
+
+                            {#</tr>#}
+                            {#{% endfor %}#}
+
+                            {#</tbody>#}
+
+
+                          {#</table>#}
+                        {#{% else %}#}
+                          {#No se ha registrado ninguna incidencia en esta estacion de trabajo.#}
+                        {#{% endif %}#}
+                      {#{% endif %}#}
+                    {#</div>#}
+                    {#<div class="modal-footer">#}
+                      {#<button type="button" class="btn btn-primary float-none" data-dismiss="modal">Cerrar#}
+                      {#</button>#}
+
+                    {#</div>#}
+                  {#</div>#}
+                {#</div>#}
+              {#</div>#}
+
+            </div>
+
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="form-ci">Modelo:</label>
+
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value="{{ chasis.modelo }}">
+                </div>
+                <label class="col-md-2 col-form-label" for="form-ci">Numero de inventario:</label>
+
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value="{{ chasis.numInventario }}">
+                </div>
+
+                <label class="col-md-2 col-form-label" for="form-ci">Fecha de mantenimiento:</label>
+
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value=" {{ chasis.fechaMantenimiento }}">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="form-ci">Sello de seguridad:</label>
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value="{{ chasis.sello }}">
+                </div>
+                <label class="col-md-2 col-form-label" for="form-ci">Estado:</label>
+                <div class="col-md-2">
+                  <input class="form-control"
+                         readonly
+                         id="form-ci"
+                         type="text"
+                         name="form-ci"
+                         value="{{ chasis.estado }}">
+                </div>
+              </div>
+            {% if chasis.tipoEquipo=='laptop' %}
+              <div class="col float-lg-none">
+                <img class="float-lg-right" src="{{ asset('img/iconos/laptop.png') }}"></div>
+              {% else %}
+              <div class="col float-lg-none">
+                <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+              {% endif %}
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-sm btn-primary" type="reset"
+                 href="{{ path('lista_equipos') }}">
+                <i class="fa fa-arrow-left"></i> Atras
+              </a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h6>Componentes</h6>
+            </div>
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col">
+                  <ul class="nav nav-pills mb-1" id="pills-tab" role="tablist">
+
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill"
+                         href="#pills-profile" role="tab" aria-controls="pills-profile"
+                         aria-selected="false">Fuente</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">MotherBoard</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact1" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Microprocesador</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact2" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Memoria RAM</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact3" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">HDD</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact4" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Lector</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact5" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Mouse</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact6" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Teclado</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact7" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Bocinas</a>
+                    </li>
+
+
+                  </ul>
+                  <div class="tab-content" id="pills-tabContent">
+
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                         aria-labelledby="pills-profile-tab">
+                      {% if fuente is not null%}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ fuente.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ fuente.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Wattaje:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ fuente.watts }}">
+                            </div>
+
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="form-ci">Conexión
+                                                                                 Sata:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ fuente.sata==0 ? 'Si' : 'No' }}">
+                            </div>
+
+
+                          </div>
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+                      {% if motherb|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ motherb.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ motherb.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Modelo:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ motherb.modelo }}">
+                            </div>
+
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Socket:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ motherb.lga }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-ci">Ranura
+                                                                                 RAM:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ motherb.ram }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-ci">Ranura
+                                                                                 Video:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ motherb.ranuraVideo }}">
+                            </div>
+
+
+                          </div>
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact1" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+                      {% if micro|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Tipo:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ micro.tipo }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ micro.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Socket:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ micro.lga }}">
+                            </div>
+
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Velocidad:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ micro.velocidad }}">
+                            </div>
+
+
+                          </div>
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+                    </div>
+                    {#{{ dump(ram) }}#}
+                    <div class="tab-pane fade" id="pills-contact2" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+                      {% if ram|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ ram.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ ram.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Capacidad:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ ram.capacidad }}">
+                            </div>
+
+                          </div>
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact3" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+
+                      {% if hdd|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ hdd.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ hdd.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Capacidad:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ hdd.capacidad }}">
+                            </div>
+
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="form-ci">Conector
+                                                                                 Sata:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ hdd.sata==0 ?'Si': 'No' }}">
+                            </div>
+
+
+                          </div>
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact4" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+                      {% if lector|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ lector.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ lector.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Tipo:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ lector.tipo }}">
+                            </div>
+
+                          </div>
+
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact5" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+
+                      {% if mouse|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ mouse.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ mouse.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Modelo:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ mouse.modelo }}">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Conector:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ mouse.conector }}">
+                            </div>
+                            <label class="col-md-2 col-form-label"
+                                   for="form-reg">Optico:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ mouse.optico==0 ?'Si':'No' }}">
+                            </div>
+                            <label class="col-md-2 col-form-label"
+                                   for="form-reg"></label>
+                            <div class="col-md-2">
+                              {#  <a href="{{ path('editar_estacion',{'idestacion':mouse[0].inventario}) }}" type="button"
+                                   class="btn btn-primary float">Editar periférico</a>#}
+                            </div>
+                          </div>
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact6" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+
+                      {% if teclado|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ teclado.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ teclado.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Modelo:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ teclado.modelo }}">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Conector:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ teclado.conector }}">
+                            </div>
+
+                          </div>
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact7" role="tabpanel"
+                         aria-labelledby="pills-contact-tab">
+
+                      {% if bocina|length > 0 %}
+                        <form class="form-horizontal" action="" method="post">
+
+                          <div class="form-group row">
+                            <label class="col-md-2 col-form-label"
+                                   for="form-ci">Marca:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-ci"
+                                     type="text"
+                                     name="form-ci"
+                                     value="{{ bocina.marca }}">
+                            </div>
+                            <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                  Serie:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-reg"
+                                     type="text"
+                                     name="form-reg"
+                                     value="{{ bocina.serie }}">
+                            </div>
+
+                            <label class="col-md-2 col-form-label"
+                                   for="form-sex">Modelo:</label>
+                            <div class="col-md-2">
+                              <input class="form-control"
+                                     readonly
+                                     id="form-sex"
+                                     type="text"
+                                     name="form-sex"
+                                     value="{{ bocina.modelo }}">
+                            </div>
+
+                          </div>
+
+                        </form>
+                      {% else %}
+                        Componente no registrado en Base de Datos.
+                      {% endif %}
+
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+    <!-- /.col-->
+  </div>
+  </div>
+  </div>
+
+{% endblock %}

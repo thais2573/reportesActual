@@ -1,0 +1,298 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a >Detalles de Utiles Assets</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    {% for message in app.session.flashBag.get('alert') %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> <strong>Existencia: </strong>
+                            <strong> {{ pagination.getTotalItemCount }}</strong>
+                            <a class="btn btn-primary pull-right" href="{{ path('cargar_utiles') }}"><i
+                                        class="nav-icon icon-cloud-download"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Nueva Categoría"></i> Cargar Utiles Assets</a>
+                        </div>
+                        <div class="card-body">
+                            <br>
+                            <form class="form-inline" action="{{ path('filtra_assets') }}" method="post">
+                                <div class="input-group ">
+    <span class="input-group-prepend">
+                              <a class="btn btn-danger" href="{{ path('lista_equipos_assets') }}">
+                                <i class="fa fa-refresh"></i> </a>
+                            </span>
+                                    <input class="form-control" id="numI" type="text" name="numI"
+                                           placeholder="Numero de inventario">
+                                    <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                                </div>
+                            </form>
+                            <br>
+                            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Descripcion de util</th>
+                                    <th>Area</th>
+                                    <th>Centro de Costo</th>
+                                    <th>Cantidad</th>
+                                    {#<th>Acciones</th>#}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for cate in pagination %}
+                                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                                <tr>
+                                    <td>{{ cate.util.descripcion }} {{ cate.util.idUh }}</td>
+                                    <td>{{ cate.nombreCosto }} {{ cate.codigoCosto }}</td>
+                                    <td>{{ cate.nombreArea }} {{ cate.codigoArea }}</td>
+                                    <td>{{ cate.cantidad }}</td>
+
+                                    {#<td>#}
+                                    {#<a href="#activar_estacion{{ cate.id }}" data-toggle="modal"#}
+                                    {#data-whatever="{{ cate.id }}">#}
+                                    {#<i class="nav-icon icon-plus"#}
+                                    {#data-toggle="tooltip" data-placement="bottom"#}
+                                    {#title="Añadir equipo"></i></a></td>#}
+                                </tr>
+                                <div class="modal fade" id="activar_estacion{{ cate.id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Añadir equipo</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            {% set seleccion='' %}
+                                            <div class="modal-body">
+                                                <form class="form-inline"
+                                                      action="{{ path('adicionar_a_equipos',{'id':cate.id}) }}"
+                                                      method="post">
+                                                    Especifique la categoria del equipo:
+                                                    <select class=" custom-select " style="width: 200px"
+                                                            id="tipo_equipo" name="tipo">
+                                                        <option id="cpuchasis" value="cpuchasis">Chasis</option>
+                                                        <option id="monitor" value="monitor">Monitor</option>
+                                                        <option id="scanner" value="scanner">Scanner</option>
+                                                        <option id="impresora" value="impresora">Impresora</option>
+                                                        <option id="backup" value="backup">Backup</option>
+                                                        <option id="laptop" value="laptop">Laptop</option>
+                                                        <option id="servidor" value="servidor">Servidor</option>
+                                                        <option id="equipoRed" value="equipoRed">Equipo de red</option>
+                                                        <option id="estabilizador" value="estabilizador">Estabilizador
+                                                        </option>
+                                                    </select>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Cancelar
+                                                </button>
+                                                <button class="btn btn-sm btn-primary" type="submit"
+                                                        onclick="document.getElementById('reset').value = 0; forms[0].submit()">
+                                                    <i class="fa fa-dot-circle-o"></i> Aceptar
+                                                </button>
+
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        {% endfor %}
+                        </tbody>
+                        </table>
+                        <div class="navigation">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.col-->
+        </div>
+    </div>
+    </div>
+    {#{% block javascripts %}#}
+
+    {#<script src="{{ asset('build/js/select2.full.js') }}"></script>#}
+    {#<script src="{{ asset('build/js/es.js') }}"></script>#}
+
+    {#<script>#}
+    {#var select = document.getElementById('tipo_equipo');#}
+    {#$(document).ready(function(){#}
+    {#$("#tipo_equipo").change(function(){#}
+    {#var op = $("#tipo_equipo option:selected").val();#}
+    {#e.preventDefault();#}
+    {#//$('#tipo_equipo').html(op.val())#}
+    {#alert(op);#}
+    {#});})#}
+    {#// select.addEventListener('change',#}
+    {#//   function(e){#}
+    {#//     var selectedOption = this.options[select.selectedIndex];#}
+    {#//     e.preventDefault();#}
+    {#//      console.log(selectedOption.value + ': ' + selectedOption.text);#}
+    {#//     var tipo = selectedOption.value;#}
+    {#//     var id =selectedOption.id;#}
+    {#//     $.ajax({#}
+    {#//       type: "GET",#}
+    {#//       dataType: "JSON",#}
+    {#//       data: {#}
+    {#//         id_equipo: id,#}
+    {#//         tipo_equipo: tipo#}
+    {#//       }#}
+    {#//     // window.location.href=selectedOption.value;#}
+    {#//   });})#}
+    {#</script>#}
+    {#<script type="application/javascript">#}
+    {#$('#areas').on('select2:select', function (e) #}{#}#}
+    {#// var data = e.params.data;#}
+    {#var area = e.params.data.element.text;#}
+    {#var id_i = e.params.data.element.id;  // de tu elemento#}
+    {#$.ajax(#}{#}#}
+    {#url: "{{ path('list_departamentos') }}",#}
+    {#type: "GET",#}
+    {#dataType: "JSON",#}
+    {#data: #}{#}#}
+    {#area_nombre: area,#}
+    {#id_ccosto: id_i#}
+    {#},#}
+    {#success: function (depart) #}{#}#}
+    {#$("#estaciones").empty();#}
+    {#$("#departamentos").empty();#}
+    {#// console.log(depart);#}
+    {#//  $('#departamentos').html(resp);#}
+    {#// var neighborhoodSelect = $("#departamentos");#}
+    {#var datos = [];#}
+    {#$.each(depart, function (key, depart) #}{#}#}
+    {#datos.push({id: parseInt(depart.id_dep), text: depart.dep});#}
+    {#});#}
+    {#$('#departamentos').val(null).trigger('change');#}
+    {#$("#departamentos").select2(#}{#}#}
+    {#data: datos#}
+    {#});#}
+    {#// Remove current options#}
+    {#// neighborhoodSelect.html('');#}
+    {#// Empty value ...#}
+    {#// neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');#}
+    {#// $.each(depart, function (key, depart) #}{#}#}
+    {#//#}
+    {#//   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');#}
+    {#//#}
+    {#// });#}
+    {#},#}
+    {#error: function (err) #}{#}#}
+    {#alert("An error ocurred while loading data ...");#}
+    {#}#}
+    {#});#}
+    {#});#}
+    {#$('#departamentos').on('select2:select', function (e) #}{#}#}
+    {#// var data = e.params.data;#}
+    {#var area = e.params.data.text;#}
+    {#var id_ic = e.params.data.id;#}
+    {#// console.log('text -->'+area);#}
+    {#// console.log('id -->'+id_ic);#}
+    {#// console.log(data);#}
+    {#// var municipioSelector = $(this);#}
+    {#// var id_ic = $(':selected',this).attr('id');  // de tu elemento#}
+    {#//alert(id_ic);#}
+    {#// alert(municipioSelector.val());#}
+    {#// Request the neighborhoods of the selected city.#}
+    {#$.ajax(#}{#}#}
+    {#url: "{{ path('list_inventarios') }}",#}
+    {#type: "GET",#}
+    {#dataType: "JSON",#}
+    {#data: #}{#}#}
+    {#id_Costo2: id_ic#}
+    {#},#}
+    {#success: function (neighborhood) #}{#}#}
+    {#var datos = [];#}
+    {#console.log(neighborhood);#}
+    {#$.each(neighborhood, function (key, neighborhood) #}{#}#}
+    {#datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});#}
+    {#});#}
+    {#$('#estaciones').val(null).trigger('change');#}
+    {#$("#estaciones").select2(#}{#}#}
+    {#data: datos#}
+    {#});#}
+    {#// var unidadSelect = $("#estaciones");#}
+    {#// Remove current options#}
+    {#// unidadSelect.html('');#}
+    {#// Empty value ...#}
+    {#// unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');#}
+    {#// $.each(neighborhood, function (key, neighborhood) #}{#}#}
+    {#//#}
+    {#//   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');#}
+    {#//#}
+    {#//   unidadSelec = neighborhood.id_estacion;#}
+    {#// });#}
+    {#},#}
+    {#error: function (err) #}{#}#}
+    {#alert("An error ocurred while loading data ...");#}
+    {#}#}
+    {#});#}
+    {#}#}
+    {#);#}
+    {#$("#estaciones").empty();#}
+    {#$("#departamentos").empty();#}
+    {#// });#}
+    {#</script>#}
+
+    {#{% endblock %}#}
+{% endblock %}

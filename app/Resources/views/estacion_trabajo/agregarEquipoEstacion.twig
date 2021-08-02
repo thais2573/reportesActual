@@ -1,0 +1,96 @@
+{% block stylesheets %}
+  <!-- CoreUI CSS -->
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  {#<!-- Bootstrap core CSS -->#}
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+  {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>#}
+  {#<!-- Material Design Bootstrap -->#}
+
+  {#<!-- Your custom styles (optional) -->#}
+  {#<link href="{{ asset('build/css/app.css') }}" rel="stylesheet">#}
+  {#<script href="{{ asset('build/js/app.js') }}"></script>#}
+  {#<script src="{{ asset('build/js/jquery/jquery.min.js') }}"></script>#}
+  {#<script src="{{ asset('build/js/bootstrap.min.js') }}"></script>#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"#}
+  {#integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+  {#<script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"#}
+  {#integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+  {#crossorigin="anonymous"></script>#}
+
+  {#<script src="{{ asset('build/js/popper.min.js') }}"#}
+  {#integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"#}
+  {#crossorigin="anonymous"></script>#}
+  {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+  {#integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+  {#crossorigin="anonymous"></script>#}
+{% endblock %}
+{% block main %}
+
+
+  <div class="card">
+    <div class="card-header">
+      <strong>Adicionar equipo</strong><br>
+
+        </div>
+      <div class="card-body">
+          {% if tipo_edicion=='inventario_nuevo' %}
+
+              {% else %}
+          <form class="form-inline float-right" method="post">
+              <a  href="{{ path('buscar_equipo',{'inventario':inventario[0].id }) }}">
+                  {% endif %}
+                  <div class="row">
+                      <div class="input-group float-right col-6" id="buscador">
+                          <input class="form-control col-5 " id="numI" type="text" name="numInv" placeholder="Numero de inventario">
+                          <span class="input-group-prepend">
+                              <button class="btn btn-primary busca" id="buscarEquipo1" type="button">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                      </div>
+
+                      <div class="float-right col-3">
+                          <strong>Lista Temporal de equipos</strong>
+                      </div>
+                      <div class="col-3" id="mensaje">
+                          <span class="badge badge-danger">
+                            Este equipo ya esta asignado a una estacion
+                          </span>
+                      </div>
+        </div>
+                  <div class="container col-6 float-right" id="nuevosEq" style="border: dot-dash;border-bottom: #0a0a0a">
+
+                  </div>
+      </a>
+      </form>
+
+          <br> <br> <br>
+{#        {{ dump(nuevo) }}#}
+{#          {% set equiposNuevos=[] %}#}
+{#      {% if nuevo!=null %}#}
+{#        <div class="equipos">#}
+
+{#        </div>#}
+{#        <label>Equipo encontrado:</label> <label>{{ nuevo.tipoEquipo }}</label>#}
+{#        <label>#Inv:{{ nuevo.numInventario }}</label>#}
+{#        <label>Modelo:{{ nuevo.modelo }}</label>#}
+{#        <label>{% if nuevo.estacion ==null %}#}
+{#            <button type="button" class="btn btn-ghost-success" id="agregarEquipo">Agregar a estacion</button>#}
+{#          {% else %}#}
+{#            <span class="badge badge-danger">Este equipo ya esta asignado a una estacion</span>#}
+{#          {% endif %}</label>#}
+
+{#      {% endif %}#}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+

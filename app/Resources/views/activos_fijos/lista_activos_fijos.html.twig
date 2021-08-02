@@ -1,0 +1,474 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+    <script src="{{ asset('build/js/pace.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+    {#<!-- CoreUI CSS -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    {#<meta charset="utf-8">#}
+    {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+    {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+    {#<!-- Font Awesome -->#}
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    {#<!-- Bootstrap core CSS -->#}
+    {#<!-- Select2 -->#}
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            Lista de activos fijos
+        </li>
+        <!-- Breadcrumb Menu-->
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for message in app.session.flashBag.get('alert') %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Listado de activos fijos en </strong>{{ dep }}
+                            <form class="form-inline float-right" action="{{ path('filtra_assets2',{'dep':dep,'sort':orden,'direction':dir}) }}"
+                                  method="post">
+                                <div class="input-group ">
+                                    <input class="form-control" id="numI" type="text" name="numI"
+                                           placeholder="Numero de inventario">
+                                    <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                                </div>
+                            </form>
+                            <br>
+                        </div>
+                        {% if dir==null %}
+                        {% set dir='ASC' %}
+                        {% endif %}
+                        {% if orden==null %}
+                        {% set orden='t.descripcion' %}
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="float-left">
+                                <form class="form-inline" action="{{ path('centroCosto_filter',{'dep':dep,'sort':orden,'direction':dir}) }}"
+                                      method="post">
+                                    <div class="form-group row">
+                                        {% for g in app.user.grupos %}
+                                            {% if g.nombre== 'Administradores' or g.nombre== 'Responsables AFT'%}
+                                            <div class="col-12">
+                                                <br>
+                                                Centro de Costo: <select id="areasAdmin" name="usuarios[]"
+                                                                         class="custom-select" style="width: 400px">
+                                                    {% set cant=0 %}
+                                                    {% if centros!='' %}
+                                                        {% for c in centros %}
+                                                            {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                                                            <option id="{{ c.idCosto }}"
+                                                                    value="{{ c.name }}">{{ c.name }}</option>
+                                                            {% set cant=cant+1 %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <option id="{{ area.idArea }}"
+                                                                value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-12">
+                                                <br>
+                                                Centro de Costo: <select id="areas" name="usuarios[]"
+                                                                         class="custom-select" style="width: 400px">
+                                                    {% set cant=0 %}
+                                                    {% if centros!='' %}
+                                                        {% for c in centros %}
+                                                            {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                                                            <option id="{{ c.idCosto }}"
+                                                                    value="{{ c.name }}">{{ c.name }}</option>
+                                                            {% set cant=cant+1 %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <option id="{{ area.idArea }}"
+                                                                value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <br>
+                            <input type="hidden" id="reset" name="reset" value="0">
+
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-primary" type="submit"
+                                    onclick="document.getElementById('reset').value = 0; forms[0].submit()">
+                                <i class="fa fa-dot-circle-o"></i> Buscar
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="reset"
+                                    onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                                <i class="fa fa-ban"></i> Borrar
+                            </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i> <strong>Existencia : </strong>
+                <strong>
+                    {% if pagination is defined %}
+                        {{ pagination.getTotalItemCount }}
+                    {% else %}
+                        {{ lista|length }}
+                    {% endif %}
+                </strong>
+                {% for message in app.session.flashBag.get('success') %}
+                    <div class="alert alert-info" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% set idArea=0 %}
+                {#{{ dump(jsonList) }}#}
+                {% if lista is defined %}
+                    {% if lista is iterable and lista!='' %}
+                        {% for g in app.user.grupos %}
+                        {% if g.nombre== 'Administradores' or g.nombre== 'Tecnicos'%}
+                            {#<a href="{{ path('imprimir_activos') }}"#}
+                            {#class="btn btn-primary float-md-right">#}
+                            {#<i class="nav-icon icon-printer"#}
+                            {#data-toggle="tooltip"#}
+                            {#data-placement="bottom"#}
+                            {#title="Nueva Modal"></i>#}
+                            {#Imprimir Todo#}
+                            {#</a>#}
+                            {#{{ dump(jsonList) }}#}
+                            <a href="{{ path('cargar_equiposListaActivos',{'dep':dep}) }}"
+                               class="btn btn-primary float-md-right">
+                                <i class="nav-icon icon-refresh"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   title="Nueva Modal"></i>
+                                Actualizar activos
+                            </a>
+                        {% endif %}
+                        {% endfor %}
+                        {#<a href="{{ path('imprimir_activos',{'id':lista[0].idCosto,'idCosto':lista[0].idArea}) }}"#}
+                        {#class="btn btn-primary float-md-right">#}
+                        {#<i class="nav-icon icon-printer"#}
+                        {#data-toggle="tooltip"#}
+                        {#data-placement="bottom"#}
+                        {#title="Nueva Modal"></i>#}
+                        {#Imprimir#}
+                        {#</a>     #}
+                        {% if orden is defined %}
+                        {#{{ dump(orden) }}#}
+
+                        {#{{ dump(jsonList.content|json_encode) }}#}
+
+
+                            <a href="{{ path('imprimiract',{'orden':orden,'dir':dir,'dep':pagination.items[0].idCosto}) }}"
+                               class="btn btn-primary float-md-right">
+                                <i class="nav-icon icon-printer"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   title="Nueva Modal"></i>
+                                Imprimir
+                            </a>
+                        {% endif %}
+                        {#<a href="{{ path('imprimir_activos',{'id':lista[0].idCosto,'idCosto':lista[0].idArea,'lista':lista}) }}"#}
+                        {#class="btn btn-primary float-md-right">#}
+                        {#<i class="nav-icon icon-printer"#}
+                        {#data-toggle="tooltip"#}
+                        {#data-placement="bottom"#}
+                        {#title="Nueva Modal"></i>#}
+                        {#Imprimir Seleccion#}
+                        {#</a>#}
+
+                    {% else %}
+                        {% if app.user.rol=="ROLE_ADMIN" or  app.user.rol=="ROLE_TECNICO" %}
+                            {#<a href="{{ path('imprimir_activos',{'id':lista.idCosto,'idCosto':0}) }}"#}
+                            {#class="btn btn-primary float-md-right">#}
+                            {#<i class="nav-icon icon-printer"#}
+                            {#data-toggle="tooltip"#}
+                            {#data-placement="bottom"#}
+                            {#title="Nueva Modal"></i>#}
+                            {#Imprimir Todo#}
+                            {#</a>#}
+                        {% endif %}
+                        {#<a href="{{ path('imprimir_activos',{'id':lista.idCosto,'idCosto':lista.idArea}) }}"#}
+                           {#class="btn btn-primary float-md-right">#}
+                            {#<i class="nav-icon icon-printer"#}
+                               {#data-toggle="tooltip"#}
+                               {#data-placement="bottom"#}
+                               {#title="Nueva Modal"></i>#}
+                            {#Imprimir#}
+                        {#</a>#}
+                        <a href="{{ path('imprimiract',{'orden':orden,'dir':dir,'dep':pagination.items[0].idCosto}) }}"
+                           class="btn btn-primary float-md-right">
+                            <i class="nav-icon icon-printer"
+                               data-toggle="tooltip"
+                               data-placement="bottom"
+                               title="Nueva Modal"></i>
+                            Imprimir
+                        </a>
+                        {#<a href="{{ path('imprimir_activos',{'id':lista[0].idCosto,'idCosto':lista[0].idArea,'lista':lista}) }}"#}
+                        {#class="btn btn-primary float-md-right">#}
+                        {#<i class="nav-icon icon-printer"#}
+                        {#data-toggle="tooltip"#}
+                        {#data-placement="bottom"#}
+                        {#title="Nueva Modal"></i>#}
+                        {#Imprimir Seleccion#}
+                        {#</a>#}
+
+                    {% endif %} {% endif %}
+            </div>
+            {% if lista is defined %}
+            <div class="card-body">
+                {#<div class="float-left">#}
+                {#<label>Cantidad de resultados por pagina</label> <select name="maxItemPerPage" id="maxItemPerPage"#}
+                {#class="custom-select col-3">#}
+                {#<option id="Seleccione" value="1">Seleccione</option>#}
+                {#<option id="5">5</option>#}
+                {#<option id="10">10</option>#}
+                {#<option id="20">20</option>#}
+                {#<option id="30">30</option>#}
+                {#</select>#}
+                {#</div>#}
+                {#<br> #}
+                <br>
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <thead>
+                    {#{% if filtro=='no' %}#}
+                    <tr>
+                        <th>{{ knp_pagination_sortable(pagination, 'Descripcion', 't.descripcion') }} <i
+                                    class="fa fa-sort"
+                                    data-toggle="tooltip"
+
+                                    data-placement="bottom"
+                                    title="Ordenar por descripcion"></i></th>
+                        <th>{{ knp_pagination_sortable(pagination, 'No.Inventario', 't.numInventario') }} <i
+                                    class="fa fa-sort"
+                                    data-toggle="tooltip"
+
+                                    data-placement="bottom"
+                                    title="Ordenar por numero de inventario"></i></th>
+                        <th>{{ knp_pagination_sortable(pagination, 'Area', 't.id_area') }} <i class="fa fa-sort"
+                                                                                              data-toggle="tooltip"
+
+                                                                                              data-placement="bottom"
+                                                                                              title="Ordenar por area"></i>
+                        </th>
+                        <th>{{ knp_pagination_sortable(pagination, 'Centro de costo', 't.id_costo') }} <i
+                                    class="fa fa-sort"
+                                    data-toggle="tooltip"
+
+                                    data-placement="bottom"
+                                    title="Ordenar por area"></i></th>
+                        <th>Serie</th>
+                        <th>Estado Actual</th>
+                        <th>Acciones</th>
+                    </tr>
+                    {#{% else %}#}
+                    {#<tr>#}
+                    {#<th >{{ knp_pagination_sortable(pagination, 'Descripcion', 't.descripcion') }} <i class="fa fa-sort"#}
+                    {#data-toggle="tooltip"#}
+                    {#data-placement="bottom"#}
+                    {#title="Ordenar por descripcion"></i></th>#}
+                    {#<th>{{ knp_pagination_sortable(pagination, 'No.Inventario', 'numInventario') }} <i class="fa fa-sort"#}
+                    {#data-toggle="tooltip"#}
+                    {#data-placement="bottom"#}
+                    {#title="Ordenar por numero de inventario"></i></th>#}
+                    {#<th>Area</th>#}
+                    {#<th>Centro de costo</th>#}
+                    {#<th>Serie</th>#}
+                    {#<th>Estado Actual</th>#}
+                    {#<th>Acciones</th>#}
+                    {#</tr>#}
+                    {#{% endif %}#}
+                    </thead>
+                    <tbody>
+                    {#{{ dump(pagination) }}#}
+                    {% if pagination is defined %}
+                    {% for l in pagination %}
+                    <tr {% if loop.index is odd %}class="color"{% endif %}>
+                        {% set idArea=l.idArea %}
+                        <td>{{ l.descripcion }}</td>
+                        <td>{{ l.numInventario }}</td>
+                        <td>{{ l.idArea }}</td>
+                        <td>{{ l.idCosto }}</td>
+                        <td>{{ l.serie }}</td>
+                        <td>
+                            Activo
+                        </td>
+                        <td>
+                            {% if l.activo!=0 or l.activo=='Inactivo' %}
+                                <a href="{{ path('traslado_activo',{'id_equi':l.id,'id_area':l.idCosto}) }}">
+                                    <i class="nav-icon icon-wrench"
+                                       data-toggle="tooltip" data-placement="bottom"
+                                       title="Realizar movimiento interno"></i></a>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+
+                    {% endif %}
+                </table>
+            </div>
+            <div class="card-footer">
+                {% if pagination is defined %}
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+        <!-- /.col-->
+    </div>
+    </div>
+    </div>
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/select2.full.js') }}"></script>
+
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#areasAdmin').select2({
+                    placeholder: "---Seleccione---"
+                });
+            });
+
+        </script>
+        <script type="text/javascript">
+            //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+            $('#maxItemPerPage').change(function () {
+                var url = '{{ path('lista_activos_fijos',{'maxItemPerPage':'_itemNum'}) }}';
+                var item = $('#maxItemPerPage').find(":selected").text();
+                window.location.href = url.replace('_itemNum', item);
+            })
+        </script>
+        <script>
+            var data = '{{ jsonList }}';
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: {{ path('imprimiract') }}, //path to controller action
+                data: {json: data},
+                success: function (response) {
+                    console.log('todo ok');
+                }
+            });
+        </script>
+    {% endblock %}
+
+    {#{% block javascripts %}#}
+    {#<script>#}
+    {#var data = {'lista'};#}
+
+    {#$.ajax({#}
+    {#type: "POST",#}
+    {#url: "{{ path('AjoutAjax') }}",#}
+    {#data: data,#}
+    {#success: function (data, dataType) {#}
+    {#alert(data);#}
+    {#},#}
+    {#error: function (XMLHttpRequest, textStatus, errorThrown) {#}
+    {#alert('Error : ' + errorThrown);#}
+    {#}#}
+    {#});#}
+    {#</script>#}
+    {#{% endblock %}#}
+    {#<script src="{{ asset('build/js/select2.full.js') }}"></script>#}
+    {#<script src="{{ asset('build/js/es.js') }}"></script>#}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>#}
+    {#<script type="application/javascript">#}
+    {#$(document).ready(function () {#}
+    {#$(' #departamentos').select2({#}
+    {#placeholder: "---Seleccione---"#}
+    {#});#}
+    {#});#}
+    {#</script>#}
+    {#<script type="application/javascript">#}
+    {#$('#departamentos').on('select2:select', function (e) {#}
+    {#// var data = e.params.data;#}
+    {#var area = e.params.data.element.text;#}
+    {#var id_i = e.params.data.element.id;  // de tu elemento#}
+    {#$.ajax({#}
+    {#url: "{{ path('lista_areas_costo') }}",#}
+    {#type: "GET",#}
+    {#dataType: "JSON",#}
+    {#data: {#}
+    {#area_nombre: area,#}
+    {#id_ccosto: id_i#}
+    {#},#}
+    {#success: function (depart) {#}
+    {#$("#departamentos").empty();#}
+    {#// console.log(depart);#}
+    {#//  $('#departamentos').html(resp);#}
+    {#// var neighborhoodSelect = $("#departamentos");#}
+    {#var datos = [];#}
+    {#$.each(depart, function (key, depart) {#}
+    {#datos.push({id: parseInt(depart.id_dep), text: depart.dep});#}
+    {#});#}
+    {#$('#departamentos').val(null).trigger('change');#}
+    {#$("#departamentos").select2({#}
+    {#data: datos#}
+    {#});#}
+    {#// Remove current options#}
+    {#// neighborhoodSelect.html('');#}
+    {#// Empty value ...#}
+    {#// neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');#}
+    {#// $.each(depart, function (key, depart) {#}
+    {#//#}
+    {#//   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');#}
+    {#//#}
+    {#// });#}
+    {#},#}
+    {#error: function (err) {#}
+    {#alert("An error ocurred while loading data ...");#}
+    {#}#}
+    {#});#}
+    {#});#}
+
+
+    {#$("#estaciones").empty();#}
+    {#$("#departamentos").empty();#}
+    {#// });#}
+    {#</script>#}
+
+    {#{% endblock %}#}
+
+{% endblock %}

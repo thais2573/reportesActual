@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}"/>
+  <title>Sistema Integral de Gestión Hospitalaria</title>
+  {% block stylesheet %}
+    {# Estos son CSS para tipografias e iconos #}
+    <link type="text/css" rel="stylesheet" href="{{ asset('fonts/open-sans/OpenSans.css') }}">
+    <link href="{{ asset('fonts/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+
+    {# Cargo los estilos del login #}
+    <link href="{{ asset('bundles/login/css/login.less') }}" rel="stylesheet/less" type="text/css">
+  {% endblock %}
+  {% block firstjavascript %}
+  <script type="text/javascript" src="{{ asset('js/jquery/jquery-2.2.4.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('plugins/less/less.js') }}" ></script>
+  <script type="text/javascript" src="{{ asset('plugins/bootstrap/js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/login/js/user/login.js') }}"></script>
+{% endblock  %}
+</head>
+
+<body style="background-color:#33CCFF ">
+{% block contenido %} {% endblock %}
+</body>
+</html>

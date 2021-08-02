@@ -1,0 +1,55 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Cambio de numero consecutivo de solicitud</a>
+        </li>
+    </ol>
+    <div> {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert"><i class="fa btn-fab-success"> </i> {{ message }}    </div>
+        {% endfor %}</div>
+    <div class="col-md-5 " style="width: auto;margin: auto auto" >
+    <div class="card">
+        <div class="card-header"><strong>Consecutivo de solicitud</strong> <small>Formulario</small></div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate',}}) }}
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="city">Numero de solicitud actual</label>
+                    <input class="form-control col-5" id="disabled-input" type="text" name="disabled-input" value="{{ app.user.consecutivoSolicitud }}" disabled="">
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="postal-code">Nuevo numero</label>
+                    {{ form_widget(form.consecutivoSolicitud,{ 'attr': {'class': '.col-sm-5','type':'number'} }) }}
+
+                </div>
+            </div>
+
+            <button class="btn btn-sm btn-primary" type="submit"> Cambiar</button>
+            {{ form_end(form,{'render_rest':false}) }}
+        </div>
+        <div></div></div>
+    </div>
+
+
+{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+            //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+            $('#maxItemPerPage').change(function () {
+                var url = '{{ path('lista_deudas_taller',{'maxItemPerPage':'_itemNum'}) }}';
+                var item = $('#maxItemPerPage').find(":selected").text();
+                window.location.href = url.replace('_itemNum', item);
+            })
+        </script>
+        <script>
+            $(document).ready(function () {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    format: 'dd/MM/yyyy'
+                });
+            });
+        </script>{% endblock %}

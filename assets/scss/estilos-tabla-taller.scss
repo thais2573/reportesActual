@@ -1,0 +1,16 @@
+table tr {
+    background-color: #eee;
+}
+table tr:nth-child(2) {
+    background-color: #eee;
+}
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+
+table tr:nth-child(odd) {
+    background-color: #fff;
+}
+table{
+    width: 800px;
+}

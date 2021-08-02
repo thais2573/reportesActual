@@ -1,0 +1,189 @@
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+      {#<img src="{{ 'http://pro.local/images/brand/logo2.png' }}" alt="logo de la clinica" />#}
+    <img src="{{ 'https://reportes.cicc.cu/img/iconos/logoreportes.png' }}" alt="logo de la clinica" />
+      {#<img src="{{ 'https://sigh.camilo.sld.cu/images/logo.png' }}" alt="logo de la clinica" />#}
+  </div>
+  <h3 align="center">Deudas de Taller de Partes & Piezas</h3>
+  <br>  <br>
+  {% set totalFuentes=0 %}
+  {% set totalBoard=0 %}
+  {% set totalMicro=0 %}
+  {% set totalRam=0 %}
+  {% set totalHdd=0 %}
+  {% set totalLector=0 %}
+  {% set totalMouse=0 %}
+  {% set totalTeclado=0 %}
+  {% set totalBocina=0 %}
+
+
+<div class="row">
+  <table class="col-lg-12" border="1" style="font-size: 20px;width: 100%;alignment: center">
+    <tr align="center">
+      <th>No.</th>
+      <th>No.Inventario</th>
+      <th>Deudas</th>
+    </tr>
+    {% for p in lista %}
+      <tr align="center">
+        <td>{{ loop.index }}</td>
+        <td>{{ p.numInventario }}</td>
+        {% set resumen = p.resumen|slice('40') %}
+        {% set piezaas = resumen|split(' ') %}
+        {% for t in piezaas %}
+         {% if t=='fuente' %}
+          {% set totalFuentes=totalFuentes+1 %}
+           {% elseif t=='microprocesador' %}
+             {% set totalMicro=totalMicro+1 %}
+           {% elseif t=='ram' %}
+             {% set totalRam=totalRam+1 %}
+           {% elseif t=='hdd' %}
+             {% set totalHdd=totalHdd+1 %}
+           {% elseif t=='lector' %}
+             {% set totalLector=totalLector+1 %}
+           {% elseif t=='mouse' %}
+             {% set totalMouse=totalMouse+1 %}
+           {% elseif t=='teclado' %}
+             {% set totalTeclado=totalTeclado+1 %}
+           {% elseif t=='bocinas' %}
+             {% set totalBocina=totalBocina+1 %}
+          {% endif %}
+        {% endfor %}
+        <td align="center">{{ resumen }}</td>
+      </tr>
+
+    {% endfor %}
+  </table>
+</div>
+<br><br>
+
+
+  <table border="1" class="col-lg-12" style="font-size: 20px;align-content: center">
+    <tr align="center">
+      <th>Pieza</th>
+      <th>Total</th>
+    </tr>
+    <tr align="center">
+      <td>Fuente</td>
+      <td>{{ totalFuentes }}</td>
+    </tr>
+    <tr align="center">
+      <td>Motherboard</td>
+      <td>{{ totalBoard }}</td>
+    </tr>
+    <tr align="center">
+      <td>Microprocesador</td>
+      <td>{{ totalMicro }}</td>
+    </tr>
+    <tr align="center">
+      <td>RAM</td>
+      <td>{{ totalRam }}</td>
+    </tr>
+    <tr align="center">
+      <td>HDD</td>
+      <td>{{ totalHdd }}</td>
+    </tr>
+    <tr align="center">
+      <td>Lector</td>
+      <td>{{ totalLector }}</td>
+    </tr>
+    <tr align="center">
+      <td>Mouse</td>
+      <td>{{ totalMouse }}</td>
+    </tr>
+    <tr align="center">
+      <td>Teclado</td>
+      <td>{{ totalTeclado }}</td>
+    </tr>
+    <tr align="center">
+      <td>Bocinas</td>
+      <td>{{ totalBocina }}</td>
+    </tr>
+  </table>
+
+  <br>  <br>  <br>  <br> <br>  <br>  <br>  <br> <br>  <br>  <br>  <br>
+
+
+
+    <table>
+      <tbody><tr>
+        <td style="border: 0px solid #000000"><table width="643" cellspacing="0" cellpadding="4">
+            <tbody><tr valign="top">
+              <td style=" border-bottom: 1px solid #000000;" width="373">
+                <p align="center"><br>
+                </p>
+              </td>
+              <td style=" border-bottom: 0px solid #000000;" width="37">
+                <p align="center"><br>
+
+                </p>
+              </td>
+              <td style="border-bottom: 1px solid #000000;" width="207">
+                <p align="center"><br>
+                </p>
+              </td>
+            </tr>
+            <tr valign="top">
+              <td style=" border-bottom: 0px solid #000000;" width="373">
+                <p align="center">Nombre y Apellidos</p>
+              </td>
+              <td style=" border-bottom: 0px solid #000000; " width="37">
+                <p align="center"><br>
+                </p>
+              </td>
+              <td style=" border-bottom: 0px solid #000000;" width="207">
+                <p align="center">Firma</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" style="border-top: none; border-bottom: 0px solid #000000; border-left: 0px solid #000000; border-right: 0px solid #000000;" width="633" valign="top">
+                <p align="center">Proveedor</p>
+              </td>
+            </tr>
+            </tbody></table></td>
+        <td style="border: 0px solid #000000" width="207">&nbsp;&nbsp;&nbsp;</td>
+        <td style="border: 0px solid #000000" width="207">&nbsp;&nbsp;&nbsp;</td>
+        <td style="border: 0px solid #000000"><table width="643" cellspacing="0" cellpadding="4">
+            <tbody><tr valign="top">
+              <td style=" border-bottom: 1px solid #000000;" width="373">
+                <p align="center"><br>
+                </p>
+              </td>
+              <td style=" border-bottom: 0px solid #000000; border-left: 0px solid #000000; border-right: none;" width="37">
+                <p align="center"><br>
+
+                </p>
+              </td>
+              <td style="border-bottom: 1px solid #000000;" width="207">
+                <p align="center"><br>
+                </p>
+              </td>
+            </tr>
+            <tr valign="top">
+              <td style=" border-bottom: 0px solid #000000;" width="373">
+                <p align="center">Nombre y Apellidos</p>
+              </td>
+              <td style="border-bottom: 0px solid #000000; " width="37">
+                <p align="center"><br>
+                </p>
+              </td>
+              <td style=" border-bottom: 0px solid #000000; " width="207">
+                <p align="center">Firma</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" style="border-bottom: 0px solid #000000; " width="633" valign="top">
+                <p align="center">Cliente</p>
+              </td>
+            </tr>
+            </tbody></table></td>
+      </tr>
+      </tbody></table>
+
+
+{% endblock %}
+

@@ -1,0 +1,160 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a href="#">Datos del componente</a>
+
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i>  Dashboard</a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  Settings</a>
+      </div>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        {% for message in app.session.flashBag.get('success') %}
+          <div class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+
+        <div class="card">
+          <div class="card-header">
+            <strong>Datos del periférico</strong></div>
+          {{ form_start(form) }}
+          <div class="card-body">
+            <div class="form-group row">
+              {% if form.marca is defined %}
+              <div class="col-md-3">
+                {{ form_row(form.marca) }}
+              </div>
+              {% endif %}
+              <div class="col-md-3">
+                {{ form_row(form.modelo) }}
+              </div>
+              <div class="col-md-3">
+                {{ form_row(form.numInventario) }}
+              </div>
+              {% if form.serie is defined %}
+              <div class="col-md-3">
+                {{ form_row(form.serie) }}
+              </div>
+              {% endif %}
+              {% if form.sello is defined %}
+              <div class="col-md-3">
+
+                {{ form_row(form.sello) }}
+              </div>
+              {% endif %}
+              {% if form.capacidad is defined %}
+              <div class="col-md-3">
+                {{ form_row(form.capacidad) }}
+              </div>
+              {% endif %}
+              {% if form.tipo is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.tipo) }}
+                </div>
+              {% endif %}
+              {% if form.tonerCartucho is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.tonerCartucho) }}
+                </div>
+              {% endif %}
+              {% if form.tipoTonerCartucho is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.tipoTonerCartucho) }}
+                </div>
+              {% endif %}
+              {% if form.color is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.color) }}
+                </div>
+              {% endif %}
+              {% if form.fechaMantenimiento is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.fechaMantenimiento) }}
+                </div>
+              {% endif %}
+              {% if form.selloSeguridad is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.selloSeguridad) }}
+                </div>
+              {% endif %}
+              {% if form.lcd is defined %}
+                <div class="col-md-3">
+                  {{ form_row(form.lcd) }}
+                </div>
+              {% endif %}
+              <div class="col-md-3">
+                {{ form_row(form.inventario) }}
+              </div>
+
+              {% if tipo=='bocinas' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/boci.png') }}"></div>
+              {% elseif tipo=='backup' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/backup.jpg') }}"></div>
+              {% elseif tipo=='cpuchasis' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+              {% elseif tipo=='impresora' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/impresora.webp') }}"></div>
+              {% elseif tipo=='monitor' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/monitor.jpg') }}"></div>
+              {% elseif tipo=='mouse' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/mouse3.jpg') }}"></div>
+              {% elseif tipo=='teclado' %}
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/teclado2.png') }}"></div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="card-footer">
+
+
+            {{ form_widget(form.Guardar) }}
+
+
+            {{ form_end(form) }}
+            <a href="{{ path('lista_equipos') }}" class="btn btn-sm btn-primary" type="reset" methods="POST"
+               onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+              <i class="fa fa-arrow-circle-left"></i> Atras
+            </a>
+          </div>
+
+
+          </div>
+
+
+
+
+
+        </div>
+        <!-- /.col-->
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

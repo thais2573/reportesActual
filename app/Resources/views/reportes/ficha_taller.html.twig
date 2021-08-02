@@ -1,0 +1,193 @@
+
+ {% block stylesheets %}
+ {% endblock %}
+{% block body %}
+{#<head>#}
+  {#<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>#}
+  {#<link rel="stylesheet" type="text/css" href="{{ asset('build/css/estilos-tabla-taller.css') }}" media="screen" />#}
+    {#<link rel="stylesheet"  href="http://localhost/build/css/estilos-tabla-taller.css" />#}
+{#</head>#}
+  <div class="row">
+      {#<img src="{{ 'http://pro.local/images/brand/logo2.png' }}" alt="logo de la clinica" />#}
+    <img src="{{ 'https://reportes.cicc.cu/img/iconos/logoreportes.png' }}" alt="logo de la clinica" />
+      {#<img src="{{ 'https://sigh.camilo.sld.cu/images/logo.png' }}" alt="logo de la clinica" />#}
+  </div>
+    <br>
+<div class="float-right">{{ date('now') |date('d-m-Y') }}</div>
+<h2 align="center">Equipos en taller </h2><br><br>
+{% set backups = [] %}
+{% set impresoras = [] %}
+{% set monitores = [] %}
+{% set cpuchasis = [] %}
+{% set scanners = [] %}
+{% set laptops = [] %}
+{% set estabilizadores = [] %}
+{% set proyectores=[] %}
+{% for datos in lista %}
+  {% if datos.tipoPeriferico =='backup' or datos.tipoPeriferico=='Backup' %}
+    {% set backups = backups|merge([datos]) %}
+  {% endif %}
+  {% if  datos.tipoPeriferico =='impresora' or datos.tipoPeriferico=='Impresora' %}
+    {% set impresoras = impresoras|merge([datos]) %}
+  {% endif %}
+  {% if  datos.tipoPeriferico =='monitor' or datos.tipoPeriferico=='Monitor' %}
+    {% set monitores = monitores|merge([datos]) %}
+  {% endif %}
+  {% if  datos.tipoPeriferico =='cpuchasis' or datos.tipoPeriferico=='CPU-Chasis' %}
+    {% set cpuchasis = cpuchasis|merge([datos]) %}
+  {% endif %}
+  {% if  datos.tipoPeriferico =='scanner' or datos.tipoPeriferico=='Scanner' %}
+    {% set scanners = scanners|merge([datos]) %}
+  {% endif %}
+  {% if  datos.tipoPeriferico =='laptop' or datos.tipoPeriferico=='Laptop' %}
+    {% set laptops = laptops|merge([datos]) %}
+  {% endif %}
+  {% if  datos.tipoPeriferico =='Estabilizador' or datos.tipoPeriferico=='estabilizador' %}
+    {% set estabilizadores = estabilizadores|merge([datos]) %}
+  {% endif %}
+    {% if  datos.tipoPeriferico =='Proyector' or datos.tipoPeriferico=='proyector' %}
+        {% set proyectores = proyectores|merge([datos]) %}
+    {% endif %}
+{% endfor %}
+<table>
+  <thead>
+  </thead>
+  <tbody>
+  <tr>
+    <th>Dpto.</th>
+    <th>Modelo</th>
+    <th>Equipo</th>
+    <th>No.Inventario</th>
+    <th>Salida</th>
+  </tr>
+  {% if backups|length>0 %}
+    <tr><th colspan="5">Backup</th></tr>
+    {% for b in backups %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ b.dpto }}</td>
+        <td>{{ b.modelo }}</td>
+        <td>{{ b.tipoPeriferico }}</td>
+        <td>{{ b.numInventario }}</td>
+        <td>{{ b.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total: {{ backups|length }}</th></tr>
+  {% endif %}
+  {% if impresoras|length>0 %}
+    <tr><th colspan="5">Impresora</th></tr>
+    {% for i in impresoras %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ i.dpto }}</td>
+        <td>{{ i.modelo }}</td>
+        <td>{{ i.tipoPeriferico }}</td>
+        <td>{{ i.numInventario }}</td>
+        <td>{{ i.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total:{{ impresoras|length }}</th></tr>
+  {% endif %}
+  {% if monitores |length>0 %}
+    <tr><th colspan="5">Monitor</th></tr>
+    {% for m in monitores %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ m.dpto }}</td>
+        <td>{{ m.modelo }}</td>
+        <td>{{ m.tipoPeriferico }}</td>
+        <td>{{ m.numInventario }}</td>
+        <td>{{ m.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total:{{ monitores|length }}</th></tr>
+  {% endif %}
+  {% if cpuchasis |length>0 %}
+    <tr><th colspan="5">Chasis</th></tr>
+    {% for c in cpuchasis %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ c.dpto }}</td>
+        <td>{{ c.modelo }}</td>
+        <td>{{ c.tipoPeriferico }}</td>
+        <td>{{ c.numInventario }}</td>
+        <td>{{ c.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total:{{ cpuchasis|length }}</th></tr>
+  {% endif %}
+  {% if scanners |length>0 %}
+    <tr><th colspan="5">Scanner</th></tr>
+    {% for s in scanners %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ s.dpto }}</td>
+        <td>{{ s.modelo }}</td>
+        <td>{{ s.tipoPeriferico }}</td>
+        <td>{{ s.numInventario }}</td>
+        <td>{{ s.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total:{{ scanners|length }}</th></tr>
+  {% endif %}
+  {% if laptops |length>0 %}
+    <tr><th colspan="5">Laptop</th></tr>
+    {% for l in laptops %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ l.dpto }}</td>
+        <td>{{ l.modelo }}</td>
+        <td>{{ l.tipoPeriferico }}</td>
+        <td>{{ l.numInventario }}</td>
+        <td>{{ l.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total:{{ laptops|length }}</th></tr>
+  {% endif %}
+  {% if estabilizadores |length>0 %}
+    <tr><th colspan="5">Estabilizador</th></tr>
+    {% for e in estabilizadores %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ e.dpto }}</td>
+        <td>{{ e.modelo }}</td>
+        <td>{{ e.tipoPeriferico }}</td>
+        <td>{{ e.numInventario }}</td>
+        <td>{{ e.fechaSalida |date('d-m-Y') }}</td>
+      </tr>
+    {% endfor %}
+    <tr><th colspan="5">Total:{{ estabilizadores|length }}</th></tr>
+  {% endif %}<br>
+  {% if proyectores |length>0 %}
+    <tr><th colspan="5">Proyector</th></tr>
+      {% for p in proyectores %}
+        <tr {% if loop.index is odd %}class="color"{% endif %}>
+          <td>{{ p.dpto }}</td>
+          <td>{{ p.modelo }}</td>
+          <td>{{ p.tipoPeriferico }}</td>
+          <td>{{ p.numInventario }}</td>
+          <td>{{ p.fechaSalida |date('d-m-Y') }}</td>
+        </tr>
+      {% endfor %}
+    <tr><th colspan="5">Total:{{ proyectores|length }}</th></tr>
+  {% endif %}<br>
+  <tr><th colspan="5">Total General:{{ lista|length }}</th></tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+<table>
+  <tr with="600">
+    <td>
+      <ADDRESS>_______________________________________</ADDRESS>
+      <br>
+      <strong>Nombre y Apellidos</strong><br>
+      Elio Mendoza
+    </td>
+
+    <td>
+      <ADDRESS>_______________________________________</ADDRESS>
+      <br>
+      <strong>Aprobado</strong><br>
+      Eddy Frank Perez Ledezma
+    </td>
+
+  </tr>
+</table>
+
+{% endblock %}
+

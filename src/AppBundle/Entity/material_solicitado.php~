@@ -1,0 +1,177 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Lisandra
+ * Date: 05/02/2019
+ * Time: 14:39
+ */
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="material_solicitado")
+ */
+class material_solicitado
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $centroCosto;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $codigo;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $material;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $um;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $cantidad;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $numSolictud;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $fechaSolicitud;
+
+    /**
+     * @return mixed
+     */
+    public function getCentroCosto()
+    {
+        return $this->centroCosto;
+    }
+
+    /**
+     * @param mixed $centroCosto
+     */
+    public function setCentroCosto($centroCosto)
+    {
+        $this->centroCosto = $centroCosto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    /**
+     * @param mixed $codigo
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaterial()
+    {
+        return $this->material;
+    }
+
+    /**
+     * @param mixed $material
+     */
+    public function setMaterial($material)
+    {
+        $this->material = $material;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUm()
+    {
+        return $this->um;
+    }
+
+    /**
+     * @param mixed $um
+     */
+    public function setUm($um)
+    {
+        $this->um = $um;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * @param mixed $cantidad
+     */
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumSolictud()
+    {
+        return $this->numSolictud;
+    }
+
+    /**
+     * @param mixed $numSolictud
+     */
+    public function setNumSolictud($numSolictud)
+    {
+        $this->numSolictud = $numSolictud;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaSolicitud()
+    {
+        return $this->fechaSolicitud;
+    }
+
+    /**
+     * @param mixed $fechaSolicitud
+     */
+    public function setFechaSolicitud($fechaSolicitud)
+    {
+        $this->fechaSolicitud = $fechaSolicitud;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+
+}

@@ -1,0 +1,285 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+    <script src="{{ asset('build/js/pace.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+{% endblock %}
+
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Reportes</li>
+        <li class="breadcrumb-item active">
+            Equipos de Baja
+        </li>
+        <!-- Breadcrumb Menu-->
+    </ol>
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-align-justify"></i> <strong>Total :{% if pagination is defined %} {{ pagination.getTotalItemCount }}{% else %}1{% endif %}</strong>
+            {#{% if lista is defined %}#}
+            {#{% if lista is not null %}#}
+            {#<strong> {{ lista|length }} </strong>#}
+            {#{% else %}#}
+            {% for message in app.session.flashBag.get('alert') %}
+                <div class="alert alert-warning" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashBag.get('mensaje') %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {#{% endif %}#}
+            {#{% endif %}#}
+            <div class="dropdown float-sm-right">
+                <a href="{{ path('imprimir_equipos_en_taller') }}" class="btn btn-success ">
+                    Imprimir
+                </a>
+            </div>
+            <br>
+            <div class="float-left">
+                <label>Cantidad de resultados por pagina</label> <select name="maxItemPerPage" id="maxItemPerPage" class="custom-select col-3">
+                    <option id="Seleccione" value="1" >Seleccione</option>
+                    <option id="5">5</option>
+                    <option id="10">10</option>
+                    <option id="20">20</option>
+                    <option id="30">30</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <form class="form-inline float-right" action="{{ path('filtraEquiposBaja') }}" method="post">
+                    <div class="input-group ">
+                        <input class="form-control" id="numI" type="text" name="numI" placeholder="Numero de inventario">
+                        <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                    </div>
+                </form>
+            </div>
+            <br> <br>
+            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Equipo</th>
+                    <th>No.Inventario</th>
+                    <th>Fecha de baja</th>
+
+                </tr>
+                </thead>
+                {% if pagination is defined %}
+                    {% for datos in pagination %}
+                        <tr {% if loop.index is odd %}class="color"{% endif %}>
+                            <td>{{ datos.modelo }}</td>
+                            <td>
+                                {% if datos.tipoEquipo =='backup' or datos.tipoEquipo=='Backup' %}
+                                    Backup
+                                {% endif %}
+                                {% if datos.tipoEquipo =='estabilizador' or datos.tipoEquipo=='Estabilizador' %}
+                                    Estabilizador
+                                {% endif %}
+                                {% if datos.tipoEquipo =='cpuchasis' or datos.tipoEquipo=='CPU-Chasis' %}
+                                    Cpu Chasis
+                                {% endif %}
+                                {% if datos.tipoEquipo =='impresora' or datos.tipoEquipo =='Impresora' %}
+                                    Impresora
+                                {% endif %}
+                                {% if datos.tipoEquipo =='monitor' or datos.tipoEquipo=='Monitor' %}
+                                    Monitor
+                                {% endif %}
+                                {% if datos.tipoEquipo =='Bocina' or datos.tipoEquipo=='bocinas' %}
+                                    Bocina
+                                {% endif %}
+                                {% if datos.tipoEquipo =='Laptop' or datos.tipoEquipo=='laptop' %}
+                                    Laptop
+                                {% endif %}
+                                {% if datos.tipoEquipo =='Proyector' or datos.tipoEquipo=='proyector' %}
+                                    Proyector
+                                {% endif %}
+                                {% if datos.tipoEquipo =='Scanner' or datos.tipoEquipo=='scanner' %}
+                                    Scanner
+                                {% endif %}
+                            </td>
+
+
+                            <td>
+                                {{ datos.numInventario }}
+                            </td>
+                          <td>{{ datos.fechaModificacion|date('d-m-Y') }}</td>
+
+
+
+
+
+                        </tr>
+
+
+                    {% endfor %}
+                {% else %}
+
+                    <tr>
+                        <td>{{lista.modelo }}</td>
+
+                        <td>
+                            {% if lista.tipoPeriferico =='backup' or lista.tipoPeriferico=='Backup' %}
+                                Backup
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='estabilizador' or lista.tipoPeriferico=='Estabilizador' %}
+                                Estabilizador
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='cpuchasis' or lista.tipoPeriferico=='CPU-Chasis' %}
+                                Cpu Chasis
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='impresora' or lista.tipoPeriferico =='Impresora' %}
+                                Impresora
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='monitor' or lista.tipoPeriferico=='Monitor' %}
+                                Monitor
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='Bocina' or lista.tipoPeriferico=='bocinas' %}
+                                Bocina
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='Laptop' or lista.tipoPeriferico=='laptop' %}
+                                Laptop
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='Proyector' or lista.tipoPeriferico=='proyector' %}
+                                Proyector
+                            {% endif %}
+                            {% if lista.tipoPeriferico =='Scanner' or lista.tipoPeriferico=='scanner' %}
+                                Scanner
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ lista.numInventario }}
+                        </td>
+                        <td>
+                            {#aqui va la fecha de salida#}
+                            {% if lista.fechaSalida =='0000-00-00' or lista.fechaSalida is null %}
+                                <a href="#activar_estacion{{ lista.id }}{{ lista.tipoPeriferico }}" data-toggle="modal"
+                                   data-whatever="{{ lista.id }}{{ lista.tipoPeriferico }}">
+                                    <i class="nav-icon icon-calendar"
+                                       data-toggle="tooltip" data-placement="bottom"
+                                       title="Activar estación"></i></a>
+
+
+                                <div class="modal fade" id="activar_estacion{{ lista.id }}{{ lista.tipoPeriferico }}" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Fecha de salida</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Cambiar fecha de salida a taller
+
+                                                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                                                {{ form_widget(form.fechaSalida) }}
+                                                {{ form_errors(form.fechaSalida) }}
+                                                {{ form_widget(form.idPeriferico ,{'attr': {'value': lista.id,'hidden':true}} ) }}
+                                                {{ form_widget(form.tipoPeriferico,{'attr': {'value': lista.tipoPeriferico,'hidden':true}} ) }}
+
+                                            </div>
+
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                <button class="btn-sm btn-success" type="submit">
+                                                    <i class="nav-icon icon-calendar" data-toggle="tooltip" data-placement="bottom"
+                                                       title="Consultar Datos"></i> Establecer fecha de salida a taller
+                                                </button>
+                                                <a href="{{ path('desactivar_estacion',{'id':incidencia.id}) }}" class="btn btn-primary">Aceptar</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_errors(form.fechaSalida) }}
+                                {{ form_end(form) }}
+                            {% else %}
+                                {{ lista.fechaSalida|date('d/m/Y') }}
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <td>
+
+                            {% if lista.dpto == null %}
+                                <a
+                                        href="{{ path('solucionar_sin_incidenciaSI',{'id':lista.idPeriferico,'equipo':lista.tipoPeriferico}) }}">
+                                    <i class="nav-icon icon-wrench"
+                                       data-toggle="tooltip" data-placement="bottom" title="Solucionar problemas"></i></a>
+                            {% else %}
+                                <a
+                                        href="{{ path('solucionar_sin_incidencia',{'id':lista.idPeriferico,'equipo':lista.tipoPeriferico}) }}">
+                                    <i class="nav-icon icon-wrench"
+                                       data-toggle="tooltip" data-placement="bottom" title="Solucionar problemas"></i></a>
+                            {% endif %}
+                            <a href="{{ path('salidaTaller',{'numI':lista.numInventario}) }}"
+                               title="Eliminar de taller">
+                                <i class="fa fa-trash-o fa-lg mt-4"></i>
+                            </a>
+                        </td>
+
+
+                    </tr>
+                {% endif %}
+
+
+            </table>
+        </div>
+        {% if pagination is defined %}
+            <div class="card-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/main.js') }}"></script>
+        <script type="text/javascript">
+            //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+            $('#maxItemPerPage').change(function(){
+                var url = '{{path('lista_equipos_taller',{'maxItemPerPage':'_itemNum'})}}';
+                var item = $('#maxItemPerPage').find(":selected").text();
+                window.location.href = url.replace('_itemNum',item );
+            })
+        </script>
+        <script>
+            $(document).ready(function () {
+                // you may need to change this code if you are not using Bootstrap Datepicker
+                $('.js-datepicker').datepicker({
+                    format: 'dd/MM/yyyy'
+                });
+            });
+        </script>{% endblock %}
+
+{% endblock %}
+

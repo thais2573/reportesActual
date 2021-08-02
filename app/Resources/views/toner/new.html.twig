@@ -1,0 +1,75 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+<br><br><br><br>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-lg-6" style="alignment: center">
+                    {{ form_start(form) }}
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Adicionar </strong>Toner
+                            <label class="col-md-1 col-form-label-sm float-right"  id="label1" for="form-reg"></label>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ form_row(form.modelo, { 'attr': {'id':'modelo','name':'modelo'} }) }}
+                                </div>
+
+                                <div class="col-sm-2">
+                                    {{ form_row(form.cantidad, { 'attr': {'id':'cantidad','name':'cantidad','type':'number'}}) }}
+                                </div>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-1 float-right">
+                                    <img src="{{ asset('img/iconos/toner.jpg') }}">
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="card-footer">
+                            <a class="btn btn-primary" href="{{ path('tipo_list') }}">Atras</a>
+                            <button class="btn btn-success" type="submit" formnovalidate>Adicionar</button>
+                        </div>
+                        {{ form_widget(form._token) }}
+                        {{ form_end(form,{'render_rest':false}) }}
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+
+{% endblock %}

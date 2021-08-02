@@ -1,0 +1,282 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  <!-- CoreUI CSS -->
+  <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+  <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+  <!-- Bootstrap core CSS -->
+  <!-- Select2 -->
+  {#<link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/select2-bootstrap.min.css') }}">#}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+  <!-- Material Design Bootstrap -->
+
+  <!-- Your custom styles (optional) -->
+  <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+  <script href="{{ asset('build/js/app.js') }}"></script>
+  <script src="{{ asset('build/js/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  {#<script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"#}
+  {#integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+  {#crossorigin="anonymous"></script>#}
+  <script src="https://code.jquery.com/jquery-3.2.1.js"
+          integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <script src="{{ asset('build/js/popper.min.js') }}"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+          integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+          crossorigin="anonymous"></script>
+{% endblock %}
+{% block main %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Home</li>
+    <li class="breadcrumb-item active">
+      <a href="#">Dashboard</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i>  Dashboard</a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  Settings</a>
+      </div>
+    </li>
+  </ol>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-9">
+
+          <div class="card">
+
+            <div class="card-header">
+              <strong>Instalacion de Equipos en :</strong> {{ estacion.centroCosto }}
+              <a class="btn btn-success pull-right" href="{{ path('datos_estacion',{'id':estacion.id}) }}">
+                <i class="nav-icon icon-docs" data-toggle="tooltip" data-placement="bottom" title="Nueva Incidencia"></i>
+                Detalles de inventario actual</a>
+            </div>
+
+            <div class="card-body">
+              <label>Seleccione los equipos a instalar</label>
+              <div class="col-md-9 col-form-label">
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input" id="monitor" type="checkbox" value="monitor" onclick="calc();">
+                  <label class="form-check-label" for="inline-checkbox1">Monitor</label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input" id="impresora" type="checkbox" value="impresora">
+                  <label class="form-check-label" for="inline-checkbox2">Impresora</label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input" id="backup" type="checkbox" value="backup">
+                  <label class="form-check-label" for="inline-checkbox3">Backup</label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input" id="estabilizador" type="checkbox" value="estabilizador">
+                  <label class="form-check-label" for="inline-checkbox3">Estabilizador</label>
+                </div>
+              </div>
+
+
+
+
+            </div>
+
+            <div class="card-footer">
+
+            </div>
+
+
+
+          </div>
+          <div class="card">
+            <div class="card-header">holaaa</div>
+            <div class="card-body">jyj</div>
+
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Cantidad de equipos
+              <small>en estacion</small>
+            </div>
+            <div class="card-body">
+              <ul class="list-group">
+                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">Monitor
+                  <span class="badge badge-primary badge-pill">{{ cantM }}</span>
+                </li>
+                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">Chasis
+                  <span class="badge badge-primary badge-pill">{{ cantC }}</span>
+                </li>
+                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">Impresora
+                  <span class="badge badge-primary badge-pill">{{ cantI }}</span>
+                </li>
+                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">Backup
+                  <span class="badge badge-primary badge-pill">{{ cantB }}</span>
+                </li>
+                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">Estabilizador
+                  <span class="badge badge-primary badge-pill">{{ cantE }}</span>
+                </li>
+                <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">Scanner
+                  <span class="badge badge-primary badge-pill">{{ cantS }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block javascripts %}
+    <script type="text/javascript">
+    //  var $addTagLink = $('<a href="#" class="add_tag_link btn btn-info pull-right" id="add" style="margin-bottom: 20px;"><i class="glyphicon glyphicon-plus"></i> Nuevo Equipo</a>');
+      var $newLinkLi = $('<div class="container-fluid" style="margin-left: 4%; margin-right: 4%"></div>');
+      var pos = 0;
+
+
+
+    function calc($newLinkLi)
+    {
+      if (document.getElementById('monitor').checked)
+      {
+        alert(' esta select el monitor')
+
+        $newLinkLi.before($newFormLi);
+        formulario = $('#app_bundleequipo_fom_type');
+        formulario.addClass('form-group row container-fluid');
+
+        var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(formulario);
+
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna10_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna9_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna8_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna7_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna6_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna5_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna4_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna3_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna2_'+pos+'" class="col-md-3"></div>');
+        $('#app_bundleequipo_fom_type'+pos+' div').first().before('<div id = "columna1_'+pos+'" class="col-md-3"></div>');
+
+
+        $('#columna1_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_modelo').parent());
+        $('#columna2_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_serie').parent());
+        $('#columna3_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_marca').parent());
+        $('#columna4_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_capacidad').parent());
+        $('#columna5_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_color').parent());
+        $('#columna6_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_fecha_mantenimiento').parent());
+        $('#columna7_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_tipo_toner_cartucho').parent());
+        $('#columna8_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_lcd').parent());
+        $('#columna9_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_sello').parent());
+        $('#columna10_'+ pos).append($('#app_bundleequipo_fom_type'+pos+'_num_inventario').parent());
+
+
+        addTagFormDeleteLink($newFormLi);
+        pos++;
+      } else {
+        alert('no esta select el monitor')
+      }
+    }
+
+
+      function addTagFormDeleteLink($tagFormLi) {
+        var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+        $tagFormLi.append($removeFormA);
+        $removeFormA.on('click', function (e) {
+          console.log(pos);
+          if(pos == 1) {
+            alert('Debe haber al menos un equipo para añadir');
+            return;
+          }
+          e.preventDefault();
+          $tagFormLi.remove();
+          pos--;
+        });
+      }
+
+      function addTagForm(collectionHolder, $newLinkLi)
+      {
+        $(document).ready(function() {
+          var prototype = collectionHolder.attr('data-prototype');
+          var newForm = prototype.replace(/__name__/g, pos);
+
+          var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(newForm);
+          $newLinkLi.before($newFormLi);
+
+          formulario = $('#app_bundleequipo_fom_type_componente_'+ pos);
+          formulario.addClass('form-group row container-fluid');
+
+
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna13_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna12_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna11_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna10_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna9_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna8_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna7_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna6_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna5_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna4_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna3_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna2_'+pos+'" class="col-md-3"></div>');
+          $('#app_bundleequipo_fom_type_componente_'+pos+' div').first().before('<div id = "columna1_'+pos+'" class="col-md-3"></div>');
+
+
+          $('#columna1_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_modelo').parent());
+          $('#columna2_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_serie').parent());
+          $('#columna3_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_marca').parent());
+          $('#columna4_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_watts').parent());
+          $('#columna5_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_sata').parent());
+          $('#columna6_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_capacidad').parent());
+          $('#columna7_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_velocidad').parent());
+          $('#columna8_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_lga').parent());
+          $('#columna9_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_ram').parent());
+          $('#columna10_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_ranuravideo').parent());
+          $('#columna11_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_optico').parent());
+          $('#columna12_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_conector').parent());
+          $('#columna13_'+ pos).append($('#app_bundleequipo_fom_type_componente_'+pos+'_tipo').parent());
+
+
+
+          var select = document.getElementById('app_bundleequipo_fom_type_componente_3_tipoComponente');
+          jQuery(document).ready(function () {
+
+            pos = $('.componente').length;
+
+            select.onchange(
+              function(){
+                alert(holaa)
+                var selectedOption = this.options[select.selectedIndex];
+                console.log(selectedOption.value + ': ' + selectedOption.text);
+              });
+          });
+
+
+
+
+          // $('.select2-container').css("width","500px !important");
+          // $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+
+          addTagFormDeleteLink($newFormLi);
+          pos++;
+        });
+      }
+
+    </script>
+
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,556 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<link rel="stylesheet" href="{{ asset('build/layout.css') }}">#}
+    {#<script src="{{ asset('build/js/pace.min.js') }}"></script>#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+    {#<!-- CoreUI CSS -->#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+    {#<meta charset="utf-8">#}
+    {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+    {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+    {#<!-- Font Awesome -->#}
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+    {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+    {#<!-- Bootstrap core CSS -->#}
+    {#<!-- Select2 -->#}
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">
+            <a>Nueva Incidencia</a>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ form_start(incidenciaForm) }}
+                    <div class="card">
+
+                        <div class="card-header">
+                            <strong>Adicionar </strong>Incidencia
+                        </div>
+
+                        <div class="card-body">
+
+                            <img class="rounded float-right" src="{{ asset('img/brand/reparacion.jpg') }}"
+                                 alt="Reparaciones" align="left">
+
+                            <div class="row">
+                                <div class="col-lg-4 " id="cat">
+{#                                    {% for g in app.user.grupos %}#}
+{#                                    {% if g.nombre=='Administradores' or g.nombre =='Tecnicos' %}#}
+                                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TECNICO') %}
+                                        {{ form_row(incidenciaForm.tipo ) }}
+                                        {#<select id="app_bundleincidencia_form_tipo" name="app_bundleincidencia_form[tipo]"#}
+                                        {#class="custom-select" style="width: 400px">#}
+                                    {% else %}
+                                        <label for="tipo">Problema a reportar</label> &nbsp;
+                                        <select id="app_bundleincidencia_form_tipo"
+                                                name="app_bundleincidencia_form[tipo]"
+                                                class="custom-select" style="width: 400px">
+                                            {% set cant=0 %}
+                                            <option disabled>Problema a reportar</option>
+                                            <option value="4">Problemas Red</option>
+                                            <option value="2">Instalación de software</option>
+                                            <option value="5">Instalación Antivirus</option>
+                                            {% set cant=cant+1 %}
+                                        </select>
+                                    {% endif %}
+{#                                    {% endfor %}#}
+                                </div>
+                                <div class="col-3" id="depar">
+                                    <label for="tipo">Departamento</label> &nbsp;
+                                    <select id="areas" name="usuarios[]" class="custom-select" style="width: 400px">
+                                        {% set cant=0 %}
+                                        {% for area in areas %}
+                                            {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                                            <option id="{{ area.idArea }}"
+                                                    value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                            {% set cant=cant+1 %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row" id="centroInv">
+                                <div class="col-lg-4">
+                                    Centro de Costo</br>
+                                    <select id="departamentos" name="d[]" class="custom-select" style="width: 400px">
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    Inventario
+                                    <select id="estaciones" name="e[]" class="custom-select" style="width: 400px">
+                                        {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="checkbox"  id="chek" hidden="true"> Equipo no asignado a estacion</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ form_row(incidenciaForm.asunto) }}
+                                </div>
+
+                                <div class="col-lg-8">
+                                    {{ form_row(incidenciaForm.resumen) }}
+                                </div>
+
+                                <div class="col-lg-8 .form-check-inline" id="equiposMant" hidden="true">
+                                    <label for="partesP[]"><input type="checkbox" name="mant[]" id="c1" value="impresora"/> Impresora</label>
+                                    <label for="partesP[]"><input type="checkbox" name="mant[]" id="c2" value="monitor"/>
+                                        Monitor</label>
+                                    <label for="partesP[]"><input type="checkbox" name="mant[]" id="c3"
+                                                                  value="backup"/> Backup</label>
+                                    <label for="partesP[]"><input type="checkbox" name="mant[]" id="c4"
+                                                                  value="microprocesador"/> Chasis</label>
+                                    <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c5" value="hdd"/> Hdd</label>
+                                    <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c6" value="lector"/>
+                                        Lector</label>
+                                    <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c7" value="mouse"/>
+                                        Mouse</label>
+                                    <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c8" value="teclado"/>
+                                        Teclado</label>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="fecha" id="fecha">Fecha de mantenimiento</label> &nbsp;
+                                    {{ form_widget(incidenciaForm.fecha) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-2" id="numI" hidden="true">
+                                <input type="number"  class="form-control" name="numInv" id="numeroI" placeholder="Numero de Inventario">
+                            </div><br>
+
+                                {% set limite=0 %}
+                                <div class="col-lg-4" id="modeloT" hidden="true">
+                                    <select  class="form-control" name="modelo" id="modelo" placeholder="Modelo">
+                                        <option>Seleccione</option>
+                                        {% for t in toners %}
+                                            <option value="{{ t.modelo }}">{{ t.modelo }}</option>
+                                            {% set limite=t.cantidad  %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                              <input style="width: 100px;" class="form-control existenciaP" value="1" placeholder="Existencia actual" id="cantidadToner" name="cantidadToner" hidden="true" type="text">
+
+                                {#<div class="col-lg-2" id="cantidadT" hidden="true">#}
+                                    {#<input type="number"  class="form-control" name="cantidadToner" id="cantidadToner" placeholder="Total" min="1">#}
+                                {#</div><br>#}
+                            {#</div>#}
+
+                            <div class="col-lg-8 .form-check-inline" id="piezas" hidden="true">
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c1" value="ram"/> Ram</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c2" value="fuente"/>
+                                    Fuente</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c3"
+                                                              value="motherboard"/> Motherboard</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c4"
+                                                              value="microprocesador"/> Microprocesador</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c5" value="hdd"/> Hdd</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c6" value="lector"/>
+                                    Lector</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c7" value="mouse"/>
+                                    Mouse</label>
+                                <label for="partesP[]"><input type="checkbox" name="partesP[]" id="c8" value="teclado"/>
+                                    Teclado</label>
+                            </div>
+
+
+                            <div class="modal fade" id="seleccionar_equipo" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Seleccione los equipos a
+                                                instalar:</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <strong>Buscar equipo</strong>
+                                                    <form class="form-inline float-right"
+                                                          action="{{ path('filtra_equiposNI_Incidencia') }}"
+                                                          method="post">
+                                                        <div class="input-group ">
+                                                            <input class="form-control" id="numI" type="text"
+                                                                   name="numI"
+                                                                   placeholder="Numero de inventario">
+                                                            <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit" formnovalidate>
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                            <button type="button" data-dismiss="modal" class="btn btn-success">Aceptar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-primary" href="{{ path('lista_inci') }}">Atras</a>
+                            <button class="btn btn-success" id="adicionar" type="submit" formnovalidate>Adicionar</button>
+                        </div>
+                        {{ form_end(incidenciaForm,{'render_rest':false}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+        <script src="{{ asset('build/js/Chart.js') }}"></script>
+        <script src="{{ asset('build/js/popper.js') }}"></script>
+        <script src="{{ asset('build/js/perfect-scrollbar.js') }}"></script>
+        <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+        {#<script src="{{ asset('build/js/b') }}"></script>#}
+        <script src="{{ asset('build/js/app.js') }}"></script>
+        {#<script src="{{ asset('build/js/pace.min.js') }}"></script>#}
+
+        <script src="{{ asset('build/js/select2.full.js') }}"></script>
+
+        <script type="application/javascript">
+            document.getElementById('app_bundleincidencia_form_fecha').hidden = true;
+            document.getElementById('fecha').hidden = true;
+            // document.getElementById('cantidadT').hidden = true;
+            $(document).ready(function () {
+                    $('#areas, #departamentos, #estaciones').select2({
+                        placeholder: "---Seleccione---"
+                    });
+                }
+            );
+            </script>
+<script type="application/javascript">
+  //  var check =$('chek');
+    var check =document.getElementById('chek');
+
+    check.addEventListener('click',function (e) {
+        if (this.checked) {
+           // console.log('Checkbox ' + $(e.currentTarget).val() + ' checked');
+            document.getElementById('centroInv').hidden=true;
+            document.getElementById('depar').hidden=true;
+        } else {
+            document.getElementById('centroInv').hidden=false;
+            document.getElementById('depar').hidden=false;
+            //console.log('Checkbox ' + $(e.currentTarget).val() + ' unchecked');
+        }
+    });
+
+
+    // $('input[type="checkbox"]').on('click', function(e){
+    //     if (this.checked) {
+    //         console.log('Checkbox ' + $(e.currentTarget).val() + ' checked');
+    //         document.getElementById('centroInv').hidden=true;
+    //         document.getElementById('depar').hidden=true;
+    //     } else {
+    //         console.log('Checkbox ' + $(e.currentTarget).val() + ' unchecked');
+    //     }
+    // });
+</script>
+        <script type="text/javascript">
+            // var v = document.getElementById('app_bundleincidencia_form_tipo').onchange = "cambiarValor()";
+            // //  var categoria=document.getElementById('app_bundleincidencia_form_tipo');
+
+           var categoria = document.getElementById('app_bundleincidencia_form_tipo');
+            categoria.addEventListener('change',
+                function (e) {
+                e.preventDefault();
+                    var selectOption = this.options[categoria.selectedIndex];
+                    //console.log(selectOption.value);
+                    if (selectOption.value == 9) {
+                        document.getElementById('modeloT').hidden = true;
+                        document.getElementById('chek').hidden = false;
+                        document.getElementById('piezas').hidden = false;
+                        document.getElementById('numI').hidden = false;
+                    //    document.getElementById('cantidadT').hidden = true;
+                     //   document.getElementById('exist').hidden = true;
+                        document.getElementById('app_bundleincidencia_form_fecha').hidden = true;
+                        document.getElementById('fecha').hidden = true;
+                    }
+                    else if (selectOption.value == 1) {
+                        document.getElementById('piezas').hidden = true;
+                      //  document.getElementById('cantidadT').hidden = true;
+                        document.getElementById('chek').hidden = true;
+                        document.getElementById('numI').hidden = true;
+                        document.getElementById('modeloT').hidden = true;
+                     //   document.getElementById('exist').hidden = true;
+                        document.getElementById('app_bundleincidencia_form_fecha').hidden = false;
+                        document.getElementById('fecha').hidden = false;
+                    }
+                    else if(selectOption.value == 6){
+                        document.getElementById('piezas').hidden = false;
+                        document.getElementById('modeloT').hidden = true;
+                      //  document.getElementById('cantidadT').hidden = true;
+                      document.getElementById('chek').hidden = false;
+                        document.getElementById('numI').hidden = false;
+                      //  document.getElementById('exist').hidden = true;
+                        document.getElementById('app_bundleincidencia_form_fecha').hidden = true;
+                        document.getElementById('fecha').hidden = true;
+                    }
+                    else if(selectOption.value == 10){
+                        document.getElementById('piezas').hidden = true;
+                        document.getElementById('modeloT').hidden = false;
+                      document.getElementById('chek').hidden = true;
+                      //  document.getElementById('cantidadT').hidden = false;
+                        document.getElementById('numI').hidden = true;
+                   //     document.getElementById('exist').hidden = false;
+                        document.getElementById('app_bundleincidencia_form_fecha').hidden = true;
+                        document.getElementById('fecha').hidden = true;
+                        var cantidad = document.getElementById('modelo');
+                        var pos = 0;
+                      document.getElementById('total').hidden=false;
+                        {#cantidad.addEventListener('change', function (e) {#}
+                            {#// var data = e.params.data;#}
+                            {#// var valor = e.params.data.element.text;#}
+                            {#// var id = e.params.data.id;  // de tu elemento#}
+                            {#var existencia;#}
+                            {#pos = $('.material').length;#}
+                          {#//  console.log(e);#}
+                            {#$.ajax({#}
+                                {#url: "{{ path('existencia_toner') }}",#}
+                                {#type: "GET",#}
+                                {#dataType: "JSON",#}
+                                {#data: {#}
+                                   {#modelo:modelo.value#}
+                                {#},#}
+                                {#success: function (depart) {#}
+                                    {#$("#estaciones").empty();#}
+                                    {#$("#existencia").empty();#}
+                                    {#// console.log(depart);#}
+                                    {#//  $('#departamentos').html(resp);#}
+                                    {#// var neighborhoodSelect = $("#departamentos");#}
+                                    {#var datos = [];#}
+                                    {#$.each(depart, function (key, depart) {#}
+                                        {#datos.push({id: parseInt(depart.id), text: depart.total});#}
+                                    {#});#}
+                                  {#//  console.log(pos);#}
+                                    {#// var elemento = $('existencia');#}
+                                    {#//  $('#columna4_' + pos).append("<textarea id='answertext' name='answertext' placeholder='Type answer here' rows='2' cols='40' tabindex='6' onBlur='exchangeLabelsanswertxt(this);'>Hola</textarea>");#}
+                                    {#var existencia=document.getElementById('exist_'+pos+'');#}
+                                    {#var items = document.querySelectorAll(".existenciaP");#}
+                                    {#var lastchild = items[items.length-1];#}
+                                    {#// console.log(lastchild) ;#}
+                                    {#// $(".existenciaP").val(parseInt(datos[0]['text']));#}
+                                    {#// $("lastchild").value=(parseInt(datos[0]['text']));#}
+                                    {#lastchild.value=parseInt(datos[0]['text']);#}
+                                 {#//   console.log(lastchild.value)#}
+
+                                {#},#}
+                                {#error: function (err) {#}
+                                    {#alert("An error ocurred while loading data ...");#}
+                                {#}#}
+                            {#});#}
+                        {#});#}
+
+
+                        {#cantidad.addEventListener('change',#}
+                            {#function (e) {#}
+                            {#console.log(e);#}
+                                {#var valor = e.data.element.text;#}
+                                {#var id = e.data.id;  // de tu elemento#}
+                          {#//  console.log(cantidad.options[cantidad.selectedIndex]);#}
+                           {#// alert(cantidad.getAttribute('value'));#}
+                                {#$.ajax({#}
+                                    {#url: "{{ path('existencia_toner') }}",#}
+                                    {#type: "GET",#}
+                                    {#dataType: "JSON",#}
+                                    {#data: {#}
+                                    {#modelo:valor,#}
+                                    {#id:id#}
+                                    {#},#}
+                                    {#success: function (depart) {#}
+                                        {#$("#estaciones").empty();#}
+                                        {#$("#existencia").empty();#}
+                                        {#var datos = [];#}
+                                        {#$.each(depart, function (key, depart) {#}
+                                            {#datos.push({id: parseInt(depart.id), text: depart.total});#}
+                                        {#});#}
+                                        {#console.log(pos);#}
+                                        {#// var elemento = $('existencia');#}
+                                        {#//  $('#columna4_' + pos).append("<textarea id='answertext' name='answertext' placeholder='Type answer here' rows='2' cols='40' tabindex='6' onBlur='exchangeLabelsanswertxt(this);'>Hola</textarea>");#}
+                                        {#var existencia=document.getElementById('exist_'+pos+'');#}
+                                        {#var items = document.querySelectorAll(".existenciaP");#}
+                                        {#var lastchild = items[items.length-1];#}
+                                        {#console.log(lastchild) ;#}
+                                        {#// $(".existenciaP").val(parseInt(datos[0]['text']));#}
+                                        {#// $("lastchild").value=(parseInt(datos[0]['text']));#}
+                                        {#lastchild.value=parseInt(datos[0]['text']);#}
+                                        {#console.log(lastchild.value)#}
+                                        {#//  $('.existencia1').attr('id','app_bundlemateriales_sform_material_'+pos+'_existencia');#}
+                                        {#// if(existencia===NaN){#}
+                                        {#//   existencia=datos[0]['text'];#}
+                                        {#// }else{existencia=parseInt(datos[0]['text']);}#}
+                                        {#//  existencia.value=parseInt(datos[0]['text']);#}
+                                        {#// $('#app_bundlemateriales_sform_material_'+pos+'_idProducto').val(parseInt(datos[0]['text']));#}
+                                        {#//  $('.existencia1').attr('placeholder',parseInt(datos[0]['text']));#}
+                                        {#//  $('#columna4_' + pos).append($('#app_bundlemateriales_sform_material_' + pos + 'um').attr('value',parseInt(datos[0]['text'])));#}
+                                        {#//  $(".existencia1").val(parseInt(datos[0]['text']));#}
+                                        {#// console.log(existencia.value);#}
+                                        {#//  console.log(existencia);#}
+                                    {#},#}
+                                    {#error: function (err) {#}
+                                        {#alert("An error ocurred while loading data ...");#}
+                                    {#}#}
+                                {#});#}
+                            {#})#}
+                    }
+                    else {
+                        document.getElementById('app_bundleincidencia_form_fecha').hidden = true;
+                        document.getElementById('modeloT').hidden = true;
+                    //    document.getElementById('exist').hidden = true;
+                       // console.log(document.getElementById('exist'));
+                     //   document.getElementById('chek').hidden = true;
+                     //   document.getElementById('cantidadT').hidden = true;
+                        document.getElementById('fecha').hidden = true;
+                        document.getElementById('numI').hidden = true;
+                        document.getElementById('piezas').hidden = true;
+                    }
+                    // console.log(selectOption.value+':'+selectOption.text);
+                }
+            )
+            // console.log(categoria.options[categoria.selectedIndex].value);
+            // function cambiarValor(){
+            //   if(categoria.options[categoria.selectedIndex].value==1){
+            //     alert(categoria.options[categoria.selectedIndex].value);
+            //   }
+            // }
+            // value=categoria.select().value
+            // console.log(categoria.value);
+
+        </script>
+        {#<script type="text/javascript">#}
+            {#var pedido=document.getElementById('cantidadToner').value;#}
+            {#var existencia=document.getElementById('exist').value;#}
+            {#document.getElementById('adicionar').addEventListener('click',function (e) {#}
+                {#if(pedido>existencia){#}
+                    {#alert("La cantidad solicitada excede la existencia real")#}
+                {#}#}
+            {#})#}
+        {#</script>#}
+        <script type="application/javascript">
+            $('#areas').on('select2:select', function (e) {
+                var area = e.params.data.element.text;
+                var id_i = e.params.data.element.id;  // de tu elemento
+                $.ajax({
+                    url: "{{ path('list_departamentos') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        area_nombre: area,
+                        id_ccosto: id_i
+                    },
+                    success: function (depart) {
+                        $("#estaciones").empty();
+                        $("#departamentos").empty();
+                        // console.log(depart);
+                        //  $('#departamentos').html(resp);
+                        // var neighborhoodSelect = $("#departamentos");
+                        var datos = [];
+                        $.each(depart, function (key, depart) {
+                            datos.push({id: parseInt(depart.id_dep), text: depart.dep, id2: parseInt(depart.id_area)});
+
+                        });
+                     //   $('#departamentos').val(null).trigger('change');
+                      //  $('#departamentos').select2("val",'hola');
+                      // $('#departamentos').value=datos['text'];
+
+                      //  $('#departamentos').val(null).trigger('change');
+                        if ($('#departamentos').find("option[value='" + datos.id + "']").length) {
+                            $('#departamentos').val(datos.id).trigger('change');
+                        } else {
+                            // Create a DOM Option and pre-select by default
+                            var newOption = new Option(datos.text, datos.id, true, true);
+                            // Append it to the select
+                            $('#departamentos').append(newOption).trigger('change');
+                        }
+                        //  $('#departamentos option:eq(0)').prop('selected',true);
+                       // console.log( $('#areas').val());
+                       // console.log( $('#departamentos').val());
+                       // console.log(datos);
+                        $("#departamentos").select2({
+                            data: datos,
+                            placeholder:'Selecciona una opcion'
+                        });
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+            });
+            // $('#departamentos').on('select2:select', function (e) {
+            $('#departamentos').on('select2:select',function (e) {
+
+                    console.log(e);
+                    // var data = e.params.data;
+                    var area = e.params.data.text;
+                    var id_ic = e.params.data.id;
+                    var area_id = e.params.data.id2;
+                    $.ajax({
+                        url: "{{ path('list_inventarios') }}",
+                        type: "GET",
+                        dataType: "JSON",
+                        data: {
+                            id_Costo2: id_ic,
+                            idArea: area_id
+                        },
+                        success: function (neighborhood) {
+                            $("#estaciones").empty();
+                            var datos = [];
+                            //console.log(neighborhood);
+                            $.each(neighborhood, function (key, neighborhood) {
+                                datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+                            });
+                            $('#estaciones').val(null).trigger('change');
+
+                            $("#estaciones").select2({
+                                data: datos,
+                                placeholder:'Selecciona una estacion'
+                            });
+                        },
+                        error: function (err) {
+                            alert("An error ocurred while loading data ...");
+                        }
+                    });
+                }
+            );
+            $("#estaciones").empty();
+            $("#departamentos").empty();
+            // });
+
+
+        </script>
+
+    {% endblock %}
+{% endblock %}

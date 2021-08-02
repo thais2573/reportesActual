@@ -1,0 +1,78 @@
+<html >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+  {#<head>#}
+  {#<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>#}
+  {#<link rel="stylesheet" type="text/css" href="{{ asset('build/css/estilos-tabla-taller.css') }}" media="screen" />#}
+  {#<link rel="stylesheet"  href="http://localhost/build/css/estilos-tabla-taller.css" />#}
+  {#</head>#}
+  <div class="float-right">{{ date('now') |date('d-m-Y') }}</div>
+  <h2 align="center"> Reporte de Solicitud de Materiales </h2><br><br>
+  <table style="font-size: 11px;text-align: center">
+    <thead>
+    </thead>
+    <tbody>
+    <tr>
+      <th>Centro de Costo</th>
+      <th>Codigo</th>
+      <th>Descripcion</th>
+      <th>Um</th>
+      <th>Cantidad</th>
+      <th>Numero de Solicitud</th>
+      <th>Fecha de Solicitud</th>
+    </tr>
+    <tr>
+
+      {% if lista.material is not iterable %}
+      <td>{{ lista.centroCosto.name }}</td>
+      <td>{{ lista.material.descripcion }}</td>
+      <td>{{ lista.material.idProducto }}</td>
+      <td>{{ lista.cantidad }}</td>
+      {% else %}
+      {% for m in lista.material %}
+    <tr>
+      <td>{{ lista.centroCosto.name }}</td>
+      <td>{{ m.idProducto.idProducto }}</td>
+      <td>{{ m.idProducto.descripcion }}</td>
+      <td>{{ m.um }}</td>
+      <td >{{ m.cantidad }}</td>
+      <td>{{ lista.id }}</td>
+      <td>{{ lista.fechaSolicitud |date('d/m/Y H:i:s') }}</td>
+    <tr>
+      {% endfor %}
+      {% endif %}
+
+      {#<td>{{ lista.numInventario }}</td>#}
+      {#<td>{{ lista.fechaSalida |date('d-m-Y') }}</td>#}
+    </tr>
+
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <br>  <br>
+  <br>  <br>  <br>
+  <br>
+  <table>
+    <tr with="600">
+      <td>
+        <ADDRESS>_______________________________________</ADDRESS>
+        <br>
+        <strong>Nombre y Apellidos</strong><br>
+        Elio Mendoza
+      </td>
+
+      <td>
+        <ADDRESS>_______________________________________</ADDRESS>
+        <br>
+        <strong>Aprobado</strong><br>
+        Eddy Frank Perez Ledezma
+      </td>
+
+    </tr>
+  </table>
+</html>
+{% endblock %}
+

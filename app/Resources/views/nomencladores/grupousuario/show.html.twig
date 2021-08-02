@@ -1,0 +1,55 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Detalles de grupo</a>
+        </li>
+    </ol>
+    <fieldset style="margin-left: 5px; margin-right: 5px;">
+        <legend style="text-align: center; font-size: 16px; font-weight: bold;">Detalles Grupo de usuario</legend>
+    </fieldset>
+
+    <div class="container-fluid">
+        <div class="form-group row">
+            <dl class="dl-horizontal">
+                <dt>Nombre:</dt>
+                <dd>{{ entity.nombre }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Descripción:</dt>
+                <dd>{{ entity.descripcion }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Roles:</dt>
+                <dd>{{ entity.getRolesString |nl2br }}</dd>
+            </dl>
+        </div>
+
+        <div class="modal-footer">
+            <ul class="nav nav-pills">
+                {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-info" type="button" href="{{ path('nomencladores_grupousuario_edit', { 'id': entity.id }) }}">Editar</a>
+                {% endif %}
+                <a class="btn btn-info" type="button" href="{{ path('nomencladores_grupousuario_index') }}">Regresar</a>
+
+                <li role="presentation" style="float: right; margin-left: 9px">
+                    {{ form_start(delete_form, {'attr':{ 'class': 'validate', 'novalidate' : 'novalidate'}}) }}
+                    <input class="btn btn-danger" type="submit" value="Eliminar">
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

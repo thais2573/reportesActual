@@ -1,0 +1,352 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a>Datos del periférico</a>
+
+        </li>
+        <!-- Breadcrumb Menu-->
+
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for message in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <div class="card">
+                        {{ form_start(form) }}
+                        <div class="card-header">
+                            <strong>Datos del periférico</strong>
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-sm btn-success   fas fa-save" formnovalidate> Editar</button>
+                                <a href="{{ path('lista_equipos') }}" class="btn btn-sm btn-primary" type="reset" methods="POST"
+                                   onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                                    <i class="fa fa-arrow-circle-left"></i> Atras
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <form class="form-inline" action="{{ path('filtrar_estaciones') }}" method="post">
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label class="col-5">Centro de Costo</label> &nbsp;
+                                            {{ form_widget(form.departamento) }}
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="col-5">Estacion</label> &nbsp;
+                                            {{ form_widget(form.estacion) }}
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="col-5">Tipo de Equipo</label> &nbsp;
+                                            {{ form_widget(form.tipoEquipo) }}
+                                        </div>
+                                    </div>
+                                    </br>
+                                    <input type="hidden" id="reset" name="reset" value="0">
+                                </form>
+                            </div>
+                            <div class="form-group row">
+                                {% if form.modelo is defined %}
+                                <div class="col-sm-3">
+                                    <label>Modelo</label>
+                                    {{ form_widget(form.modelo) }}
+                                    {% endif %}
+                                </div>
+
+                                {% if tipo!='cpuchasis' %}
+                                    {% if form.marca is defined %}
+                                        <div class="col-sm-3">
+                                        <label>Marca</label>
+                                        {{ form_widget(form.marca) }}
+                                    {% endif %}
+                                    </div>
+                                {% if form.serie is defined %}
+                                <div class="col-sm-3">
+                                    <label>Serie</label>
+                                    {{ form_widget(form.serie) }}
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                {% if form.numInventario is defined %}
+                                <div class="col-sm-2">
+                                    <label>Numero de inventario</label>
+                                    {{ form_widget(form.numInventario,  { 'attr':{'readonly' : true}}) }}
+                                    {% endif %}
+                                </div>
+
+                                {% if tipo=='impresora' %}
+                                    {% if form.tonerCartucho is defined %}
+                                        <div class="col-md-3">
+                                        <label>Toner Cartucho</label>
+                                        {{ form_widget(form.tonerCartucho) }}
+                                    {% endif %}
+                                    </div>
+                                    {% if form.tipoTonerCartucho is defined %}
+                                        <div class="col-md-3">
+                                        <label>Tipo de toner cartucho</label>
+                                        {{ form_widget(form.tipoTonerCartucho) }}
+                                    {% endif %}
+                                    </div>
+                                    {% if form.sello is defined %}
+                                        <div class="col-md-2">
+                                            <label>Sello</label>
+                                            {{ form_widget(form.sello) }}
+                                        </div>
+                                    {% endif %}
+                                    {% if form.fechaMantenimiento is defined %}
+                                        <div class="col-md-3">
+                                            <label>Fecha de mantenimiento</label>
+                                            {{ form_widget(form.fechaMantenimiento) }}
+                                        </div>
+                                    {% endif %}
+                                    {% if form.tipo is defined %}
+                                        <div class="col-md-3">
+                                            <label>Tipo</label>
+                                            {{ form_widget(form.tipo) }}
+                                        </div>
+                                    {% endif %}
+                                {% elseif tipo=='estabilizador' %}
+                                    {% if form.capacidad is defined %}
+                                        <div class="col-md-3">
+                                            <label>Capacidad</label>
+                                            {{ form_widget(form.capacidad) }}
+                                        </div>
+                                    {% endif %}
+                                {% elseif tipo=='backup' %}
+                                    {% if form.sello is defined %}
+                                        <div class="col-md-3">
+                                            <label>Sello</label>
+                                            {{ form_widget(form.sello) }}
+                                        </div>
+                                    {% endif %}
+                                    {% if form.capacidad is defined %}
+                                        <div class="col-md-3">
+                                            <label>Capacidad</label>
+                                            {{ form_widget(form.capacidad) }}
+                                        </div>
+                                    {% endif %}
+                                {% elseif tipo=='monitor' %}
+                                    {% if form.lcd is defined %}
+                                        <div class="col-md-3">
+                                            <label>LCD</label>
+                                            {{ form_widget(form.lcd) }}
+                                        </div>
+                                    {% elseif form.tipoEquipo=='scanner' %}
+                                        {% if form.tipo is defined %}
+                                            <div class="col-md-3">
+                                                <label>Tipo</label>
+                                                {{ form_widget(form.tipo) }}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                {% if tipo=='cpuchasis' %}
+                                    {% if form.color is defined %}
+                                        <div class="col-md-3">
+                                        <label>Color</label>
+                                        {{ form_widget(form.color) }}
+                                    {% endif %}
+                                    </div>
+                                    {% if form.sello is defined %}
+                                        <div class="col-md-2">
+                                            <label>Sello</label>
+                                            {{ form_widget(form.sello) }}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if tipo=='bocinas' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/boci.png') }}"></div>
+                                {% elseif tipo=='backup' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/backup.jpg') }}"></div>
+                                {% elseif tipo=='cpuchasis' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+                                {% elseif tipo=='impresora' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/impresora2.png') }}"></div>
+                                {% elseif tipo=='monitor' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/monitor.jpg') }}"></div>
+                                {% elseif tipo=='mouse' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/mouse3.jpg') }}"></div>
+                                {% elseif tipo=='estabilizador' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/estabilizador.png') }}"></div>
+                                {% elseif tipo=='fuente' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/fuente.png') }}"></div>
+                                {% elseif tipo=='hdd' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/hdd.png') }}"></div>
+                                {% elseif tipo=='lector' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/lector.png') }}"></div>
+                                {% elseif tipo=='motherboard' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/board.png') }}"></div>
+                                {% elseif tipo=='microprocesador' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/micro.png') }}"></div>
+                                {% elseif tipo=='ram' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/memoria-RAM.png') }}"></div>
+                                {% elseif tipo=='teclado' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/teclado2.png') }}"></div>
+                                {% elseif tipo=='laptop' %}
+                                    <div class="col float-lg-none">
+                                        <img class="float-lg-right" src="{{ asset('img/iconos/laptop.png') }}"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {{ form_end(componentesForm, {'render_rest': false}) }}
+                        {{ form_end(form, {'render_rest': false}) }}
+                    </div>
+                </div>
+                <!-- /.col-->
+            </div>
+        </div>
+    </div>
+
+    {% block javascripts %}
+        <script src="{{ asset('build/js/jquery-3.4.1.js') }}"></script>
+        <script src="{{ asset('build/js/componente.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('build/js/select2.full.js') }}"></script>
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#app_bundleequipo_fom_type_departamento, #app_bundleequipo_fom_type_estacion').select2({
+                    placeholder: "---Seleccione---"
+                });
+            });
+        </script>
+        <script type="application/javascript">
+            $('#app_bundleequipo_fom_type_departamento').on('select2:select', function (e) {
+                // var data = e.params.data;
+                var area = e.params.data.element.text;
+                var id_i = e.params.data.element.value;  // de tu elemento
+                console.log(area) ; console.log(id_i);
+                $.ajax({
+                    url: "{{ path('list_inventarios_editar_equipo') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        area_nombre: area,
+                        id_departamento: id_i
+                    },
+                    success: function (depart) {
+                        $("#app_bundleequipo_fom_type_estacion").empty();
+                        // $("#departamentos").empty();
+                        console.log(depart);
+                        //  $('#departamentos').html(resp);
+                        // var neighborhoodSelect = $("#departamentos");
+                        var datos = [];
+                        $.each(depart, function (key, depart) {
+                            datos.push({id: parseInt(depart.id_estacion), text: depart.nombreRed});
+                        });
+                        $('#app_bundleequipo_fom_type_estacion').val(null).trigger('change');
+                        $("#app_bundleequipo_fom_type_estacion").select2({
+                            data: datos
+                        });
+                        // Remove current options
+                        // neighborhoodSelect.html('');
+                        // Empty value ...
+                        // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+                        // $.each(depart, function (key, depart) {
+                        //
+                        //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+                        //
+                        // });
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+            });
+            $('#departamentos').on('select2:select', function (e) {
+                    // var data = e.params.data;
+                    var area = e.params.data.text;
+                    var id_ic = e.params.data.id;
+                    var area_id=e.params.data.id2;
+                    console.log('id -->'+area_id);
+                    // console.log('id -->'+id_ic);
+                    // console.log(data);
+                    // var municipioSelector = $(this);
+                    // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+                    //alert(id_ic);
+                    // alert(municipioSelector.val());
+                    // Request the neighborhoods of the selected city.
+                    $.ajax({
+                        url: "{{ path('list_inventarios') }}",
+                        type: "GET",
+                        dataType: "JSON",
+                        data: {
+                            id_Costo2: id_ic,
+                            idArea: area_id
+                        },
+                        success: function (neighborhood) {
+                            var datos = [];
+                            console.log(neighborhood);
+                            $.each(neighborhood, function (key, neighborhood) {
+                                datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+                            });
+                            $('#estaciones').val(null).trigger('change');
+                            $("#estaciones").select2({
+                                data: datos
+                            });
+                            // var unidadSelect = $("#estaciones");
+                            // Remove current options
+                            // unidadSelect.html('');
+                            // Empty value ...
+                            // unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');
+                            // $.each(neighborhood, function (key, neighborhood) {
+                            //
+                            //   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');
+                            //
+                            //   unidadSelec = neighborhood.id_estacion;
+                            // });
+                        },
+                        error: function (err) {
+                            alert("An error ocurred while loading data ...");
+                        }
+                    });
+                }
+            );
+            $("#estaciones").empty();
+            $("#departamentos").empty();
+            // });
+        </script>
+    {% endblock %}
+{% endblock %}

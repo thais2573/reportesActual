@@ -1,0 +1,528 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+           Movimiento reposicion de equipo
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong> {{ nombre }} Roto</strong>
+                        </div>
+                        <div class="card-body">
+                            {% if inventario is defined %}
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label"
+                                           for="form-ci">Estación Trabajo Pertenece:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-ci"
+                                               type="text"
+                                               name="form-ci"
+                                               value="{{ inventario.nombreRed }}  ({{ inventario.id }})">
+                                    </div>
+                                    <label class="col-md-2 col-form-label" for="form-reg">Departamento:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-reg"
+                                               type="text"
+                                               name="form-reg"
+                                               value="{{ inventario.centroCosto }}">
+                                    </div>
+
+                                    <label class="col-md-2 col-form-label"
+                                           for="form-sex">Responsable Equipo:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-sex"
+                                               type="text"
+                                               name="form-sex"
+                                               value="{{ inventario.responsable }}">
+                                    </div>
+                                </div>
+                                <hr>
+                            {% else %}
+                            {% endif %}
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"
+                                       for="form-ci">Marca:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-ci"
+                                           type="text"
+                                           name="form-ci"
+                                           value="{{ equipo.marca }}">
+                                </div>
+                                {% if equipoForm.numInventario is defined %}
+                                    <label class="col-md-2 col-form-label" for="form-reg">Numero de inventario:</label>
+                                    <div class="col-md-2">
+                                        <input class="form-control"
+                                               readonly
+                                               id="form-reg"
+                                               type="text"
+                                               name="form-reg"
+                                               value="{{ equipo.numInventario }}">
+                                    </div>
+                                {% endif %}
+                                <label class="col-md-2 col-form-label"
+                                       for="form-sex">Modelo:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-sex"
+                                           type="text"
+                                           name="form-sex"
+                                           value="{{ equipo.modelo }}">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ form_start(equipoForm) }}
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Actualizar datos del {{ nombre }} Nuevo </strong>
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        {{ form_row(equipoForm.marca) }}
+                                        {{ form_row(equipoForm.serie) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(equipoForm.modelo) }}
+                                        {% if equipo.tipoEquipo=='cpuchasis' %}
+                                            {{ form_row(equipoForm.color) }}
+                                        {% endif %}
+                                        {# {% if nombre=='Monitor'or nombre=='Backup' or nombre=='Impresora' or nombre=='Estabilizador' %}
+                                            {{ form_row(equipoForm.numInventario) }}
+                                        {% endif %}
+                                   #}
+
+                                    </div>
+                                    {% if equipoForm.numInventario is defined %}
+                                        <div class="col-lg-6">
+                                            {{ form_row(equipoForm.numInventario,  { 'attr':{'readonly' : true} }) }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-lg-6">
+                                        {% if(nombre=='Monitor') %}
+                                            {{ form_row(equipoForm.lcd) }}
+                                        {% endif %}
+                                        {% if(nombre=='Impresora' or nombre=='impresora') %}
+                                            {{ form_row(equipoForm.tipo) }}
+
+                                            {{ form_row(equipoForm.tipoTonerCartucho) }}
+                                        {% endif %}
+                                        {% if(nombre=='Backup') %}
+                                            {{ form_row(equipoForm.capacidad) }}
+                                            {{ form_row(equipoForm.sello) }}
+                                        {% endif %}
+                                        {% if(nombre=='Teclado' or nombre=='teclado') %}
+                                            {{ form_row(equipoForm.conector) }}
+                                        {% endif %}
+                                        {% if(nombre=='Estabilizador' or nombre=='estabilizador') %}
+                                            {{ form_row(equipoForm.capacidad) }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {% if(nombre=='Impresora' or nombre=='impresora') %}
+                                            {{ form_row(equipoForm.tonerCartucho) }}
+                                        {% endif %}
+                                    </div>
+                                    {% if equipo.tipoEquipo=='cpuchasis' %}
+                                        <div class="form-group row">
+                                            <div class="control-group">
+                                                {{ include('perifericos/componenteReposicion.html.twig', { 'editar': 'si' ,'lista_componentes':lista_componentes}) }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        {{ form_start(movimientoForm) }}
+                        {{ form_widget(movimientoForm.tipoMovimiento, { 'attr':{'hidden' : 'true'}}) }}
+                        <div class="card">
+
+                            <div class="card-header">
+                                <strong>Datos de incidencia : Reposicion de {{ nombre }}   </strong>
+                            </div>
+
+                            <div class="card-body">
+
+
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+
+                                        {{ form_row(movimientoForm.respEntrega) }}
+
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-5" for="tipo">Area de Destino</label> &nbsp;
+                                        <select id="areas" name="usuarios[]" class="custom-select" style="width: 400px">
+                                            {% set cant=0 %}
+                                            {% for area in areas %}
+                                                {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                                                <option id="{{ area.idArea }}"
+                                                        value="{{ area.nombre }}">{{ area.nombre }}</option>
+                                                {% set cant=cant+1 %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ form_row(movimientoForm.areaEntrega) }}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="app_bundleincidencia_reposicion_form_type_[areaDestino] "
+                                               class="col-8">Centro de Costo de Destino</label>
+                                        <select id="app_bundleincidencia_reposicion_form_type_areaDestino"
+                                                name="app_bundleincidencia_reposicion_form_type_[areaDestino] "
+                                                class="custom-select" style="width: 400px">
+                                            {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="app_bundleincidencia_reposicion_form_type[receptor]"
+                                                   class="control-label">Receptor:</label>
+                                            <div class="control">
+                                                <select id="app_bundleincidencia_reposicion_form_type_receptor"
+                                                        name="app_bundleincidencia_reposicion_form_type[receptor]"
+                                                        required="required" style="width: 400px">
+                                                    {% for usuario in usuarios if usuario.username %}
+                                                        <option
+                                                                value="{{ usuario['first_name'] }} {{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                        <label class="col-5">Estacion de Destino</label> &nbsp;
+
+                                        <select id="estaciones" name="estaciones[] " class="custom-select"
+                                                style="width: 400px">
+
+
+                                            {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-header">
+                                    <strong>Responsables </strong>Movimiento
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            {{ form_row(movimientoForm.aprobado) }}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            {{ form_row(movimientoForm.autorizado) }}
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="app_bundleincidencia_reposicion_form_type[respAFT]"
+                                                       class="control-label">Responsable AFT:</label>
+                                                <div class="control">
+
+                                                    <select id="app_bundleincidencia_reposicion_form_type_respAFT"
+                                                            name="app_bundleincidencia_reposicion_form_type[respAFT]"
+                                                            required="required" style="width: 400px">
+                                                        {% for usuario in usuarios if usuario.username %}
+                                                            <option
+                                                                    value="{{ usuario['first_name'] }}&nbsp;{{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-success float-right" type="submit" formnovalidate>
+                                        Actualizar
+                                    </button>
+                                </div>
+                                {{ form_end(movimientoForm,{'render_rest':false}) }}
+                            </div>
+                        </div>
+                        {{ form_end(equipoForm,{'render_rest':false}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#estaciones,#app_bundleincidencia_reposicion_form_type_respAFT,#app_bundleincidencia_reposicion_form_type_receptor,#app_bundleincidencia_reposicion_form_type_areaDestino,#areas').select2({
+                    placeholder: "---Seleccione---"
+                });
+            });
+        </script>
+        <script type="application/javascript">
+            $('#areas').on('select2:select', function (e) {
+                // var data = e.params.data;
+                var area = e.params.data.element.text;
+                var id_i = e.params.data.element.id;  // de tu elemento
+                $.ajax({
+                    url: "{{ path('list_departamentos') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        area_nombre: area,
+                        id_ccosto: id_i
+                    },
+                    success: function (depart) {
+                        $("#estaciones").empty();
+                        $("#app_bundleincidencia_reposicion_form_type_areaDestino").empty();
+                        // console.log(depart);
+                        //  $('#departamentos').html(resp);
+                        // var neighborhoodSelect = $("#departamentos");
+                        var datos = [];
+                        $.each(depart, function (key, depart) {
+                            datos.push({id: parseInt(depart.id_dep), text: depart.dep, id2: parseInt(depart.id_area)});
+                        });
+                        if ($('#app_bundleincidencia_reposicion_form_type_areaDestino').find("option[value='" + datos.id + "']").length) {
+                            $('#app_bundleincidencia_reposicion_form_type_areaDestino').val(datos.id).trigger('change');
+                        } else {
+                            // Create a DOM Option and pre-select by default
+                            var newOption = new Option(datos.text, datos.id, true, true);
+                            // Append it to the select
+                            $('#app_bundleincidencia_reposicion_form_type_areaDestino').append(newOption).trigger('change');
+                        }
+                        $('#app_bundleincidencia_reposicion_form_type_areaDestino').val(null).trigger('change');
+                        $("#app_bundleincidencia_reposicion_form_type_areaDestino").select2({
+                            data: datos,
+                            placeholder: 'Selecciona una opcion'
+                        });
+                        // Remove current options
+                        // neighborhoodSelect.html('');
+                        // Empty value ...
+                        // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+                        // $.each(depart, function (key, depart) {
+                        //
+                        //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+                        //
+                        // });
+                    },
+                    error: function (err) {
+                        alert("An error ocurred while loading data ...");
+                    }
+                });
+            });
+            $('#app_bundleincidencia_reposicion_form_type_areaDestino').on('select2:select', function (e) {
+                    // var data = e.params.data;
+                    var area = e.params.data.text;
+                    var id_ic = e.params.data.id;
+                    var area_id = e.params.data.id2;
+                    // console.log('text -->'+area);
+                    // console.log('id -->'+id_ic);
+                    // console.log(data);
+                    // var municipioSelector = $(this);
+                    // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+                    //alert(id_ic);
+                    // alert(municipioSelector.val());
+                    // Request the neighborhoods of the selected city.
+                    $.ajax({
+                        url: "{{ path('list_inventarios') }}",
+                        type: "GET",
+                        dataType: "JSON",
+                        data: {
+                            id_Costo2: id_ic,
+                            idArea: area_id
+                        },
+                        success: function (neighborhood) {
+                            $("#estaciones").empty();
+                            var datos = [];
+                            console.log(neighborhood);
+                            $.each(neighborhood, function (key, neighborhood) {
+                                datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+                            });
+                            $('#estaciones').val(null).trigger('change');
+                            $("#estaciones").select2({
+                                data: datos
+                            });
+                            // var unidadSelect = $("#estaciones");
+                            // Remove current options
+                            // unidadSelect.html('');
+                            // Empty value ...
+                            // unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');
+                            // $.each(neighborhood, function (key, neighborhood) {
+                            //
+                            //   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');
+                            //
+                            //   unidadSelec = neighborhood.id_estacion;
+                            // });
+                        },
+                        error: function (err) {
+                            alert("An error ocurred while loading data ...");
+                        }
+                    });
+                }
+            );
+            $("#estaciones").empty();
+            $("#app_bundlemovimientoR_form_type_areaDestino").empty();
+            // });
+        </script>
+        <script type="text/javascript">
+            var $addTagLink = $('<a href="#" class="add_tag_link btn btn-info pull-right" id="add" style="margin-bottom: 20px;"><i class="glyphicon glyphicon-plus"></i> Nuevo Componente</a>');
+            var $newLinkLi = $('<div class="container-fluid" style="margin-left: 4%; margin-right: 4%"></div>').append($addTagLink);
+            var pos = 0;
+            jQuery(document).ready(function () {
+                var collectionHolder = $('#ent_div');
+                pos = $('.componente').length;
+                collectionHolder.append($newLinkLi);
+                //alert(document.getElementById('#ent_div'))
+                //addTagForm(collectionHolder, $newLinkLi);
+                $addTagLink.on('click', function (e) {
+                    e.preventDefault();
+                    addTagForm(collectionHolder, $newLinkLi);
+
+                });
+            });
+
+            function addTagFormDeleteLink($tagFormLi) {
+                var $removeFormA = $('<a href="#" style="text-decoration: none ;color:#ffffff; float: right" id="delete" class="btn btn-danger btn-small "><i class="glyphicon glyphicon-trash"></i> Eliminar</a>');
+                $tagFormLi.append($removeFormA);
+                $removeFormA.on('click', function (e) {
+                    console.log(pos);
+                    if (pos == 1) {
+                        alert('Debe haber al menos un componente para añadir');
+                        return;
+                    }
+                    e.preventDefault();
+                    $tagFormLi.remove();
+                    pos--;
+                });
+            }
+
+            function addTagForm(collectionHolder, $newLinkLi) {
+                $(document).ready(function () {
+                    var prototype = collectionHolder.attr('data-prototype');
+                    var newForm = prototype.replace(/__name__/g, pos);
+
+                    var $newFormLi = $('<div class="well text-info form-horizontal componente container-fluid" ></div>').append(newForm);
+                    $newLinkLi.before($newFormLi);
+
+                    formulario = $('#app_bundleequipo_fom_type_componente_' + pos);
+                    formulario.addClass('form-group row container-fluid');
+
+
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna13_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna12_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna11_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna10_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna9_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna8_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna7_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna6_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna5_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna4_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna3_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna2_' + pos + '" class="col-md-3"></div>');
+                    $('#app_bundleequipo_fom_type_componente_' + pos + ' div').first().before('<div id = "columna1_' + pos + '" class="col-md-3"></div>');
+
+
+                    $('#columna1_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_modelo').parent());
+                    $('#columna2_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_serie').parent());
+                    $('#columna3_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_marca').parent());
+                    $('#columna4_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_watts').parent());
+                    $('#columna5_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_sata').parent());
+                    $('#columna6_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_capacidad').parent());
+                    $('#columna7_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_velocidad').parent());
+                    $('#columna8_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_lga').parent());
+                    $('#columna9_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_ram').parent());
+                    $('#columna10_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_ranuravideo').parent());
+                    $('#columna11_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_optico').parent());
+                    $('#columna12_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_conector').parent());
+                    $('#columna13_' + pos).append($('#app_bundleequipo_fom_type_componente_' + pos + '_tipo').parent());
+
+
+                    var select = document.getElementById('app_bundleequipo_fom_type_componente_3_tipoComponente');
+                    jQuery(document).ready(function () {
+
+                        pos = $('.componente').length;
+
+                        select.onchange(
+                            function () {
+                                alert(holaa)
+                                var selectedOption = this.options[select.selectedIndex];
+                                console.log(selectedOption.value + ': ' + selectedOption.text);
+                            });
+                    });
+
+
+                    // $('.select2-container').css("width","500px !important");
+                    // $('#app_bundleequipo_fom_type_componente_'+pos+'_descripcion').css('width','300px');
+
+                    addTagFormDeleteLink($newFormLi);
+                    pos++;
+                });
+            }
+
+        </script>
+
+    {% endblock %}
+{% endblock %}

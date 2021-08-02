@@ -1,0 +1,338 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{#{% block stylesheets %}#}
+  {#<!-- CoreUI CSS -->#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  {#<!-- Bootstrap core CSS -->#}
+
+  {#<!-- Material Design Bootstrap -->#}
+
+  {#<!-- Your custom styles (optional) -->#}
+  {#<link href="{{ asset('build/css/app.css') }}" rel="stylesheet">#}
+  {#<script href="{{ asset('build/js/app.js') }}"></script>#}
+  {#<script src="{{ asset('build/js/jquery/jquery.min.js') }}"></script>#}
+  {#<script src="{{ asset('build/js/bootstrap.min.js') }}"></script>#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"#}
+        {#integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+  {#<script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"#}
+          {#integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+          {#crossorigin="anonymous"></script>#}
+  {#<script src="{{ asset('build/js/popper.min.js') }}"#}
+          {#integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"#}
+          {#crossorigin="anonymous"></script>#}
+  {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"#}
+          {#integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"#}
+          {#crossorigin="anonymous"></script>#}
+{#{% endblock %}#}
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a href="#">Datos del componente</a>
+
+    </li>
+    <!-- Breadcrumb Menu-->
+\
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          <div class="card">
+            <div class="card-header">
+              <strong>Datos del componente</strong>
+
+              <button type="button" class="btn btn-primary float-md-right" data-toggle="modal"
+                      data-target="#modal">
+                <i class="nav-icon icon-clock"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Nueva Modal"></i>
+                Historial
+              </button>
+              </strong>
+              <!-- Modal -->
+              <div class="modal fade bd-example-modal-lg" id="modal" tabindex="-1" role="dialog"
+                   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Historial de
+                        {{ tipo }}</h5>
+
+
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+
+                      {% if historial is defined %}
+                        {% if historial is not null %}
+                          <table class="table table-responsive-sm table-striped">
+                            <thead>
+                            <tr>
+                              <th>Fecha</th>
+                              <th>Tipo</th>
+                              <th>Usuario</th>
+                              <th>Respuesta</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              {% for lista in historial %}
+                              <td>
+                                {% if lista.tipo=='Edicion' %}
+                                <span class="badge badge-danger">{{ lista.fecha|date("d/m/Y") }}</span>
+                                {% else %}
+                                  <span class="badge badge-success">{{ lista.fecha|date("d/m/Y") }}</span>
+                                {% endif %}
+                              </td>
+                              <td>{{ lista.tipo }}</td>
+                              <td>{{ lista.user }}</td>
+                              <td>{% if lista.respuesta is null %}
+                                  Respuesta no registrada en BD
+                                {% else %}{{ lista.respuesta }}{% endif %}</td>
+
+
+                            </tr>
+                            {% endfor %}
+
+                            </tbody>
+
+
+                          </table>
+                        {% else %}
+                          No se ha registrado ninguna incidencia en esta estacion de trabajo.
+                        {% endif %}
+                      {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary float-none" data-dismiss="modal">Cerrar
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="card-body">
+              <div class="form-group row">
+                {% if datos.estacion2 is defined %}
+                  <div class="col-sm-3">
+                    <label>Estacion</label>
+
+                    <input class="form-control" type="text" value=" {{ datos.estacion2 }} " disabled></div>
+                {% endif %}
+                {% if datos.marca is defined %}
+                  <div class="col-sm-3">
+                    <label>Marca</label>
+
+                    <input class="form-control" type="text" value=" {{ datos.marca }} " disabled></div>
+                {% endif %}
+                {% if datos.modelo is defined %}
+                  <div class="col-md-3">
+                    <label>Modelo</label>
+
+                    <input class="form-control" type="text" value=" {{ datos.modelo }} " disabled></div>
+                {% endif %}
+                {% if datos.numInventario is defined %}
+                  {% if datos.numInventario is not null %}
+                  <div class="col-md-3">
+                    <label>Numero de inventario</label>
+
+                    <input class="form-control" type="text" value="  {{ datos.numInventario }} " disabled></div>
+                    {% endif %}
+                  {% else %}
+                {% endif %}
+                {% if datos.serie is defined %}
+
+                  <div class="col-md-3">
+                    <label>Serie</label>
+                    <input class="form-control" type="text" value="  {{ datos.serie }} " disabled></div>
+
+                {% endif %}
+
+                {% if datos.tipoComponente=='impresora' %}
+
+                  {% if datos.tonerCartucho is defined %}
+                    <div class="col-md-3">
+                      <label>Toner Cartucho</label>
+
+                      <input class="form-control" type="text" value="   {{ datos.tonerCartucho }} " disabled></div>
+
+                  {% endif %}
+                  {% if datos.tipoTonerCartucho is defined %}
+                    <div class="col-md-3">
+                      <label>Tipo de toner cartucho</label>
+
+                      <input class="form-control" type="text" value="   {{ datos.tipoTonerCartucho }} " disabled></div>
+
+                  {% endif %}
+                  {% if datos.sello is defined %}
+                    <div class="col-md-3">
+                      <label>Sello</label>
+
+                      <input class="form-control" type="text" value="  {{ datos.sello }} " disabled></div>
+
+                  {% endif %}
+                  {% if datos.fechaMantenimiento is defined %}
+                    <div class="col-md-3">
+                      <label>Fecha de mantenimiento</label>
+
+                      <input class="form-control" type="text" value="   {{ datos.fechaMantenimiento }} " disabled></div>
+
+                  {% endif %}
+                  {% if datos.tipo is defined %}
+                    <div class="col-md-3">
+                      <label>Tipo</label>
+
+                      <input class="form-control" type="text" value="   {{ datos.tipo }} " disabled></div>
+
+                  {% endif %}
+
+                  {% elseif datos.tipoComponente=='estabilizador' %}
+                    {% if datos.capacidad is defined %}
+                      <div class="col-md-3">
+                        <label>Capacidad</label>
+
+                        <input class="form-control" type="text" value="  {{ datos.capacidad }} " disabled></div>
+
+                    {% endif %}
+
+                  {% elseif datos.tipoComponente=='backup' %}
+                    {% if datos.sello is defined %}
+                      <div class="col-md-3">
+                        <label>Sello</label>
+
+                        <input class="form-control" type="text" value="  {{ datos.sello }} " disabled></div>
+
+                    {% endif %}
+                    {% if datos.capacidad is defined %}
+                      <div class="col-md-3">
+                        <label>Capacidad</label>
+
+                        <input class="form-control" type="text" value="  {{ datos.capacidad }} " disabled></div>
+
+                    {% endif %}
+
+                  {% elseif datos.tipoComponente=='monitor' %}
+                    {% if datos.lcd is defined %}
+                      <div class="col-md-3">
+                        <label>LCD</label>
+
+                        <input class="form-control" type="text" value="  {{ datos.lcd }} " disabled></div>
+                    {% elseif datos.tipoComponente=='scanner' %}
+                      {% if datos.tipo is defined %}
+                        <div class="col-md-3">
+                          <label>Tipo</label>
+
+                          <input class="form-control" type="text" value="   {{ datos.tipo }} " disabled></div>
+
+                      {% endif %}
+
+                    {% endif %}
+                {% endif %}
+                <div class="col-md-3">
+                  <label>Estado</label>
+
+                  <input class="form-control" type="text" value="   {{ datos.estado }} " disabled></div>
+                {% if tipo=='bocinas' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/boci.png') }}"></div>
+                {% elseif tipo=='backup' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/backup.jpg') }}"></div>
+                {% elseif tipo=='cpuchasis' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+                {% elseif tipo=='impresora' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/impresora2.png') }}"></div>
+                {% elseif tipo=='monitor' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/monitor.jpg') }}"></div>
+                {% elseif tipo=='mouse' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/mouse3.jpg') }}"></div>
+                {% elseif tipo=='teclado' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/teclado2.png') }}"></div>
+                {% elseif tipo=='fuente' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/fuente.png') }}"></div>
+
+                {% elseif tipo=='estabilizador' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/estabilizador.png') }}"></div>
+                {% elseif tipo=='hdd' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/hdd.png') }}"></div>
+                {% elseif tipo=='lector' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/lector.png') }}"></div>
+                {% elseif tipo=='microprocesador' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/micro.png') }}"></div>
+                {% elseif tipo=='motherboard' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/board.png') }}"></div>
+                {% elseif tipo=='ram' %}
+                  <div class="col float-lg-none">
+                    <img class="float-lg-right" src="{{ asset('img/iconos/memoria-RAM.png') }}"></div>
+                {% endif %}
+
+              </div>
+            </div>
+
+
+            <div class="card-footer">
+
+
+              <a href="{{ path('lista_componentes') }}" class="btn btn-sm btn-primary" type="reset" methods="POST"
+                 onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                <i class="fa fa-arrow-circle-left"></i> Atras
+              </a>
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+{% endblock %}

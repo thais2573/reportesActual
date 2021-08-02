@@ -1,0 +1,113 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block main %}
+
+
+
+
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a href="#">Nuevo equipo</a>
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i>  Dashboard</a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  Settings</a>
+      </div>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+
+
+      {#  #}
+      <div class="col col-md-12 align-content-lg-center">
+        <div class="card">
+          <div class="card-header">
+            <strong>Nuevo {{ tipo }} </strong></div>
+          <div class="card-body">
+
+
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate',}}) }}
+            <div class="form-group row">
+
+
+
+              <div class="col-sm-3">
+                <label>Marca</label>{{ form_widget(form.marca) }}
+              </div>
+              <div class="col-sm-3">
+                <label>Serie</label>{{ form_widget(form.serie) }}
+              </div>
+            </div>
+            <div class="form-group row">
+
+
+
+
+              <div class="col-sm-3">
+                <label>Numero de inventario</label>{{ form_widget(form.numInventario) }}
+              </div>
+
+
+              <div class="col-sm-3">
+                <label>Capacidad</label>{{ form_widget(form.capacidad) }}
+              </div>
+
+
+            </div>
+            <div class="form-group row">
+
+
+              <div class="col-sm-3">
+                <label>Modelo</label>{{ form_widget(form.modelo) }}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="card-footer">
+
+
+            <button class="btn btn-sm btn-success" type="submit">
+              <i class="fa fa-plus"></i> Guardar
+            </button>
+
+            <button class="btn btn-sm btn-danger" type="reset">
+              <i class="fa fa-remove"></i> Limpiar datos
+            </button>
+
+          </div>
+          {{ form_widget(form._token) }}
+          {{ form_end(form,{'render_rest':false}) }}
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="col-8">
+    </div>
+
+
+  </div>
+
+
+
+
+
+{% endblock %}

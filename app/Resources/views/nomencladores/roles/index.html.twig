@@ -1,0 +1,55 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block main %}
+    <fieldset style="margin-left: 5px; margin-right: 5px;">
+        <legend style="text-align: center; font-size: 16px; font-weight: bold;">Listado de Roles</legend>
+        {% if is_granted('ROLE_ADMIN') %}
+        <div style="margin-left: 91%; margin-bottom: 10px">
+            <a href="{{  path('nomencladores_roles_new') }}" id="add" class="btn btn-info" data-toggle="tooltip"><i class="glyphicon glyphicon-plus"></i> Adicionar</a>
+        </div>
+        {% endif %}
+        <table id="example" class="table table-striped table-bordered" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>{{ entity.rol }}</td>
+                    <td class="acciones">
+                        <ul>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a class="detalles nav-icon icon-magnifier" href="{{ path('nomencladores_roles_show', { 'id': entity.id }) }}"></a>
+                            </li>
+                            <li>
+                                <a class="editar nav-icon icon-pencil" href="{{ path('nomencladores_roles_edit', { 'id': entity.id }) }}"></a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </fieldset>
+{% endblock %}

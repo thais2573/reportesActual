@@ -1,0 +1,167 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Lisandra
+ * Date: 05/02/2019
+ * Time: 11:13
+ */
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="microprocesador")
+ */
+class microprocesador
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $tipo;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $lga;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $velicidad;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $serie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\inventario")
+     */
+    private $inventario;
+  /**
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\cpuchasis")
+   */
+  private $chasis;
+
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $estado;
+  /**
+   * @return mixed
+   */
+
+
+  /**
+   * @return mixed
+   */
+  public function getEstado()
+  {
+    return $this->estado;
+  }
+
+  /**
+   * @param mixed $estado
+   */
+  public function setEstado($estado)
+  {
+    $this->estado = $estado;
+  }
+
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLga()
+    {
+        return $this->lga;
+    }
+
+    /**
+     * @param mixed $lga
+     */
+    public function setLga($lga)
+    {
+        $this->lga = $lga;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVelicidad()
+    {
+        return $this->velicidad;
+    }
+
+    /**
+     * @param mixed $velicidad
+     */
+    public function setVelicidad($velicidad)
+    {
+        $this->velicidad = $velicidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSerie()
+    {
+        return $this->serie;
+    }
+
+    /**
+     * @param mixed $serie
+     */
+    public function setSerie($serie)
+    {
+        $this->serie = $serie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInventario()
+    {
+        return $this->inventario;
+    }
+
+    /**
+     * @param mixed $inventario
+     */
+    public function setInventario($inventario)
+    {
+        $this->inventario = $inventario;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+}

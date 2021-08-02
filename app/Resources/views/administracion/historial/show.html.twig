@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Administracion\Historial</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ administracion\Historial.id }}</td>
+            </tr>
+            <tr>
+                <th>Ippc</th>
+                <td>{{ administracion\Historial.ipPc }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if administracion\Historial.fecha %}{{ administracion\Historial.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Tipoaccion</th>
+                <td>{{ administracion\Historial.tipoAccion }}</td>
+            </tr>
+            <tr>
+                <th>Datosmod</th>
+                <td>{{ administracion\Historial.datosMod }}</td>
+            </tr>
+            <tr>
+                <th>Tablaimplicada</th>
+                <td>{{ administracion\Historial.tablaImplicada }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('administracion_historial_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('administracion_historial_edit', { 'id': administracion\Historial.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,815 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- CoreUI CSS -->
+    {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+    <script src="{{ asset('build/js/pace.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+{% endblock %}
+
+
+{% block main %}
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-align-justify"></i> <strong>Generar reporte de partes y piezas </strong>
+
+{#            <div class="dropdown float-sm-right">#}
+{#                <a href="{{ path('imprimir_deudas_taller') }}" class="btn btn-success ">#}
+{#                    Imprimir#}
+{#                </a>#}
+            </div>
+            <br>
+
+        </div>
+        <div class="card-body">
+            <div>
+                {% for message in app.session.flashBag.get('nohay') %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.session.flashBag.get('mensaje') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+            </div>
+            <br> <br>
+
+            <fieldset style="margin-left: 5px; margin-right: 5px;">
+
+
+
+                <form name="reporte_partes_piezas" method="post" action="{{path('generar_reportePP')}}">
+                    <div class="form-group row">
+                        <div class="checkbox">
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="cpuChasisPartesInventario" id="cpuChasisPartesInventario" onchange="mostrarPartesInventario()"> CPU Chasis</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="fuentePartesInventario" id="fuentePartesInventario" onchange="mostrarPartesInventario()"> Fuente</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="motherboardPartesInventario" id="motherboardPartesInventario" onchange="mostrarPartesInventario()"> Motherboard</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="microprocesadorPartesInventario" id="microprocesadorPartesInventario" onchange="mostrarPartesInventario()"> Microprocesador</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="ramPartesInventario" id="ramPartesInventario" onchange="mostrarPartesInventario()">RAM</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="tarjetaVideoPartesInventario" id="tarjetaVideoPartesInventario" onchange="mostrarPartesInventario()"> Tarjeta Video</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="HDDPartesInventario" id="HDDPartesInventario" onchange="mostrarPartesInventario()"> HDD</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="lectorPartesInventario" id="lectorPartesInventario" onchange="mostrarPartesInventario()"> Lector</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="mousePartesInventario" id="mousePartesInventario" onchange="mostrarPartesInventario()"> Mouse</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="tecladoPartesInventario" id="tecladoPartesInventario" onchange="mostrarPartesInventario()"> Teclado</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="bocinasPartesInventario" id="bocinasPartesInventario" onchange="mostrarPartesInventario()"> Bocinas</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="monitorPartesInventario" id="monitorPartesInventario" onchange="mostrarPartesInventario()"> Monitor</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="backupPartesInventario" id="backupPartesInventario" onchange="mostrarPartesInventario()"> Backup</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="estabilizadorPartesInventario" id="estabilizadorPartesInventario" onchange="mostrarPartesInventario()"> Estabilizador</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="scannerPartesInventario" id="scannerPartesInventario" onchange="mostrarPartesInventario()"> Scanner</label></div>
+                            <div style="width: 150px; float: left;"><label><input type="checkbox" name="impresoraPartesInventario" id="impresoraPartesInventario" onchange="mostrarPartesInventario()"> Impresora</label></div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosCPUChasis" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos CPU Chasis</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Modelo
+                                        <select name="modeloDatosCPUChasis" id="modeloDatosCPUChasis">
+                                            <option>Seleccione</option>
+                                            <option>Mios</option>
+                                            <option>AOpen</option>
+                                            <option>TU</option>
+                                            <option>Silver Black</option>
+                                            <option>IMicro</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Color
+                                        <input type="text" name="colorDatosCPUChasis" id="colorDatosCPUChasis">
+                                    </label></div>
+                                <!--          <div style="width: 250px; float: left;"><label>Inventario-->
+                                <!--              <input type="text" name="inventarioDatosCPUChasis" id="inventarioDatosCPUChasis"/>-->
+                                <!--            </label></div>-->
+                                <div style="width: 200px; float: left;"><label>Sello Seguridad
+                                        <input type="text" name="selloSegDatosCPUChasis" id="selloSegDatosCPUChasis">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Fecha Mantenimiento
+                                        <div class="jdpicker_w"><input type="text" name="fechaMantDatosCPUChasis" id="fechaMantDatosCPUChasis" class="jdpicker"><div class="date_selector" style="display: none; top: 599.6px; left: 1440px;"><div class="nav"><div class="error_msg" style="display: none;"></div><p class="month_nav"><span class="button prev" title="[Page-Up]">«</span> <span class="month_name">November</span> <span class="button next" title="[Page-Down]">»</span></p><p class="year_nav"><span class="button prev" title="[Ctrl+Page-Up]">«</span> <span class="year_name" id="year_name">2019</span> <span class="button next" title="[Ctrl+Page-Down]">»</span></p></div><table><thead><tr><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody><tr><td class="unselected_month" date="2019/10/28">28</td><td class="unselected_month" date="2019/10/29">29</td><td class="unselected_month" date="2019/10/30">30</td><td class="unselected_month" date="2019/10/31">31</td><td class="selectable_day" date="2019/11/01">1</td><td class="selectable_day" date="2019/11/02">2</td><td class="selectable_day" date="2019/11/03">3</td></tr><tr><td class="selectable_day" date="2019/11/04">4</td><td class="selectable_day" date="2019/11/05">5</td><td class="selectable_day" date="2019/11/06">6</td><td class="selectable_day" date="2019/11/07">7</td><td class="selectable_day" date="2019/11/08">8</td><td class="selectable_day" date="2019/11/09">9</td><td class="selectable_day" date="2019/11/10">10</td></tr><tr><td class="selectable_day" date="2019/11/11">11</td><td class="selectable_day" date="2019/11/12">12</td><td class="selectable_day" date="2019/11/13">13</td><td class="selectable_day" date="2019/11/14">14</td><td class="selectable_day" date="2019/11/15">15</td><td class="selectable_day" date="2019/11/16">16</td><td class="selectable_day" date="2019/11/17">17</td></tr><tr><td class="selectable_day" date="2019/11/18">18</td><td class="selectable_day" date="2019/11/19">19</td><td class="selectable_day" date="2019/11/20">20</td><td class="selectable_day" date="2019/11/21">21</td><td class="selectable_day" date="2019/11/22">22</td><td class="selectable_day" date="2019/11/23">23</td><td class="selectable_day" date="2019/11/24">24</td></tr><tr><td class="selectable_day" date="2019/11/25">25</td><td class="selectable_day" date="2019/11/26">26</td><td class="selectable_day" date="2019/11/27">27</td><td class="selectable_day" date="2019/11/28">28</td><td class="selectable_day today selected" date="2019/11/29">29</td><td class="selectable_day" date="2019/11/30">30</td><td class="unselected_month" date="2019/12/01">1</td></tr></tbody></table></div><span class="date_clearer">×</span></div>
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosFuente" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Fuente</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 250px; float: left;"><label>Marca
+                                        <input type="text" name="marcaDatosFuente" id="marcaDatosFuente">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosFuente" id="serieDatosFuente">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>SATA
+                                        <select name="sataDatosFuente" id="sataDatosFuente">
+                                            <option>Seleccione</option>
+                                            <option>Si</option>
+                                            <option>No</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Watts
+                                        <input type="text" name="wattsDatosFuente" id="wattsDatosFuente">
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosMotherBoard" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos MotherBoard</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosMotherBoard" id="marcaDatosMotherBoard">
+                                            <option>Seleccione</option>
+                                            <option>Intel</option>
+                                            <option>AOpen</option>
+                                            <option>Asus</option>
+                                            <option>Pegatron</option>
+                                            <option>Gigabite</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Modelo
+                                        <input type="text" name="modeloDatosMotherBoard" id="modeloDatosMotherBoard">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosMotherBoard" id="serieDatosMotherBoard">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>LGA
+                                        <select name="lgaDatosMotherBoard" id="lgaDatosMotherBoard">
+                                            <option>Seleccione</option>
+                                            <option>478</option>
+                                            <option>775</option>
+                                            <option>1155</option>
+                                            <option>1150</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>RAM
+                                        <select name="ramDatosMotherBoard" id="ramDatosMotherBoard">
+                                            <option>Seleccione</option>
+                                            <option>DDR</option>
+                                            <option>DDR2</option>
+                                            <option>DDR3</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Ranura Video
+                                        <select name="ranuraVideoDatosMotherBoard" id="ranuraVideoDatosMotherBoard">
+                                            <option>Seleccione</option>
+                                            <option>AGP</option>
+                                            <option>PCIE</option>
+                                        </select>
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosMicroprocesador" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Microprocesador</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Tipo
+                                        <select name="tipoDatosMicroprocesador" id="tipoDatosMicroprocesador">
+                                            <option>Seleccione</option>
+                                            <option>Celeron</option>
+                                            <option>Pentium</option>
+                                            <option>Core i3</option>
+                                            <option>Core i5</option>
+                                            <option>Core i7</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>LGA
+                                        <select name="lgaDatosMicroprocesador" id="lgaDatosMicroprocesador">
+                                            <option>Seleccione</option>
+                                            <option>478</option>
+                                            <option>775</option>
+                                            <option>1155</option>
+                                            <option>1150</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Velocidad
+                                        <input type="text" name="velocidadDatosMicroprocesador" id="velocidadDatosMicroprocesador">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosMicroprocesador" id="serieDatosMicroprocesador">
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosTarjetaVideo" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Tarjeta Video</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Ranura Video
+                                        <select name="ranuraVideoDatosTarjetaVideo" id="ranuraVideoDatosTarjetaVideo">
+                                            <option>Seleccione</option>
+                                            <option>PCI</option>
+                                            <option>AGP</option>
+                                            <option>PCIE</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosTarjetaVideo" id="marcaDatosTarjetaVideo">
+                                            <option>Seleccione</option>
+                                            <option>ATI</option>
+                                            <option>NVidea</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Velocidad
+                                        <input type="text" name="velocidadDatosTarjetaVideo" id="velocidadDatosTarjetaVideo">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosTarjetaVideo" id="serieDatosTarjetaVideo">
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosMouse" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Mouse</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosMouse" id="marcaDatosMouse">
+                                            <option>Seleccione</option>
+                                            <option>AOpen</option>
+                                            <option>Logitech</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosMouse" id="serieDatosMouse">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Modelo
+                                        <input type="text" name="modeloDatosMouse" id="modeloDatosMouse">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Optico
+                                        <select name="opticoDatosMouse" id="opticoDatosMouse">
+                                            <option>Seleccione</option>
+                                            <option>Si</option>
+                                            <option>No</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Conector
+                                        <select name="conectorDatosMouse" id="conectorDatosMouse">
+                                            <option>Seleccione</option>
+                                            <option>PS2</option>
+                                            <option>USB</option>
+                                            <option>Inalámbrico</option>
+                                        </select>
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosTeclado" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Teclado</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosTeclado" id="marcaDatosTeclado">
+                                            <option>Seleccione</option>
+                                            <option>AOpen</option>
+                                            <option>Logitech</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosTeclado" id="serieDatosTeclado">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Modelo
+                                        <input type="text" name="modeloDatosTeclado" id="modeloDatosTeclado">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Conector
+                                        <select name="conectorDatosTeclado" id="conectorDatosTeclado">
+                                            <option>Seleccione</option>
+                                            <option>PS2</option>
+                                            <option>USB</option>
+                                            <option>Inalámbrico</option>
+                                        </select>
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosBocinas" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Bocinas</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosBocinas" id="marcaDatosBocinas">
+                                            <option>Seleccione</option>
+                                            <option>AOpen</option>
+                                            <option>Logitech</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosBocinas" id="serieDatosBocinas">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Modelo
+                                        <input type="text" name="modeloDatosBocinas" id="modeloDatosBocinas">
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosBackup" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Backup</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosBackup" id="marcaDatosBackup">
+                                            <option>Seleccione</option>
+                                            <option>APC</option>
+                                            <option>Numen</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosBackup" id="serieDatosBackup">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Modelo
+                                        <input type="text" name="modeloDatosBackup" id="modeloDatosBackup">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Inventario
+                                        <input type="text" name="inventarioDatosBackup" id="inventarioDatosBackup">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Sello
+                                        <input type="text" name="selloDatosBackup" id="selloDatosBackup">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Capacidad
+                                        <input type="text" name="capacidadDatosBackup" id="capacidadDatosBackup">
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosEstabilizador" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Estabilizador</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;"><label>Marca
+                                        <select name="marcaDatosEstabilizador" id="marcaDatosEstabilizador">
+                                            <option>Seleccione</option>
+                                            <option>APC</option>
+                                            <option>TRIPP Lite</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Serie
+                                        <input type="text" name="serieDatosEstabilizador" id="serieDatosEstabilizador">
+                                    </label></div>
+
+                                <div style="width: 250px; float: left;"><label>Modelo
+                                        <input type="text" name="modeloDatosEstabilizador" id="modeloDatosEstabilizador">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Inventario
+                                        <input type="text" name="inventarioDatosEstabilizador" id="inventarioDatosEstabilizador">
+                                    </label></div>
+
+                                <div style="width: 200px; float: left;"><label>Capacidad
+                                        <input type="text" name="capacidadDatosEstabilizador" id="capacidadDatosEstabilizador">
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosRAM" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos RAM</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;">
+                                    <label>Marca <input type="text" name="marcaDatosRAM" id="marcaDatosRAM"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Capacidad <input type="text" name="capacidadDatosRAM" id="capacidadDatosRAM"></label>
+                                </div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Serie<input type="text" name="serieDatosRAM" id="serieDatosRAM"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosHDD" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos HDD</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;">
+                                    <label>Marca
+                                        <select name="marcaDatosHDD" id="marcaDatosHDD">
+                                            <option>Seleccione</option>
+                                            <option>Seagate</option>
+                                            <option>Maxtor</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Serie<input type="text" name="serieDatosHDD" id="serieDatosHDD"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Capacidad<input type="text" name="capacidadDatosHDD" id="capacidadDatosHDD"></label>
+                                </div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Sata
+                                        <select name="sataDatosHDD" id="sataDatosHDD">
+                                            <option>Seleccione</option>
+                                            <option>Si</option>
+                                            <option>No</option>
+                                        </select>
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosLector" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Lector</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;">
+                                    <label>Tipo
+                                        <select name="tipoDatosLector" id="tipoDatosLector">
+                                            <option>Seleccione</option>
+                                            <option>Lector CD</option>
+                                            <option>Quemador CD</option>
+                                            <option>Lector DVD</option>
+                                            <option>Quemador DVD</option>
+                                        </select>
+                                    </label></div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Marca
+                                        <select name="marcaDatosLector" id="marcaDatosLector">
+                                            <option>Seleccione</option>
+                                            <option>Liteon</option>
+                                            <option>LG</option>
+                                            <option>SONY</option>
+                                            <option>Writte Master</option>
+                                            <option>Otros</option>
+                                        </select>
+                                    </label></div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Serie<input type="text" name="serieDatosLector" id="serieDatosLector"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosMonitor" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Monitor</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;">
+                                    <label>Marca
+                                        <select name="marcaDatosMonitor" id="marcaDatosMonitor">
+                                            <option>Seleccione</option>
+                                            <option>ViewSonic</option>
+                                            <option>HP</option>
+                                            <option>Hyundai</option>
+                                            <option>LG</option>
+                                            <option>Samsung</option>
+                                            <option>Acer</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Serie<input type="text" name="serieDatosMonitor" id="serieDatosMonitor"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Modelo<input type="text" name="modeloDatosMonitor" id="modeloDatosMonitor"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Inventario<input type="text" name="inventarioDatosMonitor" id="inventarioDatosMonitor"></label>
+                                </div>
+                                <div style="width: 200px; float: left;">
+                                    <label>LCD
+                                        <select name="LCDDatosMonitor" id="LCDDatosMonitor">
+                                            <option>Seleccione</option>
+                                            <option>Si</option>
+                                            <option>No</option>
+                                        </select>
+                                    </label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosScanner" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Scanner</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;">
+                                    <label>Marca
+                                        <select name="marcaDatosScanner" id="marcaDatosScanner">
+                                            <option>Seleccione</option>
+                                            <option>HP</option>
+                                            <option>Canon</option>
+                                            <option>Otro</option>
+                                        </select>
+                                    </label></div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Serie<input type="text" name="serieDatosScanner" id="serieDatosScanner"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Modelo<input type="text" name="modeloDatosScanner" id="modeloDatosScanner"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Inventario<input type="text" name="inventarioDatosScanner" id="inventarioDatosScanner"></label>
+                                </div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Tipo<input type="text" name="tipoDatosScanner" id="tipoDatosScanner"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group form-group row" id="datosImpresora" style="float: left" hidden="true">
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">Datos Impresora</h4>
+                            <div class="list-group-item-text">
+                                <div style="width: 200px; float: left;">
+                                    <label>Marca<input type="text" name="marcaDatosImpresora" id="marcaDatosImpresora"></label>
+                                </div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Serie<input type="text" name="serieDatosImpresora" id="serieDatosImpresora"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Modelo<input type="text" name="modeloDatosImpresora" id="modeloDatosImpresora"></label>
+                                </div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Inventario<input type="text" name="inventarioDatosImpresora" id="inventarioDatosImpresora"></label>
+                                </div>
+                                <div style="width: 200px; float: left;">
+                                    <label>Tipo
+                                        <select name="tipoDatosImpresora" id="tipoDatosImpresora">
+                                            <option>Seleccione</option>
+                                            <option>LASERJET</option>
+                                            <option>DESKJET</option>
+                                            <option>OFFICEJET</option>
+                                            <option>PLOTTER</option>
+                                        </select>
+                                    </label></div>
+                                <div style="width: 250px; float: left;">
+                                    <label>Toner o Cartucho
+                                        <select name="tonerCartuchoDatosImpresora" id="tonerCartuchoDatosImpresora">
+                                            <option>Seleccione</option>
+                                            <option>Toner</option>
+                                            <option>Cartucho</option>
+                                        </select>
+                                    </label></div>
+                                <br><br><br><br>
+                                <div style="width: 350px; float: left;">
+                                    <label>Tipo de Toner o Cartucho<input type="text" name="tipoTonerCartuchoDatosImpresora" id="tipoTonerCartuchoDatosImpresora"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="float: right">
+                        <button type="submit" class="btn btn-default">Filtrar</button>
+                    </div>
+                </form>
+            </fieldset>
+
+        </div>
+        {% if pagination is defined %}
+            <div class="card-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+{% endblock %}
+
+   {% block javascripts %}
+       {{ parent() }}
+       <script type="text/javascript">
+           //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+           $('#maxItemPerPage').change(function () {
+               var url = '{{ path('lista_deudas_taller',{'maxItemPerPage':'_itemNum'}) }}';
+               var item = $('#maxItemPerPage').find(":selected").text();
+               window.location.href = url.replace('_itemNum', item);
+           })
+       </script>
+       <script>
+           $(document).ready(function () {
+               // you may need to change this code if you are not using Bootstrap Datepicker
+               $('.js-datepicker').datepicker({
+                   format: 'dd/MM/yyyy'
+               });
+           });
+       </script>
+
+       <script type="text/javascript">
+           var cpuChasisPartesInventario = document.getElementById("cpuChasisPartesInventario");
+           var datosCPUChasis = document.getElementById("datosCPUChasis");
+
+           var fuentePartesInventario = document.getElementById("fuentePartesInventario");
+           var datosFuente = document.getElementById("datosFuente");
+
+           var motherboardPartesInventario = document.getElementById("motherboardPartesInventario");
+           var datosMotherBoard = document.getElementById("datosMotherBoard");
+
+           var microprocesadorPartesInventario = document.getElementById("microprocesadorPartesInventario");
+           var datosMicroprocesador = document.getElementById("datosMicroprocesador");
+
+           var ramPartesInventario = document.getElementById("ramPartesInventario");
+           var datosRAM = document.getElementById("datosRAM");
+
+           var tarjetaVideoPartesInventario = document.getElementById("tarjetaVideoPartesInventario");
+           var datosTarjetaVideo = document.getElementById("datosTarjetaVideo");
+
+           var HDDPartesInventario = document.getElementById("HDDPartesInventario");
+           var datosHDD = document.getElementById("datosHDD");
+
+           var lectorPartesInventario = document.getElementById("lectorPartesInventario");
+           var datosLector = document.getElementById("datosLector");
+
+           var mousePartesInventario = document.getElementById("mousePartesInventario");
+           var datosMouse = document.getElementById("datosMouse");
+
+           var tecladoPartesInventario = document.getElementById("tecladoPartesInventario");
+           var datosTeclado = document.getElementById("datosTeclado");
+
+           var bocinasPartesInventario = document.getElementById("bocinasPartesInventario");
+           var datosBocinas = document.getElementById("datosBocinas");
+
+           var monitorPartesInventario = document.getElementById("monitorPartesInventario");
+           var datosMonitor = document.getElementById("datosMonitor");
+
+           var backupPartesInventario = document.getElementById("backupPartesInventario");
+           var datosBackup = document.getElementById("datosBackup");
+
+           var estabilizadorPartesInventario = document.getElementById("estabilizadorPartesInventario");
+           var datosEstabilizador = document.getElementById("datosEstabilizador");
+
+           var scannerPartesInventario = document.getElementById("scannerPartesInventario");
+           var datosScanner = document.getElementById("datosScanner");
+
+           var impresoraPartesInventario = document.getElementById("impresoraPartesInventario");
+           var datosImpresora = document.getElementById("datosImpresora");
+
+           ocultarPartesInventario();
+
+           function mostrarPartesInventario(){
+               if(cpuChasisPartesInventario.checked)
+                   datosCPUChasis.removeAttribute("hidden");
+               else
+                   datosCPUChasis.setAttribute("hidden","true");
+
+               if(fuentePartesInventario.checked)
+                   datosFuente.removeAttribute("hidden");
+               else
+                   datosFuente.setAttribute("hidden","true");
+
+               if(motherboardPartesInventario.checked)
+                   datosMotherBoard.removeAttribute("hidden");
+               else
+                   datosMotherBoard.setAttribute("hidden","true");
+
+               if(microprocesadorPartesInventario.checked)
+                   datosMicroprocesador.removeAttribute("hidden");
+               else
+                   datosMicroprocesador.setAttribute("hidden","true");
+
+               if(ramPartesInventario.checked)
+                   datosRAM.removeAttribute("hidden");
+               else
+                   datosRAM.setAttribute("hidden","true");
+
+               if(tarjetaVideoPartesInventario.checked)
+                   datosTarjetaVideo.removeAttribute("hidden");
+               else
+                   datosTarjetaVideo.setAttribute("hidden","true");
+
+               if(HDDPartesInventario.checked)
+                   datosHDD.removeAttribute("hidden");
+               else
+                   datosHDD.setAttribute("hidden","true");
+
+               if(lectorPartesInventario.checked)
+                   datosLector.removeAttribute("hidden");
+               else
+                   datosLector.setAttribute("hidden","true");
+
+               if(mousePartesInventario.checked)
+                   datosMouse.removeAttribute("hidden");
+               else
+                   datosMouse.setAttribute("hidden","true");
+
+               if(tecladoPartesInventario.checked)
+                   datosTeclado.removeAttribute("hidden");
+               else
+                   datosTeclado.setAttribute("hidden","true");
+
+               if(bocinasPartesInventario.checked)
+                   datosBocinas.removeAttribute("hidden");
+               else
+                   datosBocinas.setAttribute("hidden","true");
+
+               if(monitorPartesInventario.checked)
+                   datosMonitor.removeAttribute("hidden");
+               else
+                   datosMonitor.setAttribute("hidden","true");
+
+               if(backupPartesInventario.checked)
+                   datosBackup.removeAttribute("hidden");
+               else
+                   datosBackup.setAttribute("hidden","true");
+
+               if(estabilizadorPartesInventario.checked)
+                   datosEstabilizador.removeAttribute("hidden");
+               else
+                   datosEstabilizador.setAttribute("hidden","true");
+
+               if(scannerPartesInventario.checked)
+                   datosScanner.removeAttribute("hidden");
+               else
+                   datosScanner.setAttribute("hidden","true");
+
+               if(impresoraPartesInventario.checked)
+                   datosImpresora.removeAttribute("hidden");
+               else
+                   datosImpresora.setAttribute("hidden","true");
+
+           }
+
+           function ocultarPartesInventario(){
+               datosCPUChasis.setAttribute("hidden","true");
+               datosFuente.setAttribute("hidden","true");
+               datosMotherBoard.setAttribute("hidden","true");
+               datosMicroprocesador.setAttribute("hidden","true");
+               datosRAM.setAttribute("hidden","true");
+               datosTarjetaVideo.setAttribute("hidden","true");
+               datosHDD.setAttribute("hidden","true");
+               datosLector.setAttribute("hidden","true");
+               datosMouse.setAttribute("hidden","true");
+               datosTeclado.setAttribute("hidden","true");
+               datosBocinas.setAttribute("hidden","true");
+               datosMonitor.setAttribute("hidden","true");
+               datosBackup.setAttribute("hidden","true");
+               datosEstabilizador.setAttribute("hidden","true");
+               datosScanner.setAttribute("hidden","true");
+               datosImpresora.setAttribute("hidden","true");
+
+               cpuChasisPartesInventario.checked = false;
+               fuentePartesInventario.checked = false;
+               motherboardPartesInventario.checked = false;
+               microprocesadorPartesInventario.checked = false;
+               ramPartesInventario.checked = false;
+               tarjetaVideoPartesInventario.checked = false;
+               HDDPartesInventario.checked = false;
+               lectorPartesInventario.checked = false;
+               mousePartesInventario.checked = false;
+               tecladoPartesInventario.checked = false;
+               bocinasPartesInventario.checked = false;
+               monitorPartesInventario.checked = false;
+               backupPartesInventario.checked = false;
+               estabilizadorPartesInventario.checked = false;
+               scannerPartesInventario.checked = false;
+               impresoraPartesInventario.checked = false;
+           }
+
+       </script>
+   {% endblock %}

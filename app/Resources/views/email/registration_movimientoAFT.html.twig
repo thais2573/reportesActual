@@ -1,0 +1,42 @@
+<h1>Sistema de Control de Reportes</h1>
+<br>
+Fecha Envío:{{ incidencia.fecha|date("d/m/Y")  }}
+<br>
+Fecha Modificación: {{ incidencia.fecha|date("d/m/Y")  }}
+<br>
+============================================================================
+<br>
+<strong>Detalles de la Incidencia</strong>
+<br>
+Identificador: {{ incidencia.id }}
+<br>
+Categoría: {{ tipo }}
+<br>
+Estado: “{{ estado }}”
+<br>
+{#Prioridad:{{ tipo.prioridad }}#}
+<br>
+{#Respuesta Aproximada:{{ tipo.tiempo }}h#}
+<br>
+Departamento anterior: {{ incidencia.dpto }}
+<br>
+Departamento actual:{{ mov.areaDestino }}
+==============================================================================
+<br>
+<strong>Detalles de los Implicados</strong>
+<br>
+Usuario reporta:  {{ incidencia.user }}
+<br>
+Técnico Asignado: {{ incidencia.tecAsignado }}
+<br>
+==============================================================================
+<br>
+Asunto: {{ incidencia.asunto }}
+<br>
+Resumen:{{ incidencia.resumen }}
+<br>
+==============================================================================
+<br>
+link de la incidencia <a href="{{ url('incidencia_list') }}">Ver Incidencias</a>.
+<br>
+==============================================================================

@@ -1,0 +1,216 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('build/css/all.css') }}">
+    <!-- Bootstrap core CSS -->
+
+    <!-- Material Design Bootstrap -->
+
+    <!-- Your custom styles (optional) -->
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <script href="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ asset('build/js/jquery/jquery-3.2.1.slim.min.js') }}"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="{{ asset('build/js/popper.min.js') }}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block main %}
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a href="#">Datos de la deuda</a>
+
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn"></div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-8">
+                    {% for message in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Datos del Chasis</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                {% if chasis.departamento is not null %}
+                                    <div class="col-sm-3">
+                                        <label>Departamento</label>
+                                        <input class="form-control" type="text" value=" {{ chasis.departamento }} "
+                                               disabled></div>
+                                {% endif %}
+                                {% if chasis.estacion is not null %}
+                                    <div class="col-sm-3">
+                                        <label>Estacion de trabajo</label>
+                                        <input class="form-control" type="text"
+                                               value=" {{ chasis.estacion.nombreRed }} " disabled></div>
+                                {% endif %}
+                                {% if chasis.marca is defined %}
+                                    <div class="col-sm-3">
+                                        <label>Marca</label>
+                                        <input class="form-control" type="text" value=" {{ chasis.marca }} " disabled>
+                                    </div>
+                                {% endif %}
+                                {% if chasis.modelo is defined %}
+                                    <div class="col-md-3">
+                                        <label>Modelo</label>
+                                        <input class="form-control" type="text" value=" {{ chasis.modelo }} " disabled>
+                                    </div>
+                                {% endif %}
+                                {% if chasis.numInventario is defined %}
+                                    {% if chasis.numInventario is not null %}
+                                        <div class="col-md-3">
+                                            <label>Numero de inventario</label>
+                                            <input class="form-control" type="text"
+                                                   value="  {{ chasis.numInventario }} " disabled></div>
+                                    {% endif %}
+                                {% else %}
+                                {% endif %}
+                                {% if chasis.serie is defined %}
+                                    <div class="col-md-3">
+                                        <label>Serie</label>
+                                        <input class="form-control" type="text" value="  {{ chasis.serie }} " disabled>
+                                    </div>
+                                {% endif %}
+                                <div class="col-md-3">
+                                    <label>Estado</label>
+                                    <input class="form-control" type="text" value="   {{ chasis.estado }} " disabled>
+                                </div>
+                                <div class="col float-lg-none">
+                                    <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ path('lista_deudas_taller') }}" class="btn btn-sm btn-primary" type="reset"
+                               methods="POST"
+                               onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                                <i class="fa fa-arrow-circle-left"></i> Atras
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <form class="form-horizontal" action="{{ path('saldar_deuda', {'idChasis': chasis.id,'idIncidencia':incidencia.id}) }}" method="post">
+                        <div class="card-header">
+                            <strong>Deudas de partes y piezas</strong>
+                            {#<a href="{{ path('saldar_deuda',{'idChasis':chasis.id}) }}" class="btn btn-sm btn-primary float-right" type="submit" onclick="validar()">#}
+                                {#<i class="fa fa-dot-circle-o"></i> Saldar Deuda#}
+                            {#</a>   #}
+                            <button class="btn btn-sm btn-primary float-right" type="submit">
+                                <i class="fa fa-dot-circle-o"></i> Saldar Deuda
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+
+                            {#{{ incidencia.resumen }}#}
+                            {#{{ incidencia.resumen|slice(40) }}#}
+                            {% set partes =incidencia.resumen|slice(40) %}
+                            {% set partesS = partes|split(' ') %}
+                            {% set i=0 %}
+                                {#{{ dump(partesS) }}#}
+                            <div class="col-lg-8 .form-check-inline" id="piezas" >
+                            {#{% if componentes is empty  %}#}
+                                {#Este chasis se encuentra vacio<br>#}
+                                {#Deudas del chasis:{{ partes }}#}
+                            {#{% else %}#}
+
+                                {#{% for c in componentes %}#}
+                                    {#{% for p in partesS %}#}
+                                        {#{% if c.tipoComponente==p %}#}
+                                            {#<label for="partesP[]"><input  id="c1" name="partesP[]" value="{{p}}"#}
+                                                                          {#type="checkbox"> {{ p }}</label>#}
+                                        {#{% endif %}#}
+                                    {#{% endfor %}    {% endfor %}<br>#}
+
+                                {% for d in deudas %}
+                                    <label for="partesP[]"><input  id="c1" name="partesP[]" value="{{d.tipoComponente}}"
+                                                                   type="checkbox"> {{ d.tipoComponente }}</label>
+                                {% endfor %}
+
+                                {#<div class="col-lg-8 .form-check-inline" id="piezas" >#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c1" value="ram" /> Ram</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c2" value="fuente"/>#}
+                                        {#Fuente</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c3"#}
+                                                                  {#value="motherboard"/> Motherboard</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c4"#}
+                                                                  {#value="microprocesador"/> Microprocesador</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c5" value="hdd"/> Hdd</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c6" value="lector"/>#}
+                                        {#Lector</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c7" value="mouse"/>#}
+                                        {#Mouse</label>#}
+                                    {#<label for="partesP[]" hidden="true"><input type="checkbox" name="partesP[]" id="c8" value="teclado"/>#}
+                                        {#Teclado</label>#}
+                                {#</div>#}
+                            </div>
+                            {#{% endif %}#}
+                            {#</form>#}
+                        </div>
+                        <div class="card-footer"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('build/js/app.js') }}"></script>
+        <script src="{{ asset('build/js/pace.min.js') }}"></script>
+        {#<script src="{{ asset('build/js/bootstrap.min.js') }}"></script>#}
+        {#<script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>#}
+        <script src="{{ asset('build/js/popper.js') }}"></script>
+        <script src="{{ asset('build/js/popper.min.js') }}"></script>
+        <script src="{{ asset('build/js/select2.full.js') }}"></script>
+
+        <script type="application/javascript">
+            {#var compon='{{ partesS|json_encode }}';#}
+            {#compon[0]={{componentes}};#}
+             {#myArray={{ componentes }};#}
+
+      console.log( compon);
+
+
+        </script>
+
+
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,445 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- CoreUI CSS -->
+  {#<link rel="stylesheet" href="{{ asset('build/layout.css') }}">#}
+  {#<script src="{{ asset('build/js/pace.min.js') }}"></script>#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+  {#<!-- CoreUI CSS -->#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
+  {#<meta charset="utf-8">#}
+  {#<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+  {#<meta http-equiv="x-ua-compatible" content="ie=edge">#}
+  {#<!-- Font Awesome -->#}
+  {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+  {#<link rel="stylesheet" href="{{ asset('build/css/all.css') }}">#}
+  {#<!-- Bootstrap core CSS -->#}
+  {#<!-- Select2 -->#}
+  <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+
+{% endblock %}
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a>Lista de Incidencias</a>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          {#{% if app.user.rol=='ROLE_ADMIN' or app.user.rol=='ROLE_TECNICO' %}#}
+            <div class="card">
+              <div class="card-header">
+                <strong>Buscar Incidencias</strong>
+                <strong>Buscar equipo</strong>
+                <form class="form-inline float-right" action="{{ path('filtra_incidenciasNI') }}" method="post">
+                  <div class="input-group ">
+                    <input class="form-control" id="numI" type="text" name="numI" placeholder="Numero de inventario">
+                    <span class="input-group-prepend">
+                              <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i> </button>
+                            </span>
+                  </div>
+                </form>
+              </div>
+              <div class="card-body">
+                <form class="form-inline" action="{{ path('incidencia_filter2') }}" method="post">
+                  <div class="form-group row">
+                    <div class="col-sm-4">
+                      <label class="col-5" for="tipo">Departamento</label> &nbsp;
+                      <select id="areas" name="usuarios[]" class="custom-select" style="width: 400px">
+                        {% set cant=0 %}
+                        {% for area in areas %}
+                          {#<option value={{ departamento.id }}>{{ usuario.username }}</option>#}
+                          <option id="{{ areas[cant]['Id_Ccosto'] }}"
+                                  value="{{ areas[cant]['Desc_Ccosto'] }}">{{ areas[cant]['Desc_Ccosto'] }}</option>
+                          {% set cant=cant+1 %}
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="col-sm--7">
+                      <label class="col-8">Centro de Costo</label>
+                      <select id="departamentos" name="costos[] " class="custom-select" style="width: 400px">
+                        {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+                      </select>
+                    </div>
+                    <div class="col-sm-4">
+
+                      <label class="col-5">Estacion</label> &nbsp;
+
+                      <select id="estaciones" name="estaciones[]" class="custom-select" style="width: 400px">
+
+
+                        {#<option value="{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}" >{{ departamento[cant1]['Desc_AreaResponsabilidad'] }}</option>#}
+
+                      </select>
+                    </div>
+
+
+                  </div>
+                  &nbsp;
+
+                  <input type="hidden" id="reset" name="reset" value="0">
+
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-sm btn-primary" type="submit"
+                        onclick="document.getElementById('reset').value = 0; forms[0].submit()">
+                  <i class="fa fa-search"></i> Buscar
+                </button>
+                <button class="btn btn-sm btn-danger" type="reset"
+                        onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                  <i class="fa fa-ban"></i> Borrar
+                </button>
+              </div>
+              </form>
+            </div>
+          {#{% endif %}#}
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> <strong>Listado de Incidencias </strong>
+              <strong> {{ pagination.getTotalItemCount }} </strong>
+              <a class="btn btn-primary pull-right" href="{{ path('incidencia_new') }}"><i
+                  class="nav-icon icon-note"
+                  data-toggle="tooltip" data-placement="bottom"
+                  title="Nueva Incidencia"></i> Nuevo</a>
+                <a class="btn btn-primary pull-right" href="{{ path('comprobar_movimiento_incidencia') }}"><i
+                  class="nav-icon icon-reload"
+                  data-toggle="tooltip" data-placement="bottom"
+                  title="Nueva Incidencia"></i> Comprobar movimientos</a>
+              <br>
+              <br>
+
+              <div class="float-left">
+                <label>Cantidad de resultados por pagina</label> <select name="maxItemPerPage" id="maxItemPerPage"
+                                                                         class="custom-select col-3">
+                  <option id="Seleccione" value="1">Seleccione</option>
+                  <option id="5">5</option>
+                  <option id="10">10</option>
+                  <option id="20">20</option>
+                  <option id="30">30</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <br>
+
+              <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                <thead>
+                <tr>
+                  <th>Tipo de incidencia</th>
+                  <th>Informador</th>
+                  <th>Departamento</th>
+                  <th>Asunto</th>
+                  <th>Equipo</th>
+                  <th>No.Inventario</th>
+                  <th>Fecha Reporte</th>
+                    <th>Fecha de ultimo movimiento</th>
+                  <th>Estado</th>
+                  <th>Estado del movimiento</th>
+                  <th>Acciones</th>
+                </tr>
+                {#<tr>#}
+                    {# sorting of properties based on query components #}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Tipo de incidencia', 'i.tipo') }}</th>#}
+                  {#<th{% if pagination.isSorted('i.user') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Informador', 'i.user') }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Departamento', ['i.dpto', 'i.dpto']) }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Asunto', ['i.asunto', 'i.asunto']) }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Equipo', ['i.asesorio', 'i.asesorio']) }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'No.Inventario', ['i.numInventario', 'i.numInventario']) }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Fecha Reporte', ['i.fecha', 'i.fecha']) }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Estado', ['i.estado', 'i.estado']) }}</th>#}
+                  {#<th>{{ knp_pagination_sortable(pagination, 'Estado del movimiento', ['i.estadomov', 'i.estadoMov']) }}</th>#}
+                  {#<th>Acciones</th>#}
+                {#</tr>#}
+                </thead>
+                <tbody>
+                {% for incidencia in pagination %}
+                  <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ incidencia.tipo }}</td>
+                    <td>{{ incidencia.user }}</td>
+                    <td>{{ incidencia.dpto }}</td>
+                    <td>{{ incidencia.asunto }}</td>
+                    <td>{{ incidencia.asesorio }}</td>
+                    <td>{{ incidencia.numInventario }}</td>
+                    <td>{{ incidencia.fecha |date("d/m/Y") }}</td>
+                      <td>{{ incidencia.fechaA |date("d/m/Y") }}</td>
+                    {% if incidencia.estado=='Solucionado' %}
+                      <td>
+                        <span class="badge badge-success">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+
+                    {% if incidencia.estado=='Reparación' or incidencia.estado=='Reparacion' or incidencia.estado=='Pendiente a taller' %}
+                      <td>
+                        <span class="badge badge-danger">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+
+                    {% if incidencia.estado=='En Espera' %}
+                      <td>
+                        <span class="badge badge-warning">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+                    {% if incidencia.estado=='Reparado' %}
+                      <td>
+                        <span class="badge badge-secondary">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+                    {% if incidencia.estado=='Reposicion' %}
+                      <td>
+                        <span class="badge badge-secondary">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+                    {% if incidencia.estado=='Traslado' %}
+                      <td>
+                        <span class="badge badge-warning">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+                      {% if incidencia.estado=='Activa' %}
+                      <td>
+                        <span class="badge badge-warning">{{ incidencia.estado }}</span>
+                      </td>
+                    {% endif %}
+                      {% if incidencia.estado=='Mantenimiento PC' %}
+                      <td>
+                        <span class="badge badge-success">Solucionado</span>
+                      </td>
+                    {% endif %}
+
+                      <td align="center">
+                          {% if incidencia.tipo == 'Reparacion PC' or incidencia.tipo == 'Reparación PC' %}
+                        {% if incidencia.estadoMovimiento=='Realizado' %}
+                            <span class="badge badge-success">
+                            Realizado
+                            </span>
+                        {% else %}
+                          <span class="badge badge-warning">
+                            Pendiente
+                            </span>
+                            {% endif %}  {% endif %}
+                          {#{% if incidencia.tipo=="Reparación PC" or incidencia.tipo=="Reparacion PC" %}#}
+                                            {#{% if estados!=[] %}#}
+                                              {#<span class="badge badge-success">#}
+                                                     {#{{ estados[loop.index-1]['estadoMovimiento'] }}#}
+                                                 {#</span>#}
+                                            {#{% else %}#}
+                                              {#<span class="badge badge-warning">#}
+                                                {#Pendiente#}
+                                                 {#</span>#}
+                                            {#{% endif %}#}
+
+                          {#{% endif %}#}
+                      </td>
+                    <td>
+                      <a href="{{ path('incidencia_ver', {'id': incidencia.id}) }}">
+                        <i class="nav-icon icon-magnifier"
+                           data-toggle="tooltip" data-placement="bottom"
+                           title="Ver Incidencia"></i> </a>
+
+
+                        {% if incidencia.estado=='En Espera' and (app.user.rol=='ROLE_Tecnico' or app.user.rol=='ROLE_Admin') %}
+                      <a href="{{ path('incidencia_edit', {'id': incidencia.id}) }}">
+                        <i class="nav-icon icon-pencil"
+                           data-toggle="tooltip" data-placement="bottom"
+                           title="Editar"></i></a>
+                          <a href="{{ path('remove_incidencia',{'id': incidencia.id}) }}">
+                            <i class="nav-icon icon-trash" data-toggle="tooltip" data-placement="bottom"
+                               title="Eliminar"></i></a>
+{% endif %}
+
+                      {% if incidencia.estado=='En Espera' and (app.user.rol=='ROLE_Tecnico' or app.user.rol=='ROLE_Admin') %}
+                        <a href="{{ path('incidencia_respuesta', {'id': incidencia.id}) }}">
+                          <i class="nav-icon icon-check"
+                             data-toggle="tooltip" data-placement="bottom"
+                             title="Procesar"></i></a>
+
+                      {% endif %}
+                      {% if incidencia.estado=='Reparación' or incidencia.estado=='Reparacion' or incidencia.estado=='Pendiente a taller'%}
+                        {% if incidencia.inventario !=null %}
+                          <a href="{{ path('incidencia_recibir', {'id': incidencia.id,'idEquipo':incidencia.idE}) }}">
+                            <i class="nav-icon icon-wrench"
+                               data-toggle="tooltip" data-placement="bottom"></i></a>
+                        {% else %}
+                          <a
+                            href="{{ path('incidencia_recibir_sin_inventario', {'id': incidencia.id,'idEquipo':incidencia.idE}) }}">
+                            <i class="nav-icon icon-wrench"
+                               data-toggle="tooltip" data-placement="bottom"></i></a>
+                        {% endif %}
+
+                      {% endif %}
+
+                    </td>
+
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <!-- /.col-->
+      </div>
+    </div>
+  </div>
+  {% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+{#    <script src="{{ asset('build/js/main.js') }}"></script>#}
+    <script type="text/javascript">
+      //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+      $('#maxItemPerPage').change(function () {
+        var url = '{{ path('lista_inci',{'maxItemPerPage':'_itemNum'}) }}';
+        var item = $('#maxItemPerPage').find(":selected").text();
+        window.location.href = url.replace('_itemNum', item);
+      })
+    </script>
+
+
+    <script type="application/javascript">
+      $(document).ready(function () {
+        $('#areas, #departamentos, #estaciones').select2({
+          placeholder: "---Seleccione---"
+        });
+      });
+    </script>
+    <script type="application/javascript">
+      $('#areas').on('select2:select', function (e) {
+        // var data = e.params.data;
+        var area = e.params.data.element.text;
+        var id_i = e.params.data.element.id;  // de tu elemento
+        $.ajax({
+          url: "{{ path('list_departamentos') }}",
+          type: "GET",
+          dataType: "JSON",
+          data: {
+            area_nombre: area,
+            id_ccosto: id_i
+          },
+          success: function (depart) {
+            $("#estaciones").empty();
+            $("#departamentos").empty();
+            // console.log(depart);
+            //  $('#departamentos').html(resp);
+            // var neighborhoodSelect = $("#departamentos");
+            var datos = [];
+            $.each(depart, function (key, depart) {
+              datos.push({id: parseInt(depart.id_dep), text: depart.dep, id2: parseInt(depart.id_area)});
+            });
+
+              if ($('#departamentos').find("option[value='" + datos.id + "']").length) {
+                  $('#departamentos').val(datos.id).trigger('change');
+              } else {
+                  // Create a DOM Option and pre-select by default
+                  var newOption = new Option(datos.text, datos.id, true, true);
+                  // Append it to the select
+                  $('#departamentos').append(newOption).trigger('change');
+              }
+            $('#departamentos').val(null).trigger('change');
+            $("#departamentos").select2({
+              data: datos,
+                placeholder:'Selecciona una opcion'
+            });
+
+            // Remove current options
+            // neighborhoodSelect.html('');
+            // Empty value ...
+            // neighborhoodSelect.append('<option value> Selecciona un departamento de ' + area + ' ...</option>');
+            // $.each(depart, function (key, depart) {
+            //
+            //   neighborhoodSelect.append('<option id="'+depart.id+'" value="' + depart.id_dep+ '">' + depart.dep + '</option>');
+            //
+            // });
+          },
+          error: function (err) {
+            alert("An error ocurred while loading data ...");
+          }
+        });
+      });
+      $('#departamentos').on('select2:select', function (e) {
+          $("#estaciones").empty();
+          // var data = e.params.data;
+          var area = e.params.data.text;
+          var id_ic = e.params.data.id;
+          var area_id = e.params.data.id2;
+
+          // console.log('text -->'+area);
+          // console.log('id -->'+id_ic);
+          // console.log(data);
+          // var municipioSelector = $(this);
+          // var id_ic = $(':selected',this).attr('id');  // de tu elemento
+          //alert(id_ic);
+          // alert(municipioSelector.val());
+          // Request the neighborhoods of the selected city.
+          $.ajax({
+            url: "{{ path('list_inventarios') }}",
+            type: "GET",
+            dataType: "JSON",
+            data: {
+              id_Costo2: id_ic,
+              idArea: area_id
+            },
+            success: function (neighborhood) {
+              var datos = [];
+              console.log(neighborhood);
+              $.each(neighborhood, function (key, neighborhood) {
+                datos.push({id: parseInt(neighborhood.id_estacion), text: neighborhood.nombreRed});
+              });
+              $('#estaciones').val(null).trigger('change');
+              $("#estaciones").select2({
+                data: datos,
+                  placeholder:'Selecciona una estacion'
+              });
+              // var unidadSelect = $("#estaciones");
+              // Remove current options
+              // unidadSelect.html('');
+              // Empty value ...
+              // unidadSelect.append('<option value> Selecciona una estacion de trabajo en ' + municipioSelector.find("option:selected").text() + ' ...</option>');
+              // $.each(neighborhood, function (key, neighborhood) {
+              //
+              //   unidadSelect.append('<option id="'+neighborhood.id_estacion +'" value="' + neighborhood.id_estacion + '">' + neighborhood.nombreRed + '</option>');
+              //
+              //   unidadSelec = neighborhood.id_estacion;
+              // });
+            },
+            error: function (err) {
+              alert("An error ocurred while loading data ...");
+            }
+          });
+        }
+      );
+      $("#estaciones").empty();
+      $("#departamentos").empty();
+      // });
+    </script>
+
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,31 @@
+<h1>Sistema de Control de Reportes</h1>
+<br>
+<strong>Respuesta Atendida</strong>
+<br>
+Técnico Asignado: {{ incidencia.tecAsignado }}
+<br>
+Fecha Atención: {{ incidencia.fechaA |date("d/m/Y") }}
+<br>
+Respuesta:{{ incidencia.respuesta }}
+<br>
+============================================================================
+<br>
+<strong>Detalles de la Incidencia</strong>
+<br>
+Identificador: {{ incidencia.id }}
+<br>
+Categoría: {{ incidencia.tipo }}
+<br>
+Estado: “{{ estado }}”
+<br>
+Localización: {{ incidencia.dpto }}
+<br>
+Asunto: {{ incidencia.asunto }}
+<br>
+Resumen:{{ incidencia.resumen }}
+<br>
+==============================================================================
+<br>
+link de la incidencia <a href="{{ url('incidencia_list') }}">Ver Incidencias</a>.
+<br>
+==============================================================================

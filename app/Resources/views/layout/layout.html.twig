@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  {% block stylesheets %}
+    <link href="{{ asset('build/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/all.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    {#<link rel="stylesheet" href="{{ asset('build/css/Chart.css') }}">#}
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap-dropdownhover.min.css') }}">
+          {#integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+    {#<link href="{{ asset('build/css/pace.min.css') }}" rel="stylesheet">#}
+
+{#    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">#}
+    <!-- CoreUI CSS -->
+{#      <link rel="stylesheet" href="{{ asset('build/css/style4.css') }}">#}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Font Awesome -->
+    {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">#}
+
+    <!-- Bootstrap core CSS -->
+
+    <!-- Material Design Bootstrap -->
+
+    <!-- Your custom styles (optional) -->
+    <script href="{{ asset('build/js/app.js') }}"></script>
+
+  {% endblock %}
+
+  <title>{% block title %}Sistema de Reportes{% endblock %}</title>
+</head>
+<body class="app sidebar-show aside-menu-show">
+<header class="app-header navbar">
+  {% block header %}
+    <!-- Header content here -->
+    {{ include('layout/header.html.twig') }}
+  {% endblock %}
+
+</header>
+<header class="app-header navbar" >
+  {% block menu %}
+    <!-- Header content here -->
+    {{ include('layout/menu.html.twig') }}
+  {% endblock %}
+
+</header>
+<div class="app-body">
+{#  <div class="sidebar">#}
+{#    {% block sidebar %}#}
+{#      <!-- Sidebar content here -->#}
+{#      {{ include('layout/sidebar.html.twig') }}#}
+{#      {{ include('layout/horizontalbar.html.twig') }}#}
+{#    {% endblock %}#}
+{#  </div>#}
+  <main class="main">
+    {% block main %}
+      <!-- Main content here -->
+    {% endblock %}
+  </main>
+
+  {#<aside class="aside-menu">#}
+  {#{% block aside_menu %}#}
+  {#<!-- Aside menu content here -->#}
+  {#{% endblock %}#}
+  {#</aside>#}
+
+</div>
+<footer class="app-footer">
+  {% block app_footer %}
+    <!-- Footer content here -->
+    {{ include('layout/footer.html.twig') }}
+  {% endblock %}
+</footer>
+
+{% block javascripts %}
+  <!-- Optional JavaScript -->
+  <script src="{{ asset('build/js/jquery-3.3.1.js') }}"></script>
+  <script src="{{ asset('build/js/perfect-scrollbar.js') }}"></script>
+  <script src="{{ asset('build/js/popper.js') }}"></script>
+  <script src="{{ asset('build/js/popper.min.js') }}"></script>
+
+  {#<script src="{{ asset('build/js/b') }}"></script>#}
+  <script src="{{ asset('build/js/app.js') }}"></script>
+{#  <script src="{{ asset('build/js/main.js') }}"></script>#}
+  <script src="{{ asset('build/js/Chart.js') }}"></script>
+
+  <script src="{{ asset('build/js/select2.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('build/js/bootstrap-dropdownhover.min.js') }}"></script>
+{% endblock %}
+
+</body>
+
+</html>

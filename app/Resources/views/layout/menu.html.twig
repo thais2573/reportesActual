@@ -1,0 +1,254 @@
+<div class="float-right"></div>
+
+{% if is_granted('ROLE_USER') %}
+    <nav class="navbar navbar-expand-lg navbar-black bg-black" >
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Incidencias
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="nav-link" href="{{ path('incidencia_new') }}">
+                            <i class="nav-icon icon-plus"></i> Adicionar Incidencia</a>
+                        <a class="nav-link" href="{{ path('lista_inci') }}">
+                            <i class="nav-icon icon-magnifier-add"></i> Historial de incidencias reportadas</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% elseif is_granted('ROLE_JEFE_DEP') or is_granted('ROLE_AFT') %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Incidencias
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="nav-link" href="{{ path('incidencia_new') }}">
+                            <i class="nav-icon icon-plus"></i> Adicionar Incidencia</a>
+                        <a class="nav-link" href="{{ path('lista_inci') }}">
+                            <i class="nav-icon icon-magnifier-add"></i> Incidencias reportadas</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Activos Fijos y Utiles
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="nav-link" href="{{ path('lista_activos_fijos') }}">
+                            <i class="nav-icon icon-list"></i>Lista de Activos Fijos</a>
+                        <a class="nav-link" href="{{ path('lista_incidencias_movimiento') }}">
+                            <i class="nav-icon icon-book-open"></i>Historial de movimientos</a>
+                        <a class="nav-link" href="{{ path('lista_utiles') }}">
+                            <i class="nav-icon icon-list"></i>Lista de Utiles</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('listado_materiales') }}">
+                        <i class="nav-icon icon-bag"></i>Solicitud de Materiales</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% elseif is_granted('ROLE_TECNICO') %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Incidencias
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="nav-link" href="{{ path('incidencia_new') }}">
+                            <i class="nav-icon icon-plus"></i> Adicionar Incidencia</a>
+                        <a class="nav-link" href="{{ path('lista_inci') }}">
+                            <i class="nav-icon icon-magnifier-add"></i> Incidencias reportadas</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Estaciones de trabajo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('nuevo_inventario') }}"> <i class="nav-icon icon-plus"></i>Nueva estacion</a>
+                        <a class="dropdown-item" href="{{ path('lista_estaciones') }}">  <i class="nav-icon icon-screen-desktop"></i> Lista de estaciones</a>
+                        <a class="dropdown-item" href="{{ path('lista_equipos') }}"> <i class="nav-icon icon-printer"></i> Lista de equipos</a>
+                        <a class="dropdown-item" href="{{ path('lista_componentes') }}"> <i class="nav-icon icon-bag"></i> Lista de componentes</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Activos Fijos y Utiles
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="nav-link" href="{{ path('lista_activos_fijos') }}">
+                            <i class="nav-icon icon-list"></i> Lista de Activos Fijos</a>
+                        <a class="nav-link" href="{{ path('lista_incidencias_movimiento') }}">
+                            <i class="nav-icon icon-book-open"></i> Historial de movimientos</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reportes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('lista_equipos_taller') }}">
+                            <i class="nav-icon icon-settings"></i> Equipos en taller</a>
+                        <a class="dropdown-item" href="{{ path('equipos_pendientesATaller') }}">
+                            <i class="nav-icon icon-arrow-right"></i> Equipos pendientes a taller</a>
+                        <a class="dropdown-item" href="{{ path('lista_equipos_en_almacen') }}">
+                            <i class="nav-icon icon-disc"></i> Almacen de Computacion</a>
+                        <a class="dropdown-item" href="{{ path('lista_deudas_taller') }}"> <i class="nav-icon icon-credit-card"></i> Deudas de taller</a>
+                        <a class="dropdown-item" href="{{ path('entrega_taller_reporte') }}">
+                            <i class="nav-icon icon-bag"></i> Entrega de Taller</a>
+                        <a class="dropdown-item" href="{{ path('reportePP') }}">
+                            <i class="nav-icon icon-bell"></i> Partes y Piezas</a>
+                        <a class="dropdown-item" href="{{ path('sin_mantenimientoAnno') }}">
+                            <i class="nav-icon icon-dislike"></i> Estaciones sin mantenimiento</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Nomencladores
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('tipo_list') }}">
+                            <i class="nav-icon icon-doc"></i> Categoría</a>
+                        <a class="dropdown-item"href="{{ path('lista_toner') }}">
+                            <i class="nav-icon icon-printer"></i> Tipo de toner</a>
+                        <a class="dropdown-item" href="{{ path('lista_departamentos_areas') }}">
+                            <i class="nav-icon icon-doc"></i> Departamentos</a>
+                        <a class="dropdown-item" href="{{ path('lista_equipos_assets') }}">
+                            <i class="nav-icon icon-compass"></i> Equipos</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% else %}
+
+    <nav class="navbar navbar-expand-lg navbar-black bg-black" >
+        <div class="collapse navbar-collapse" id="navbarNavDropdown" >
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown" >
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tasks"></i> Incidencias
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
+                        <a class="dropdown-item" href="{{ path('incidencia_new') }}">
+                            <i class="nav-icon icon-plus"></i> Adicionar Incidencia</a>
+                        <a class="dropdown-item" href="{{ path('lista_inci') }}">
+                            <i class="fa fa-file-text-o"></i> Incidencias reportadas</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-television"></i> Estaciones de trabajo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('nuevo_inventario') }}"> <i class="nav-icon icon-plus"></i>Nueva estacion</a>
+                        <a class="dropdown-item" href="{{ path('lista_estaciones') }}">  <i class="nav-icon icon-screen-desktop"></i> Lista de estaciones</a>
+                        <a class="dropdown-item" href="{{ path('lista_equipos') }}"> <i class="nav-icon icon-printer"></i> Lista de equipos</a>
+                        <a class="dropdown-item" href="{{ path('lista_componentes') }}"> <i class="nav-icon icon-bag"></i> Lista de componentes</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-magnet"></i> Activos Fijos y Utiles
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('lista_activos_fijos') }}">
+                            <i class="nav-icon icon-list"></i> Lista de Activos Fijos</a>
+                        <a class="dropdown-item" href="{{ path('lista_incidencias_movimiento') }}">
+                            <i class="nav-icon icon-book-open"></i> Historial de movimientos</a>
+                        <a class="dropdown-item" href="{{ path('lista_utiles') }}">
+                            <i class="nav-icon icon-list"></i> Lista de Utiles</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('listado_materiales') }}">
+                        <i class="fa fa-truck"></i> Solicitud de Materiales</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-file-pdf-o"></i>  Reportes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('lista_equipos_taller') }}">
+                            <i class="nav-icon icon-settings"></i> Equipos en taller</a>
+                        <a class="dropdown-item" href="{{ path('equipos_pendientesATaller') }}">
+                            <i class="nav-icon icon-arrow-right"></i> Equipos pendientes a taller</a>
+                        <a class="dropdown-item" href="{{ path('equiposDBaja') }}">
+                            <i class="nav-icon icon-dislike"></i> Equipos de baja</a>
+                        <a class="dropdown-item" href="{{ path('lista_equipos_en_almacen') }}">
+                            <i class="nav-icon icon-disc"></i> Almacen de Computacion</a>
+                        <a class="dropdown-item" href="{{ path('lista_deudas_taller') }}"> <i class="nav-icon icon-credit-card"></i> Deudas de taller</a>
+                        <a class="dropdown-item" href="{{ path('entrega_taller_reporte') }}">
+                            <i class="nav-icon icon-bag"></i> Entrega de Taller</a>
+                        <a class="dropdown-item" href="{{ path('reportePP') }}">
+                            <i class="nav-icon icon-bell"></i> Partes y Piezas</a>
+                        <a class="dropdown-item" href="{{ path('sin_mantenimientoAnno') }}">
+                            <i class="nav-icon icon-dislike"></i> Estaciones sin mantenimiento</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-align-justify"></i>  Nomencladores
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('tipo_list') }}">
+                            <i class="nav-icon icon-doc"></i> Categoría</a>
+                        <a class="dropdown-item"href="{{ path('lista_toner') }}">
+                            <i class="nav-icon icon-printer"></i> Tipo de toner</a>
+                        <a class="dropdown-item" href="{{ path('lista_departamentos_areas') }}">
+                            <i class="nav-icon icon-doc"></i> Departamentos</a>
+                        <a class="dropdown-item" href="{{ path('lista_equipos_assets') }}">
+                            <i class="nav-icon icon-compass"></i> Equipos</a>
+                        <a class="dropdown-item" href="{{ path('lista_utiles_assets') }}">
+                            <i class="nav-icon icon-compass"></i> Tipos de Utiles</a>
+                        <a class="dropdown-item" href="{{ path('lista_utiles_assets_detalles') }}">
+                            <i class="nav-icon icon-compass"></i> Detalles de Utiles</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="nav-icon icon-lock"></i>  Seguridad
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('administracion_usuario_index') }}">
+                            <i class="nav-icon icon-lock"></i> Usuarios</a>
+                        <a class="dropdown-item" href="{{ path('nomencladores_grupousuario_index') }}">
+                            <i class="nav-icon icon-lock"></i> Grupos</a>
+                        <a class="dropdown-item"  href="{{ path('nomencladores_roles_index') }}">
+                            <i class="nav-icon icon-lock"></i> Roles</a>
+                        <a class="dropdown-item" href="{{ path('dh_doctrine_audit_list_audits') }}">
+                            <i class="nav-icon icon-clock"></i> Trazas</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endif %}
+<div class="float-left"></div>
+
+{#<div class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">#}
+
+{#</div>#}

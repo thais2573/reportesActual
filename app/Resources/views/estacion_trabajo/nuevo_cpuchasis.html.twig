@@ -1,0 +1,270 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block main %}
+  <!-- Breadcrumb-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Principal</li>
+    <li class="breadcrumb-item active">
+      <a href="#">Datos del componente</a>
+
+    </li>
+    <!-- Breadcrumb Menu-->
+    <li class="breadcrumb-menu d-md-down-none">
+      <div class="btn-group" role="group" aria-label="Button group">
+        <a class="btn" href="#">
+          <i class="icon-speech"></i>
+        </a>
+        <a class="btn" href="./">
+          <i class="icon-graph"></i>  Dashboard</a>
+        <a class="btn" href="#">
+          <i class="icon-settings"></i>  Settings</a>
+      </div>
+    </li>
+  </ol>
+  <div class="container-fluid">
+    <div class="animated fadeIn"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          {% for message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+
+          <div class="card">
+            <div class="card-header">
+              <strong>Datos del periférico</strong></div>
+            {{ form_start(form) }}
+            <div class="card-body">
+              <div class="form-group row">
+                {% if form.marca is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.marca) }}
+                  </div>
+                {% endif %}
+                <div class="col-md-3">
+                  {{ form_row(form.modelo) }}
+                </div>
+                <div class="col-md-3">
+                  {{ form_row(form.numInventario) }}
+                </div>
+                {% if form.serie is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.serie) }}
+                  </div>
+                {% endif %}
+                {% if form.sello is defined %}
+                  <div class="col-md-3">
+
+                    {{ form_row(form.sello) }}
+                  </div>
+                {% endif %}
+                {% if form.capacidad is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.capacidad) }}
+                  </div>
+                {% endif %}
+                {% if form.tipo is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.tipo) }}
+                  </div>
+                {% endif %}
+                {% if form.tonerCartucho is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.tonerCartucho) }}
+                  </div>
+                {% endif %}
+                {% if form.tipoTonerCartucho is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.tipoTonerCartucho) }}
+                  </div>
+                {% endif %}
+                {% if form.color is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.color) }}
+                  </div>
+                {% endif %}
+                {% if form.fechaMantenimiento is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.fechaMantenimiento) }}
+                  </div>
+                {% endif %}
+                {% if form.selloSeguridad is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.selloSeguridad) }}
+                  </div>
+                {% endif %}
+                {% if form.lcd is defined %}
+                  <div class="col-md-3">
+                    {{ form_row(form.lcd) }}
+                  </div>
+                {% endif %}
+
+
+                <div class="col float-lg-none">
+                  <img class="float-lg-right" src="{{ asset('img/iconos/cpu.jpg') }}"></div>
+
+              </div>
+            </div>
+            <div class="card-footer">
+
+
+              <button class="btn btn-sm btn-success" type="submit"
+                      onclick="document.getElementById('submit').value = 1; forms[0].submit()" formnovalidate>
+                <i class="fa fa-save"></i> Guardar
+              </button>
+              <button class="btn btn-sm btn-danger" type="reset"
+                      onclick="document.getElementById('reset').value = 1; forms[0].submit()">
+                <i class="fa fa-ban"></i> Cancelar
+              </button>
+
+
+            </div>
+
+
+          </div>
+
+
+          <div class="card">
+            <div class="card-header">
+              <h6>Componentes asociados al chasis</h6>
+            </div>
+            <div class="card-body">
+
+
+
+
+              <div class="row">
+
+
+                <div class="col">
+                  <ul class="nav nav-pills mb-1" id="pills-tab" role="tablist">
+
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill"
+                         href="#pills-profile" role="tab" aria-controls="pills-profile"
+                         aria-selected="false">Fuente</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">MotherBoard</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact1" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Microprocesador</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact2" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Memoria RAM</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact3" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">HDD</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact4" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Lector</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact5" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Mouse</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact6" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Teclado</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact7" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Bocinas</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill"
+                         href="#pills-contact8" role="tab" aria-controls="pills-contact"
+                         aria-selected="false">Tarjeta de Video</a>
+                    </li>
+
+
+                  </ul>
+
+
+                  <div class="tab-content" id="pills-tabContent">
+
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                         aria-labelledby="pills-profile-tab">
+
+
+
+
+                      <div class="form-group row">
+                        <label class="col-md-2 col-form-label"
+                               for="form-ci">Marca:</label>
+
+                        <div class="col-md-2">
+
+
+                          {{ form_widget(form.componente[0].marca) }}
+
+                          </div>
+                          <label class="col-md-2 col-form-label" for="form-reg">No.
+                                                                                Serie:</label>
+                          <div class="col-md-2">
+                            {{ form_widget(form.componente[0].serie) }}
+                          </div>
+
+                          <label class="col-md-2 col-form-label"
+                                 for="form-sex">Wattaje:</label>
+                          <div class="col-md-2">
+                            {{ form_widget(form.componente[0].watts) }}
+                          </div>
+
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-2 col-form-label" for="form-ci">Conexión
+                                                                               Sata:</label>
+                          <div class="col-md-2">
+                            {{ form_widget(form.componente[0].sata) }}
+                          </div>
+
+
+
+
+                    </div>
+
+                      </div>
+                    </div>
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+
+            {{ form_errors(form) }}
+            {{ form_end(form,{'render_rest':false}) }}
+
+
+          </div>
+
+
+        </div>
+        <!-- /.col-->
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

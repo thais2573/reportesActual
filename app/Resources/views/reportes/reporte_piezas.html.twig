@@ -1,0 +1,330 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div class="header">
+        <div class="header__first">
+            <div class="row">
+                {#<img src="{{ 'http://pro.local/images/brand/logo2.png' }}" alt="logo de la clinica" />#}
+                <img src="{{ 'https://reportes.cicc.cu/img/iconos/logoreportes.png' }}" alt="logo de la clinica"/>
+                {#<img src="{{ 'https://sigh.camilo.sld.cu/images/logo.png' }}" alt="logo de la clinica" />#}
+            </div>
+        </div>
+    </div>
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 7pt;
+        }
+
+        p {
+            margin: 0pt;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        .items td {
+            border-left: 0.1mm solid #000000;
+            border-right: 0.1mm solid #000000;
+        }
+
+        table thead td {
+            background-color: #EEEEEE;
+            text-align: center;
+            border: 0.1mm solid #000000;
+        }
+
+        .items td.blanktotal {
+            background-color: #FFFFFF;
+            border: 0mm none #000000;
+            border-top: 0.01mm solid #000000;
+        }
+
+        .items td.totals {
+            text-align: center;
+            border: 0.1mm solid #000000;
+        }
+
+        @media all {
+            .page-break {
+                display: none;
+            }
+        }
+
+        @media print {
+            .page-break {
+                display: block;
+                page-break-before: always;
+            }
+        }
+    </style>
+    {#<link rel="stylesheet" href="{{ asset('build/css/structure.css') }}">#}
+</head>
+<body>
+<br><br><br>
+<table style="width:100%" cellspacing="1" cellpadding="1" border="1">
+    <tbody>
+    <tr>
+        {% set cantidadColumnas=columnas|length %}
+
+        <!--    <td colspan="9" style="text-align: center; ; font-weight: bold; font-size: x-large">-->
+        <td colspan="{{ cantidadColumnas }}" style="text-align: center; ; font-weight: bold; font-size: x-large"><strong>Reporte de partes y piezas
+            </strong><strong class="float-right">{{ "now"|date("d-m-Y") }}
+{#                {% dump(columnas) %}#}
+            </strong>
+        </td>
+    </tr>
+    <tr>
+        {% for c in columnas %}
+            <td>{{ c }}</td>
+        {% endfor %}
+    </tr>
+    {% for r in reporte %}
+        <tr>
+{#            {% if r['modeloCPU'] is defined  %}#}
+{#                <td>{{ r['modelo'] }}</td>#}
+{#            {% endif %}#}
+            {% if r['nombre_red'] is defined  %}
+            <td>{{ r['nombre_red'] }}</td>
+            {% endif %}
+
+       {#Datos CPU#}
+            {% if r['numInventarioCPU'] is defined  %}
+                <td>{{ r['numInventarioCPU'] }}</td>
+            {% endif %}
+            {% if r['modeloCPU'] is defined  %}
+                <td>{{ r['modeloCPU'] }}</td>
+            {% endif %}
+
+            {% if r['colorCPU'] is defined  %}
+                <td>{{ r['colorCPU'] }}</td>
+            {% endif %}
+            {% if r['selloCPU'] is defined  %}
+                <td>{{ r['selloCPU'] }}</td>
+            {% endif %}
+            {% if r['fechaMantenimientoCPU'] is defined  %}
+                <td>{{ r['fechaMantenimientoCPU'] }}</td>
+            {% endif %}
+            {#Datos Monitor#}
+            {% if r['numInventarioM'] is defined  %}
+                <td>{{ r['numInventarioM'] }}</td>
+            {% endif %}
+            {% if r['marcaMonitor'] is defined  %}
+                <td>{{ r['marcaMonitor'] }}</td>
+            {% endif %}
+            {% if r['serieMonitor'] is defined  %}
+                <td>{{ r['serieMonitor'] }}</td>
+            {% endif %}
+            {% if r['modeloMonitor'] is defined  %}
+                <td>{{ r['modeloMonitor'] }}</td>
+            {% endif %}
+            {% if r['lcdMonitor'] is defined  %}
+                <td>{{ r['lcdMonitor'] }}</td>
+            {% endif %}
+            {#Datos Backup#}
+            {% if r['numInventarioB'] is defined  %}
+                <td>{{ r['numInventarioB'] }}</td>
+            {% endif %}
+            {% if r['marcaBackup'] is defined  %}
+                <td>{{ r['marcaBackup'] }}</td>
+            {% endif %}
+            {% if r['serieBackup'] is defined  %}
+                <td>{{ r['serieBackup'] }}</td>
+            {% endif %}
+            {% if r['modeloBackup'] is defined  %}
+                <td>{{ r['modeloBackup'] }}</td>
+            {% endif %}
+            {% if r['selloBackup'] is defined  %}
+                <td>{{ r['selloBackup'] }}</td>
+            {% endif %}
+            {% if r['capacidadBackup'] is defined  %}
+                <td>{{ r['capacidadBackup'] }}</td>
+            {% endif %}
+            {#Datos Estabilizador#}
+            {% if r['numInventarioEst'] is defined  %}
+                <td>{{ r['numInventarioEst'] }}</td>
+            {% endif %}
+            {% if r['marcaEstabilizador'] is defined  %}
+                <td>{{ r['marcaEstabilizador'] }}</td>
+            {% endif %}
+            {% if r['serieEstabilizador'] is defined  %}
+                <td>{{ r['serieEstabilizador'] }}</td>
+            {% endif %}
+            {% if r['modeloEstabilizador'] is defined  %}
+                <td>{{ r['modeloEstabilizador'] }}</td>
+            {% endif %}
+            {% if r['capacidadEst'] is defined  %}
+                <td>{{ r['capacidadEst'] }}</td>
+            {% endif %}
+
+            {#Datos Scanner#}
+            {% if r['numInventarioSca'] is defined  %}
+                <td>{{ r['numInventarioSca'] }}</td>
+            {% endif %}
+            {% if r['marcaScan'] is defined  %}
+                <td>{{ r['marcaScan'] }}</td>
+            {% endif %}
+            {% if r['serieScan'] is defined  %}
+                <td>{{ r['serieScan'] }}</td>
+            {% endif %}
+            {% if r['modeloScan'] is defined  %}
+                <td>{{ r['modeloScan'] }}</td>
+            {% endif %}
+            {% if r['tipoScan'] is defined  %}
+                <td>{{ r['tipoScan'] }}</td>
+            {% endif %}
+            {#Datos Impresora#}
+            {% if r['numInventarioImp'] is defined  %}
+                <td>{{ r['numInventarioImp'] }}</td>
+            {% endif %}
+            {% if r['marcaImpresora'] is defined  %}
+                <td>{{ r['marcaImpresora'] }}</td>
+            {% endif %}
+            {% if r['serieImpresora'] is defined  %}
+                <td>{{ r['serieImpresora'] }}</td>
+            {% endif %}
+            {% if r['modeloImp'] is defined  %}
+                <td>{{ r['modeloImp'] }}</td>
+            {% endif %}
+            {% if r['tipoImp'] is defined  %}
+                <td>{{ r['tipoImp'] }}</td>
+            {% endif %}
+            {% if r['tonerC'] is defined  %}
+                <td>{{ r['tonerC'] }}</td>
+            {% endif %}
+            {% if r['tipoCart'] is defined  %}
+                <td>{{ r['tipoCart'] }}</td>
+            {% endif %}
+            {#Componentes#}
+            {#Fuente#}
+            {% if r['marcaFuente'] is defined  %}
+                <td>{{ r['marcaFuente'] }}</td>
+            {% endif %}
+            {% if r['serieFuente'] is defined  %}
+                <td>{{ r['serieFuente'] }}</td>
+            {% endif %}
+            {% if r['sataFuente'] is defined  %}
+                <td>{{ r['sataFuente'] }}</td>
+            {% endif %}
+            {% if r['wattsFuente'] is defined  %}
+                <td>{{ r['wattsFuente'] }}</td>
+            {% endif %}
+            {#Motherboard#}
+            {% if r['marcaMother'] is defined  %}
+                <td>{{ r['marcaMother'] }}</td>
+            {% endif %}
+            {% if r['modeloMother'] is defined  %}
+                <td>{{ r['modeloMother'] }}</td>
+            {% endif %}
+            {% if r['serieMother'] is defined  %}
+                <td>{{ r['serieMother'] }}</td>
+            {% endif %}
+            {% if r['lgaMother'] is defined  %}
+                <td>{{ r['lgaMother'] }}</td>
+            {% endif %}
+            {% if r['ramMother'] is defined  %}
+                <td>{{ r['ramMother'] }}</td>
+            {% endif %}
+            {#Microprocesador#}
+            {% if r['tipoMicro'] is defined  %}
+                <td>{{ r['tipoMicro'] }}</td>
+            {% endif %}
+            {% if r['velocidadMicro'] is defined  %}
+                <td>{{ r['velocidadMicro'] }}</td>
+            {% endif %}
+            {% if r['serieMicro'] is defined  %}
+                <td>{{ r['serieMicro'] }}</td>
+            {% endif %}
+            {#Datos Ram#}
+            {% if r['marcaRam'] is defined  %}
+                <td>{{ r['marcaRam'] }}</td>
+            {% endif %}
+            {% if r['capacidadRam'] is defined  %}
+                <td>{{ r['capacidadRam'] }}</td>
+            {% endif %}
+            {% if r['serieRam'] is defined  %}
+                <td>{{ r['serieRam'] }}</td>
+            {% endif %}
+            {#Datos Tarjeta Video#}
+            {% if r['marcaTV'] is defined  %}
+                <td>{{ r['marcaTV'] }}</td>
+            {% endif %}
+            {% if r['velocidadTV'] is defined  %}
+                <td>{{ r['velocidadTV'] }}</td>
+            {% endif %}
+            {% if r['serieTV'] is defined  %}
+                <td>{{ r['serieTV'] }}</td>
+            {% endif %}
+{#Datos hdd#}
+            {% if r['marcaHdd'] is defined  %}
+                <td>{{ r['marcaHdd'] }}</td>
+            {% endif %}
+            {% if r['serieHdd'] is defined  %}
+                <td>{{ r['serieHdd'] }}</td>
+            {% endif %}
+            {% if r['capacidadHDD'] is defined  %}
+                <td>{{ r['capacidadHDD'] }}</td>
+            {% endif %}
+            {% if r['sataHdd'] is defined  %}
+                <td>{{ r['sataHdd'] }}</td>
+            {% endif %}
+            {#Datos Lector#}
+            {% if r['tipoLector'] is defined  %}
+                <td>{{ r['tipoLector'] }}</td>
+            {% endif %}
+            {% if r['marcaLector'] is defined  %}
+                <td>{{ r['marcaLector'] }}</td>
+            {% endif %}
+            {% if r['serieLector'] is defined  %}
+                <td>{{ r['serieLector'] }}</td>
+            {% endif %}
+            {#Datos Mouse#}
+            {% if r['marcaMouse'] is defined  %}
+                <td>{{ r['marcaMouse'] }}</td>
+            {% endif %}
+            {% if r['serieMouse'] is defined  %}
+                <td>{{ r['serieMouse'] }}</td>
+            {% endif %}
+            {% if r['modeloMouse'] is defined  %}
+                <td>{{ r['modeloMouse'] }}</td>
+            {% endif %}
+            {% if r['opticoMouse'] is defined  %}
+                <td>{{ r['opticoMouse'] }}</td>
+            {% endif %}
+            {% if r['conectorMouse'] is defined  %}
+                <td>{{ r['conectorMouse'] }}</td>
+            {% endif %}
+            {#Datos Teclado#}
+            {% if r['marcaTeclado'] is defined  %}
+                <td>{{ r['marcaTeclado'] }}</td>
+            {% endif %}
+            {% if r['serieTeclado'] is defined  %}
+                <td>{{ r['serieTeclado'] }}</td>
+            {% endif %}
+            {% if r['modeloTeclado'] is defined  %}
+                <td>{{ r['modeloTeclado'] }}</td>
+            {% endif %}
+            {% if r['conectorTeclado'] is defined  %}
+                <td>{{ r['conectorTeclado'] }}</td>
+            {% endif %}
+            {#Datos Bocina#}
+            {% if r['marcaBocinas'] is defined  %}
+                <td>{{ r['marcaBocinas'] }}</td>
+            {% endif %}
+            {% if r['serieBocina'] is defined  %}
+                <td>{{ r['serieBocina'] }}</td>
+            {% endif %}
+            {% if r['modeloBocinas'] is defined  %}
+                <td>{{ r['modeloBocinas'] }}</td>
+            {% endif %}
+
+{#             <td>{{ dump(r) }}</td>#}
+{#            <td>{{ r['valor'] }}</td>#}
+{#            <td>{{ r['modelo'] }}</td>#}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

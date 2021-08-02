@@ -1,0 +1,204 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Lisandra
+ * Date: 04/02/2019
+ * Time: 15:08
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\inventario;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="backup")
+ ** @ORM\Entity(repositoryClass="AppBundle\Repository\backupRepository")
+ */
+class backup
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $marca;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $serie;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $modelo;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $numInventario;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $sello;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $capacidad;
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $estado;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\inventario")
+     */
+    private $inventario;
+
+    /**
+     * @return mixed
+     */
+    public function getMarca()
+    {
+        return $this->marca;
+    }
+
+  /**
+   * @return mixed
+   */
+  public function getEstado()
+  {
+    return $this->estado;
+  }
+
+  /**
+   * @param mixed $estado
+   */
+  public function setEstado($estado)
+  {
+    $this->estado = $estado;
+  }
+
+    /**
+     * @param mixed $marca
+     */
+    public function setMarca($marca)
+    {
+        $this->marca = $marca;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSerie()
+    {
+        return $this->serie;
+    }
+
+    /**
+     * @param mixed $serie
+     */
+    public function setSerie($serie)
+    {
+        $this->serie = $serie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumInventario()
+    {
+        return $this->numInventario;
+    }
+
+    /**
+     * @param mixed $numInventario
+     */
+    public function setNumInventario($numInventario)
+    {
+        $this->numInventario = $numInventario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSello()
+    {
+        return $this->sello;
+    }
+
+    /**
+     * @param mixed $sello
+     */
+    public function setSello($sello)
+    {
+        $this->sello = $sello;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCapacidad()
+    {
+        return $this->capacidad;
+    }
+
+    /**
+     * @param mixed $capacidad
+     */
+    public function setCapacidad($capacidad)
+    {
+        $this->capacidad = $capacidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInventario()
+    {
+        return $this->inventario;
+    }
+
+    /**
+     * @param mixed $inventario
+     */
+    public function setInventario($inventario)
+    {
+        $this->inventario = $inventario;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModelo()
+    {
+        return $this->modelo;
+    }
+
+    /**
+     * @param mixed $modelo
+     */
+    public function setModelo($modelo)
+    {
+        $this->modelo = $modelo;
+    }
+
+
+
+
+}

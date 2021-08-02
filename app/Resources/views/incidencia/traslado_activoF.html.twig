@@ -1,0 +1,262 @@
+{% extends 'layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('build/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/select2-bootstrap.min.css') }}">
+
+{% endblock %}
+{% block main %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Principal</li>
+        <li class="breadcrumb-item active">
+            <a >Traslado de activo fijo</a>
+        </li>
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn" href="#">
+                    <i class="icon-speech"></i>
+                </a>
+                <a class="btn" href="./">
+                    <i class="icon-graph"></i>  Dashboard</a>
+                <a class="btn" href="#">
+                    <i class="icon-settings"></i>  Settings</a>
+            </div>
+        </li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong> Traslado de {{ nombre }}</strong>
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"
+                                       for="form-ci">Area:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-reg"
+                                           type="text"
+                                           name="form-reg"
+                                           value="{{ area.nombre }}({{ area.idArea }})">
+                                </div>
+
+                                <label class="col-md-2 col-form-label"
+                                       for="form-ci">Centro de costo:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-reg"
+                                           type="text"
+                                           name="form-reg"
+                                           value="{{ departamento[0].name }}">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label" for="form-reg">Modelo:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-reg"
+                                           type="text"
+                                           name="form-reg"
+                                           value="{{ asesorio.descripcion }}">
+                                </div>
+
+
+                            </div>
+
+                            {% if asesorio.numInventario is defined %}
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"
+                                       for="form-ci">Numero de inventario:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-ci"
+                                           type="text"
+                                           name="form-ci"
+                                           value="{{ asesorio.numInventario }}">
+                                </div>
+                                {% endif %}
+                                <label class="col-md-2 col-form-label" for="form-reg">No.
+                                    Serie:</label>
+                                <div class="col-md-2">
+                                    <input class="form-control"
+                                           readonly
+                                           id="form-reg"
+                                           type="text"
+                                           name="form-reg"
+                                           value="{{ asesorio.serie }}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    {{ form_start(movimientoForm) }}
+                    <div class="card">
+
+                        <div class="card-header">
+                            <strong>Traslado </strong>Interno
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="app_bundletraslado_afform_type[respEntrega]"
+                                                   class="control-label">Responsable de
+                                                entrega:</label>
+                                            <div class="control">
+                                                {#<select id="app_bundletraslado_afform_type_respEntrega"#}
+                                                {#name="app_bundletraslado_afform_type[respEntrega]"#}
+                                                {#required="required" style="width: 400px">#}
+                                                {#{% for usuario in usuarios if usuario.username not in usuarios %}#}
+                                                {#<option#}
+                                                {#value="{{ usuario['first_name'] }} {{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>#}
+                                                {#{% endfor %}#}
+                                                {#</select>#}
+                                                <input id="app_bundletraslado_afform_type_respEntrega"
+                                                       name="app_bundletraslado_afform_type[respEntrega]"
+                                                       class="form-control"
+                                                       required="required" style="width: 400px" value="{{ app.user }}"
+                                                       readonly>
+                                                </input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="app_bundletraslado_afform_type[receptor]" class="control-label">Receptor:</label>
+                                            <div class="control">
+
+                                                <select id="app_bundletraslado_afform_type_receptor"
+                                                        name="app_bundletraslado_afform_type[receptor]"
+                                                        required="required" style="width: 400px">
+                                                    {% for usuario in usuarios if usuario.username not in usuarios %}
+                                                        <option
+                                                                value="{{ usuario['first_name'] }}&nbsp;{{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                                                    {% endfor %}
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="app_bundletraslado_afform_type[areaEntrega]" class="control-label">Centro de costo
+                                        que entrega:</label>
+                                    <div class="control">
+                                        <input id="app_bundletraslado_afform_type_areaEntrega" class="form-control"
+                                               name="app_bundletraslado_afform_type[areaEntrega]"
+                                               value="{{ departamento[0].name }}"
+                                               required="required" style="width: 400px" readonly>
+                                        </input>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label class="control-label">Centro de costo de Destino:</label><br>
+                                    {{ form_widget(movimientoForm.areaDestino) }}
+                                    {#<label for="app_bundletraslado_afform_type_areaDestino" class="control-label">Area de destino:</label>#}
+                                    {#<div class="control">#}
+                                    {#<select id="app_bundletraslado_afform_type_areaDestino"#}
+                                    {#name="app_bundletraslado_afform_type[areaDestino]"#}
+                                    {#required="required" style="width: 400px">#}
+                                    {#{% for usuario in usuarios if usuario.username not in usuarios %}#}
+                                    {#<option#}
+                                    {#value="{{ usuario['first_name'] }}&nbsp;{{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>#}
+                                    {#{% endfor %}#}
+                                    {#</select>#}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          <div class="card">
+                    <div class="card-header">
+                        <strong>Responsables </strong>Movimiento
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                {{ form_row(movimientoForm.aprobado) }}
+                            </div>
+                            <div class="col-lg-4">
+                                {{ form_row(movimientoForm.autorizado) }}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="app_bundletraslado_afform_type[respAFT]" class="control-label">Responsable
+                                            AFT:</label>
+                                        <div class="control">
+
+                                            <select id="app_bundletraslado_afform_type_respAFT"
+                                                    name="app_bundletraslado_afform_type[respAFT]"
+                                                    required="required" style="width: 400px">
+                                                {% for usuario in usuarios if usuario.username not in usuarios %}
+                                                    <option
+                                                            value="{{ usuario['first_name'] }}&nbsp;{{ usuario['last_name'] }}">{{ usuario['first_name'] }} {{ usuario['last_name'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <button class="btn btn-success" type="submit" formnovalidate>Salvar</button>
+                    </div>
+                    {{ form_widget(movimientoForm._token) }}
+                    {{ form_end(movimientoForm,{'render_rest':false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script type="application/javascript">
+            $(document).ready(function () {
+                $('#app_bundletraslado_afform_type_respAFT,#app_bundletraslado_afform_type_receptor,#app_bundletraslado_afform_type_areaDestino').select2({
+                    placeholder: "---Seleccione---"
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

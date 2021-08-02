@@ -1,0 +1,54 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Thais
+ * Date: 2/20/2019
+ * Time: 9:36 AM
+ */
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+
+/**
+ *@ORM\Table(name="estacion")
+**@ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\estacionRepository")
+ */
+class estacion
+{
+
+  /**
+   * @ORM\Column(type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  protected $idestacion;
+
+  /**
+   * @ORM\Column(type="string", length=100)
+   * @Assert\NotBlank()
+
+   */
+  protected $inventario_id;
+
+  /**
+   * @ORM\Column(type="string", length=100)
+   * @Assert\NotBlank()
+
+   */
+  protected $tipo_componente;
+
+
+  /**
+   * @ORM\Column(type="string", length=100)
+   * @Assert\NotBlank()
+
+   */
+  protected $serie;
+
+
+}
